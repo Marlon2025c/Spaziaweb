@@ -10,7 +10,7 @@ class PostController extends Controller
     public function index(){
 
         return view('home', [
-            'ville' == Notation::all()
+            'ville' == Ville::all()
         ]);
     }
 }
