@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,23 +15,23 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link active" aria-current="page" href="#">Accueil</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown link
+                Communauté
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Notations</a></li>
+                <li><a class="dropdown-item" href="#">Patch Notes</a></li>
+                <li><a class="dropdown-item" href="#">Event</a></li>
             </ul>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Voter</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">WIKI</a>
             </li>
         </ul>
         </div>
