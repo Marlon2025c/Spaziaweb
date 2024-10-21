@@ -25,7 +25,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="navbar-brand " href="#">
-                        <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" class="img-thumbnail rounded">
+                        <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" class="rounded">
                         SpaziaEco
                     </a>
                 </ul>
