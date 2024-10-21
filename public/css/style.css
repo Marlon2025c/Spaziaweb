@@ -1,5 +1,9 @@
-.nav-button {
+.nav-ul-a {
     color: white;
+}
+
+.nav-li-textsp:hover {
+    background: rgb(148, 148, 148, 0.5);
 }
 
 .navbar {
@@ -17,12 +21,4 @@
 .navbar-scrolled {
     background-color: rgba(0, 0, 0, 0.9);
     /* Changez la couleur comme vous le souhaitez */
-}
-
-.navbar-brand img {
-    background: none;
-    height: 70px;
-    /* Ajuste la hauteur du logo ici */
-    width: auto;
-    /* Garde les proportions */
 }

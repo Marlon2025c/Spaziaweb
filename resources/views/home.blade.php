@@ -11,7 +11,6 @@
 
 </head>
 <style>
-
 </style>
 
 <body>
@@ -24,35 +23,37 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <a class="navbar-brand " href="#">
-                        <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" height="70" width="auto"
-                            class="rounded">
-                        SpaziaEco
-                    </a>
+                    <li class="nav-item nav-li-textsp">
+                        <a class="navbar-brand nav-ul-a p-1" href="#">
+                            <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" height="70"
+                                width="auto" class="rounded">
+                            SpaziaEco
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link nav-button text-uppercase" aria-current="page" href="#">
+                    <li class="nav-item nav-li-textsp">
+                        <a class="nav-link text-uppercase  nav-ul-a" aria-current="page" href="#">
                             <h6>Accueil</h6>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-button text-uppercase" href="#">
+                    <li class="nav-item nav-li-textsp">
+                        <a class="nav-link text-uppercase nav-ul-a" href="#">
                             <h6>Notations</h6>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-button text-uppercase" href="#">
+                    <li class="nav-item nav-li-textsp">
+                        <a class="nav-link text-uppercase  nav-ul-a" href="#">
                             <h6>Jornal</h6>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-button text-uppercase" href="#">
+                    <li class="nav-item nav-li-textsp">
+                        <a class="nav-link text-uppercase nav-ul-a" href="#">
                             <h6>Wiki</h6>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-button text-uppercase" href="#">
+                    <li class="nav-item nav-li-textsp">
+                        <a class="nav-link text-uppercase nav-ul-a" href="#">
                             <h6>Vote</h6>
                         </a>
                     </li>
