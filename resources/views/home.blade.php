@@ -32,12 +32,12 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item nav-li-textsp">
+                    <li class="nav-li-textsp">
                         <a class="nav-link text-uppercase  nav-ul-a" aria-current="page" href="#">
-                            <p>Accueil</p>
+                            <h6>Accueil</h6>
                         </a>
                     </li>
-                    <li class="nav-item nav-li-textsp">
+                    <li class="nav-li-textsp">
                         <a class="nav-link text-uppercase nav-ul-a" href="#">
                             <h6>Notations</h6>
                         </a>
