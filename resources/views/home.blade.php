@@ -34,7 +34,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item nav-li-textsp">
                         <a class="nav-link text-uppercase  nav-ul-a" aria-current="page" href="#">
-                            <h6>Accueil</h6>
+                            <p>Accueil</p>
                         </a>
                     </li>
                     <li class="nav-item nav-li-textsp">
