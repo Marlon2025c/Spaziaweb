@@ -10,6 +10,15 @@
     <title>Document</title>
 
 </head>
+<style>
+    /* Ajuste la taille du logo sans agrandir la navbar */
+    .navbar-brand img {
+        height: 70px;
+        /* Ajuste la hauteur du logo ici */
+        width: auto;
+        /* Garde les proportions */
+    }
+</style>
 
 <body>
     <nav class="navbar navbar-expand-lg fixed-top">
@@ -22,7 +31,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <a class="navbar-brand " href="#">
-                        <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" class="img-thumbnail">
+                        <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" class="img-thumbnail rounded">
                         SpaziaEco
                     </a>
                 </ul>
