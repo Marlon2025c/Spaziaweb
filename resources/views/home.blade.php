@@ -25,7 +25,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item nav-li-textsp">
                         <a class="navbar-brand nav-ul-a p-1" href="#">
-                            <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" height="70"
+                            <img src="{{ asset('img/spaziaeco logo.png') }}" alt="Logo" height="60"
                                 width="auto" class="rounded">
                             SpaziaEco
                         </a>
