@@ -33,27 +33,27 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-li-textsp">
-                        <a class="nav-link text-uppercase  nav-ul-a" aria-current="page" href="#">
+                        <a class="nav-link text-uppercase  nav-ul-a p-1" aria-current="page" href="#">
                             <h6>Accueil</h6>
                         </a>
                     </li>
                     <li class="nav-li-textsp">
-                        <a class="nav-link text-uppercase nav-ul-a" href="#">
+                        <a class="nav-link text-uppercase nav-ul-a p-1" href="#">
                             <h6>Notations</h6>
                         </a>
                     </li>
-                    <li class="nav-item nav-li-textsp">
-                        <a class="nav-link text-uppercase  nav-ul-a" href="#">
+                    <li class="nav-li-textsp">
+                        <a class="nav-link text-uppercase  nav-ul-a p-1" href="#">
                             <h6>Jornal</h6>
                         </a>
                     </li>
-                    <li class="nav-item nav-li-textsp">
-                        <a class="nav-link text-uppercase nav-ul-a" href="#">
+                    <li class="nav-li-textsp">
+                        <a class="nav-link text-uppercase nav-ul-a p-1" href="#">
                             <h6>Wiki</h6>
                         </a>
                     </li>
-                    <li class="nav-item nav-li-textsp">
-                        <a class="nav-link text-uppercase nav-ul-a" href="#">
+                    <li class="nav-li-textsp">
+                        <a class="nav-link text-uppercase nav-ul-a p-1" href="#">
                             <h6>Vote</h6>
                         </a>
                     </li>
