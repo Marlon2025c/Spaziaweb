@@ -1,3 +1,20 @@
-.nav-button{
-    color: black;
+.nav-button {
+    color: white;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    /* Transition pour un changement en douceur */
+}
+
+.fixed-top {
+    transition: background-color 0.3s;
+    /* Transition pour le changement de couleur */
+}
+
+/* Classe pour la navbar avec une couleur de fond opaque */
+.navbar-scrolled {
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Changez la couleur comme vous le souhaitez */
 }

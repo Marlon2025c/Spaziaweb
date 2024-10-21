@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,10 +8,11 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>Document</title>
+
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -19,35 +21,35 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand " href="#">
                         <img src="https://uiwjs.github.io/bootstrap-icons/index.html" alt="Logo" width="30"
-                            height="24" class="d-inline-block align-text-top">
-                        Bootstrap
+                            height="24" class="d-inline-block align-text-top ">
+                        SpaziaEco
                     </a>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link nav-button" aria-current="page" href="#">
+                        <a class="nav-link nav-button text-uppercase" aria-current="page" href="#">
                             <h6>Accueil</h6>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6 class="b">Notations</h6>
+                        <a class="nav-link nav-button text-uppercase" href="#">
+                            <h6>Notations</h6>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link nav-button text-uppercase" href="#">
                             <h6>Jornal</h6>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link nav-button text-uppercase" href="#">
                             <h6>Wiki</h6>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link nav-button text-uppercase" href="#">
                             <h6>Vote</h6>
                         </a>
                     </li>
@@ -55,13 +57,45 @@
             </div>
         </div>
     </nav>
+
+    <div>
+        <img class="img-fluid" src="{{ asset('img/spazia.png') }}" alt="">
+        //http://localhost/Spaziaweb/public/img/spazia.png
+        <h1>Bienvenue sur Mon Site</h1>
+        <p>Profitez de nos fonctionnalités exclusives !</p>
+    </div>
+
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+    <h1>sdqdqsdsqdqsd</h1>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    <script>
+        window.onscroll = function() {
+            var navbar = document.querySelector('.navbar');
+            if (window.pageYOffset > 50) { // Ajustez la valeur selon vos besoins
+                navbar.classList.add('navbar-scrolled'); // Ajouter la classe pour changer la couleur
+            } else {
+                navbar.classList.remove('navbar-scrolled'); // Retirer la classe
+            }
+        };
+    </script>
 </body>
 
 </html>
-{{-- @foreach ($villes as $villes)
-    <h4>{{ $villes['nom_ville'] }}</h4>
-@endforeach --}}
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-</script>
