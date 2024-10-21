@@ -11,13 +11,7 @@
 
 </head>
 <style>
-    /* Ajuste la taille du logo sans agrandir la navbar */
-    .navbar-brand img {
-        height: 70px;
-        /* Ajuste la hauteur du logo ici */
-        width: auto;
-        /* Garde les proportions */
-    }
+
 </style>
 
 <body>
