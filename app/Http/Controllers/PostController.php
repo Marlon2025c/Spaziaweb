@@ -11,7 +11,7 @@ class PostController extends Controller
     {
 
         return view('home', [
-            'ville' => Ville::all()
+            'villes' => Ville::all()
         ]);
     }
 }
