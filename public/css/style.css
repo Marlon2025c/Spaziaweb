@@ -8,7 +8,7 @@
 }
 
 .navbar {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #101015;
     transition: background-color 0.3s;
     /* Transition pour un changement en douceur */
 }
