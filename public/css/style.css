@@ -3,12 +3,12 @@
 }
 
 .nav-li-textsp:hover {
-    background: #0e0e0e1b;
+    background: rgb(148, 148, 148, 0.3);
     color: white;
 }
 
 .navbar {
-    background-color: #101015;
+    background-color: #0e0e0e45;
     transition: background-color 0.3s;
     /* Transition pour un changement en douceur */
 }
@@ -26,6 +26,6 @@
 
 /* Classe pour la navbar avec une couleur de fond opaque */
 .navbar-scrolled {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: #101015;
     /* Changez la couleur comme vous le souhaitez */
 }
