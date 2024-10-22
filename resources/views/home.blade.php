@@ -15,7 +15,7 @@
 
 <body>
     <div class="fixed-top">
-        <nav class="navbar navbar-expand-lg p-0">
+        <nav class="navbar navbar-header navbar-expand-lg p-0">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -141,7 +141,7 @@
 
     <script>
         window.onscroll = function() {
-            var navbar = document.querySelector('.navbar');
+            var navbar = document.querySelector('.fixed-top');
             if (window.pageYOffset > 50) { // Ajustez la valeur selon vos besoins
                 navbar.classList.add('navbar-scrolled'); // Ajouter la classe pour changer la couleur
             } else {
