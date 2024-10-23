@@ -75,7 +75,7 @@
 }
 
 /* Appliquer l'animation seulement au survol */
-    .shakeme:hover .svg-icon {
+.shakeme:hover .svg-icon {
     animation-name: tilt;
     animation-duration: 0.6s;
     animation-iteration-count: 1;
@@ -84,4 +84,20 @@
 
 .svg-icon {
     display: inline-block;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+    /* Masque la flèche par défaut de Bootstrap */
+}
+
+.dropdown-menu {
+    opacity: 0;
+    transition: opacity 2s ease;
+    /* Transition de 2 secondes pour l'apparition */
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    /* Lors de l'affichage, l'opacité passe à 1 */
 }
