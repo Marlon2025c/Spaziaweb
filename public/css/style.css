@@ -75,7 +75,7 @@
 }
 
 /* Appliquer l'animation seulement au survol */
-.shakeme:hover .svg-icon {
+.svg-icon:hover {
     animation-name: tilt;
     animation-duration: 0.6s;
     animation-iteration-count: 1;
