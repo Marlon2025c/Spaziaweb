@@ -11,7 +11,98 @@
 
 </head>
 <style>
+    .nav-ul-a {
+        color: white;
+    }
 
+    .nav-li-textsp:hover {
+        background: rgb(148, 148, 148, 0.3);
+        color: white;
+    }
+
+    .navbar {
+        background-color: #0e0e0e45;
+        transition: background-color 0.3s;
+        /* Transition pour un changement en douceur */
+    }
+
+    .navbar-header {
+        background-color: rgba(0, 0, 0, 1);
+        transition: background-color 0.3s;
+        /* Transition pour un changement en douceur */
+    }
+
+    .fixed-top {
+        transition: background-color 0.3s;
+        /* Transition pour le changement de couleur */
+    }
+
+    /* Classe pour la navbar avec une couleur de fond opaque */
+    .navbar-scrolled {
+        background-color: #101015;
+        /* Changez la couleur comme vous le souhaitez */
+    }
+
+    @-webkit-keyframes tilt {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: rotate(-10deg);
+        }
+
+        50% {
+            transform: rotate(10deg);
+        }
+
+        75% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    @keyframes tilt {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: rotate(-10deg);
+        }
+
+        50% {
+            transform: rotate(10deg);
+        }
+
+        75% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    /* Appliquer l'animation seulement au survol */
+    .shakeme:hover .svg-icon {
+        animation-name: tilt;
+        animation-duration: 0.6s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in-out;
+    }
+
+    .svg-icon {
+        display: inline-block;
+    }
+
+    .dropdown-toggle::after {
+        display: none !important;
+        /* Masque la flèche par défaut de Bootstrap */
+    }
 </style>
 
 <body>
@@ -45,15 +136,25 @@
                                 Connexion / Inscription
                             </a>
                         </li>
-                        <li class="list-group-item nav-li-textsp">
-                            <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2" href="#">
-                                Paramètre
+                        <li class="list-group-item nav-li-textsp dropdown">
+                            <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2 d-flex align-items-center justify-content-center dropdown-toggle"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                style="position: relative;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                    fill="currentColor" class="bi bi-gear-fill me-2" viewBox="0 0 16 16">
+                                    <path
+                                        d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                                </svg>
+                                <span class="dropdown-toggle-icon" style="font-size: 14px;">▼</span>
                             </a>
-                        </li>
-                        <li class="list-group-item nav-li-textsp">
-                            <a class="link-underline-dark nav-ul-a btn btn-sm p-2" href="#">
-                                Vote
-                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
