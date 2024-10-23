@@ -103,6 +103,17 @@
         display: none !important;
         /* Masque la flèche par défaut de Bootstrap */
     }
+
+    .dropdown-menu {
+        opacity: 0;
+        transition: opacity 2s ease;
+        /* Transition de 2 secondes pour l'apparition */
+    }
+
+    .dropdown-menu.show {
+        opacity: 1;
+        /* Lors de l'affichage, l'opacité passe à 1 */
+    }
 </style>
 
 <body>
