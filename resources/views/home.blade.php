@@ -270,21 +270,17 @@
     </div>
     <div class="background-container">
         <!-- Image de fond -->
-        <img class="background-image" src="{{ asset('img/spazia.png') }}" alt="SpaziaEco Background">
-        <!-- http://localhost/Spaziaweb/public/img/spazia.png -->
+        <img class="background-image" src="http://localhost/Spaziaweb/public/img/spazia.png" alt="SpaziaEco Background">
+        <!-- {{ asset('img/spazia.png') }} -->
         <h1 class="centered-title">SpaziaEco</h1>
     </div>
     <div class="container col-container">
         <div class="row justify-content-center">
             <!-- Exemple de 5 colonnes -->
             <div class="col-md-2 col-custom text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
-                    class="bi bi-backpack2-fill" viewBox="0 0 16 16">
-                    <path d="M5 13h6v-3h-1v.5a.5.5 0 0 1-1 0V10H5z" />
-                    <path
-                        d="M6 2v.341C3.67 3.165 2 5.388 2 8v1.191l-1.17.585A1.5 1.5 0 0 0 0 11.118V13.5A1.5 1.5 0 0 0 1.5 15h1c.456.607 1.182 1 2 1h7c.818 0 1.544-.393 2-1h1a1.5 1.5 0 0 0 1.5-1.5v-2.382a1.5 1.5 0 0 0-.83-1.342L14 9.191V8a6 6 0 0 0-4-5.659V2a2 2 0 1 0-4 0z" />
-                </svg>
-                <p>Colonne 1</p>
+                <img src="http://localhost/Spaziaweb/public/img/pioche.png" width="60" height="60"
+                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <p>Haute Collab</p>
             </div>
             <div class="col-md-2 col-custom text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
