@@ -11,7 +11,10 @@
 
 </head>
 <style>
-    h1 {
+    p{
+        margin-top: 5px;
+    }
+    h1, h2, h3, h4,h5, h6 {
         color: white
     }
 
@@ -163,6 +166,39 @@
         margin-bottom: 20px;
         margin-left: 20px
     }
+    .custom-p{
+        color: white
+    }
+    .custom-section{
+        padding: 6rem 0;
+    }
+    .section-title{
+        margin: 0 0 1.5rem;
+        font-size: 2.25rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 2.625rem;
+    }
+    .btn-secondary{
+        color: #fff;
+    background-color: #737373;
+    border-color: #737373;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, .05);
+    }
+
+    .card-darkmode{
+        background-color: #14141b;
+    }
+
+    .card-darkmode-p{
+        color: white
+    }
+    .tag-darkmode{
+        color: white;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+    }
 </style>
 
 <body>
@@ -277,48 +313,92 @@
     <div class="container col-container">
         <div class="row justify-content-center">
             <!-- Exemple de 5 colonnes -->
-            <div class="col-md-2 col-custom text-center">
+            <div class="col-lg-2 col-custom text-center">
                 <img src="http://localhost/Spaziaweb/public/img/pioche.png" width="60" height="60"
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
-                <p>Haute Collab</p>
+                <p><b>Haute Collab</b></p>
             </div>
-            <div class="col-md-2 col-custom text-center">
+            <div class="col-lg-2 col-custom text-center">
                 <img src="http://localhost/Spaziaweb/public/img/protection.png" width="60" height="60"
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
-                <p>Staff actif</p>
+                <p><b>Staff actif</b></p>
             </div>
-            <div class="col-md-2 col-custom text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
-                    class="bi bi-sign-no-parking-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M13.292 14A8 8 0 0 1 2 2.707l3.5 3.5V12h1.283V9.164h1.674zm.708-.708-4.37-4.37C10.5 8.524 11 7.662 11 6.587c0-1.482-.955-2.584-2.538-2.584H5.5v.79L2.708 2.002A8 8 0 0 1 14 13.293Z" />
-                    <path
-                        d="M6.777 7.485v.59h.59zm1.949.535L6.777 6.07v-.966H8.27c.893 0 1.419.539 1.419 1.482 0 .769-.35 1.273-.963 1.433Z" />
-                </svg>
-                <p>Colonne 3</p>
+            <div class="col-lg-2 col-custom text-center">
+                <img src="http://localhost/Spaziaweb/public/img/file.png" width="60" height="60"
+                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <p><b>Mods</b></p>
             </div>
-            <div class="col-md-2 col-custom text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
-                    class="bi bi-ev-front-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848Zm6.75.51a.186.186 0 0 0-.23.034L6.05 7.246a.188.188 0 0 0 .137.316h1.241l-.673 2.195a.19.19 0 0 0 .085.218c.075.043.17.03.23-.034l2.88-3.187a.188.188 0 0 0-.137-.316H8.572l.782-2.195a.19.19 0 0 0-.085-.218Z" />
-                </svg>
-                <p>Colonne 4</p>
+            <div class="col-lg-2 col-custom text-center">
+                <img src="http://localhost/Spaziaweb/public/img/event.png" width="60" height="60"
+                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <p><b>Events</b></p>
             </div>
-            <div class="col-md-2 col-custom text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
-                    class="bi bi-coin" viewBox="0 0 16 16">
-                    <path
-                        d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z" />
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
-                </svg>
-                <p>Colonne 5</p>
+            <div class="col-lg-2 col-custom text-center">
+                <img src="http://localhost/Spaziaweb/public/img/money.png" width="60" height="60"
+                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <p><b>Monnaie Unique</b></p>
             </div>
         </div>
     </div>
     <div>
-
+        <section class="row custom-section">
+            <div class="col-1"></div>
+            <div class="col-lg-5"> <!-- Centre le conteneur dans la colonne -->
+                    <h1 class="pt-4 pb-4"><b>Découvre SpaziaEco</b></h1>
+                    <p class="custom-p" style="text-align: justify;">
+                        Rejoins une communauté engagée dans la création d’un monde virtuel durable, où chaque joueur contribue à l’équilibre de l’écosystème. Construis, explore, et commerce dans un environnement réaliste inspiré par la nature. Défie tes compétences de gestion et d’ingéniosité pour prospérer tout en préservant les ressources de SpaziaEco.
+                    </p>
+                    <p class="custom-p">
+                    Prépare-toi à une expérience de jeu sans limites sur SpaziaEco, où ta légende débute.
+                    </p>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/iSsfR7TKrv0?si=pRlWsWJW5aJz_nFO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </section>
+        <section class="custom-section">
+            <div class="text-center mb-5">
+                <a class="btn btn-secondary col-12 col-lg-3 mt-5" href="">Upadate</a>
+                <a class="btn btn-secondary col-12 col-lg-3 mt-5" href="">Journal</a>
+            </div>
+            <div class="">
+                <h2 class="section-title text-center mt-3">
+                    Actualités
+                </h2>
+            </div>
+            <div class="">
+                <div class="tiles d-flex justify-content-evenly">
+                    <div class="card card-darkmode" style="width: 30rem;">
+                        <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Live</b></span>
+                        <h5 class="">Card title</h5>
+                        <p class="card-darkmode-p">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    <div class="card card-darkmode" style="width: 30rem;">
+                        <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
+                        <h5 class="">Card title</h5>
+                        <p class="card-darkmode-p">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    <div class="card card-darkmode" style="width: 30rem;">
+                        <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <div>
+                                <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
+                            </div>
+                        <h5 class="">Card title</h5>
+                        <p class="card-darkmode-p">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br><br><br><br><br><br><b></b>
         <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis totam consequuntur aliquid neque harum
             aspernatur aliquam delectus, eaque, voluptate magni quibusdam laudantium? Incidunt consectetur doloremque,
             quas
