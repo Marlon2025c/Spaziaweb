@@ -372,16 +372,18 @@
                         <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                         <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Live</b></span>
-                        <h5 class="">Card title</h5>
-                        <p class="card-darkmode-p">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 class="text-uppercase"><b>live</b></h5>
+                        <p style="color:#767676 !important;">07 novembre 2024</p>
+                        <p style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
                         <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                         <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
-                        <h5 class="">Card title</h5>
-                        <p class="card-darkmode-p">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 class="text-uppercase"><b>Journal</b></h5>
+                        <p style="color:#767676 !important;">01 novembre 2024</p>
+                        <p style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
@@ -390,8 +392,9 @@
                             <div>
                                 <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
                             </div>
-                        <h5 class="">Card title</h5>
-                        <p class="card-darkmode-p">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 class="text-uppercase"><b>Update</b></h5>
+                        <p style="color:#767676 !important;">03 novembre 2024</p>
+                        <p class="" style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
                 </div>
