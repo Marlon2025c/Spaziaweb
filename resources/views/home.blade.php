@@ -306,15 +306,16 @@
     </div>
     <div class="background-container">
         <!-- Image de fond -->
-        <img class="background-image" src="http://localhost/Spaziaweb/public/img/spazia.png" alt="SpaziaEco Background">
-        <!-- {{ asset('img/spazia.png') }} -->
+        <img class="background-image" src="{{ asset('img/spazia.png') }}" alt="SpaziaEco Background">
+        <!-- http://localhost/Spaziaweb/public/img/spazia.png -->
         <h1 class="centered-title">SpaziaEco</h1>
     </div>
     <div class="container col-container">
         <div class="row justify-content-center">
             <!-- Exemple de 5 colonnes -->
             <div class="col-lg-2 col-custom text-center">
-                <img src="http://localhost/Spaziaweb/public/img/pioche.png" width="60" height="60"
+                <img src="{{ asset('img/pioche.png') }}" width="60" height="60"
+                    {{-- http://localhost/Spaziaweb/public/img/pioche.png --}}
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Haute Collab</b></p>
             </div>
