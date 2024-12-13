@@ -1,22 +1,18 @@
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\ModLog; // Assurez-vous d'avoir créé le modèle
+use App\Models\ModLog;
 
 class EverGardenController extends Controller
 {
     public function store(Request $request)
     {
-        Log::info('Requête POST reçue', $request->all());
-
-        // Valider les données JSON
         $data = $request->validate([
             '*.mod_name' => 'required|string',
             '*.detected_at' => 'required|date',
         ]);
 
-        // Sauvegarder chaque entrée dans la base de données
         foreach ($data as $log) {
             ModLog::create([
                 'mod_name' => $log['mod_name'],
@@ -27,3 +23,4 @@ class EverGardenController extends Controller
         return response()->json(['message' => 'Logs enregistrés avec succès.'], 201);
     }
 }
+?>
