@@ -1,12 +1,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\ModLog; // Assurez-vous d'avoir créé le modèle
 
 class EverGardenController extends Controller
 {
     public function store(Request $request)
     {
+        Log::info('Requête POST reçue', $request->all());
+
         // Valider les données JSON
         $data = $request->validate([
             '*.mod_name' => 'required|string',
