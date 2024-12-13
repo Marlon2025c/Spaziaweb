@@ -320,22 +320,22 @@
                 <p><b>Haute Collab</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="http://localhost/Spaziaweb/public/img/protection.png" width="60" height="60"
+                <img src="{{ asset('img/protection.png') }}" width="60" height="60"
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Staff actif</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="http://localhost/Spaziaweb/public/img/file.png" width="60" height="60"
+                <img src="{{ asset('img/file.png') }}" width="60" height="60"
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Mods</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="http://localhost/Spaziaweb/public/img/event.png" width="60" height="60"
+                <img src="{{ asset('img/event.png') }}" width="60" height="60"
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Events</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="http://localhost/Spaziaweb/public/img/money.png" width="60" height="60"
+                <img src="{{ asset('img/money.png') }}" width="60" height="60"
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Monnaie Unique</b></p>
             </div>
@@ -370,7 +370,7 @@
             <div class="">
                 <div class="tiles d-flex justify-content-evenly">
                     <div class="card card-darkmode" style="width: 30rem;">
-                        <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
+                        <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                         <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Live</b></span>
                         <h5 class="text-uppercase"><b>live</b></h5>
@@ -379,7 +379,7 @@
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
-                        <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
+                        <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                         <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
                         <h5 class="text-uppercase"><b>Journal</b></h5>
@@ -388,7 +388,7 @@
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
-                        <img src="http://localhost/Spaziaweb/public/img/testhobe.jpg" class="card-img-top" alt="...">
+                        <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <div>
                                 <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
