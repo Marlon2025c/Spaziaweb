@@ -1,7 +1,5 @@
 <?php
-protected $middlewareGroups = [
-    'api' => [
-        \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-    ],
+protected $except = [
+    'example', // Désactive la vérification CSRF pour cette route
 ];
+
