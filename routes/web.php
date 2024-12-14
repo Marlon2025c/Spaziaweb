@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EverGardenController;
+use App\Http\Controllers\NotationController;
 
 Route::get('/', [\App\Http\Controllers\PostController::class, 'index']);
-Route::get('/notations', [\App\Http\Controllers\Notations::class, 'index']);
+Route::get('/notation', [NotationController::class, 'index']);

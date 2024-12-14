@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Notation extends Controller
+class NotationController extends Controller
 {
     public function index()
     {
