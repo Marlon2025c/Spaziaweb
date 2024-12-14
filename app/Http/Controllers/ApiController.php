@@ -9,21 +9,16 @@ class ApiController extends Controller
 {
     public function store(Request $request)
     {
-        // Récupérer les données envoyées par la requête
-        $data = $request->only(['mod_name', 'user_name']);
-
-        // Vérifiez que les données existent
-        if (empty($data['mod_name']) || empty($data['user_name'])) {
-            return response()->json(['error' => 'Données manquantes'], 400);
-        }
-
-        // Sauvegarder les données dans la base de données
-        $everGarden = EverGarden::create([
-            'mod_name' => $data['mod_name'],
-            'user_name' => $data['user_name'],
+        // Récupérer et valider les données
+        $request->validate([
+            'mod_name' => 'required|string',
+            'user_name' => 'required|string',
         ]);
 
-        // Retourner une réponse JSON
+        // Sauvegarder les données
+        $everGarden = EverGarden::create($request->only(['mod_name', 'user_name']));
+
+        // Retourner la réponse JSON
         return response()->json([
             'id' => $everGarden->id,
             'mod_name' => $everGarden->mod_name,
