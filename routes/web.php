@@ -8,4 +8,4 @@ Route::get('/', [\App\Http\Controllers\PostController::class, 'index']);
 Route::get('/notation', [NotationController::class, 'index']);
 use App\Http\Controllers\ApiController;
 
-Route::post('/notation', [NotationController::class, 'store']);
+Route::post('/example', [ApiController::class, 'store']);
