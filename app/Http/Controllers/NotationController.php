@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 class NotationController extends Controller
 {
-    public function index()
+    public function notations()
     {
-        return view('notation');
+        // Traitement de la fonction
+        return view('notations'); // Retourne une vue (par exemple, notations.blade.php)
     }
 }
