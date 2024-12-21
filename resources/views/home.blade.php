@@ -204,6 +204,7 @@
 </style>
 
 <body>
+    @include('include.navbar')
     <div class="fixed-top">
         <section class="navbar-header p-0">
             <div class="container-fluid">
@@ -277,7 +278,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-li-textsp">
-                            <a class="nav-link text-uppercase  nav-ul-a p-2" aria-current="page" href="#">
+                            <a class="nav-link text-uppercase  nav-ul-a p-2" aria-current="page" href="{{ route('notations') }}">
                                 <h6 class="m-0">Accueil</h6>
                             </a>
                         </li>

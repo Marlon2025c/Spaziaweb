@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EverGardenController;
 use App\Http\Controllers\NotationController;
+use App\Http\Controllers\PostController;
 
-Route::get('/', [\App\Http\Controllers\PostController::class, 'index']);
+Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/notations', [NotationController::class, 'notations'])->name('notations');
