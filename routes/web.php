@@ -5,4 +5,4 @@ use App\Http\Controllers\EverGardenController;
 use App\Http\Controllers\NotationController;
 
 Route::get('/', [\App\Http\Controllers\PostController::class, 'index']);
-Route::get('/notation', [NotationController::class, 'index']);
+Route::get('/notations', [NotationController::class, 'notations'])->name('notations');
