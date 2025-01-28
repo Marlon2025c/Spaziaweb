@@ -6,17 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <title>Document</title>
+    <title>Spazia : Accueil</title>
 
 </head>
 <style>
-    p{
+    p {
         margin-top: 5px;
     }
-    h1, h2, h3, h4,h5, h6 {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         color: white
     }
 
@@ -168,34 +173,39 @@
         margin-bottom: 20px;
         margin-left: 20px
     }
-    .custom-p{
+
+    .custom-p {
         color: white
     }
-    .custom-section{
+
+    .custom-section {
         padding: 6rem 0;
     }
-    .section-title{
+
+    .section-title {
         margin: 0 0 1.5rem;
         font-size: 2.25rem;
         font-style: normal;
         font-weight: 700;
         line-height: 2.625rem;
     }
-    .btn-secondary{
+
+    .btn-secondary {
         color: #fff;
-    background-color: #737373;
-    border-color: #737373;
-    box-shadow: 0 0 0 8px rgba(255, 255, 255, .05);
+        background-color: #737373;
+        border-color: #737373;
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, .05);
     }
 
-    .card-darkmode{
+    .card-darkmode {
         background-color: #14141b;
     }
 
-    .card-darkmode-p{
+    .card-darkmode-p {
         color: white
     }
-    .tag-darkmode{
+
+    .tag-darkmode {
         color: white;
         padding: .25em .4em;
         font-size: 75%;
@@ -215,29 +225,28 @@
         <div class="row justify-content-center">
             <!-- Exemple de 5 colonnes -->
             <div class="col-lg-2 col-custom text-center">
-                <img src="{{ asset('img/pioche.png') }}" width="60" height="60"
-                    {{-- http://localhost/Spaziaweb/public/img/pioche.png --}}
+                <img src="{{ asset('img/pioche.png') }}" width="60" height="60" {{-- http://localhost/Spaziaweb/public/img/pioche.png --}}
                     fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Haute Collab</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="{{ asset('img/protection.png') }}" width="60" height="60"
-                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <img src="{{ asset('img/protection.png') }}" width="60" height="60" fill="currentColor"
+                    class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Staff actif</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="{{ asset('img/file.png') }}" width="60" height="60"
-                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <img src="{{ asset('img/file.png') }}" width="60" height="60" fill="currentColor"
+                    class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Mods</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="{{ asset('img/event.png') }}" width="60" height="60"
-                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <img src="{{ asset('img/event.png') }}" width="60" height="60" fill="currentColor"
+                    class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Events</b></p>
             </div>
             <div class="col-lg-2 col-custom text-center">
-                <img src="{{ asset('img/money.png') }}" width="60" height="60"
-                    fill="currentColor" class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
+                <img src="{{ asset('img/money.png') }}" width="60" height="60" fill="currentColor"
+                    class="bi bi-backpack2-fill" viewBox="0 0 16 16" alt="">
                 <p><b>Monnaie Unique</b></p>
             </div>
         </div>
@@ -246,16 +255,23 @@
         <section class="row custom-section">
             <div class="col-1"></div>
             <div class="col-lg-5"> <!-- Centre le conteneur dans la colonne -->
-                    <h1 class="pt-4 pb-4"><b>Découvre SpaziaEco</b></h1>
-                    <p class="custom-p" style="text-align: justify;">
-                        Rejoins une communauté engagée dans la création d’un monde virtuel durable, où chaque joueur contribue à l’équilibre de l’écosystème. Construis, explore, et commerce dans un environnement réaliste inspiré par la nature. Défie tes compétences de gestion et d’ingéniosité pour prospérer tout en préservant les ressources de SpaziaEco.
-                    </p>
-                    <p class="custom-p">
+                <h1 class="pt-4 pb-4"><b>Découvre SpaziaEco</b></h1>
+                <p class="custom-p" style="text-align: justify;">
+                    Rejoins une communauté engagée dans la création d’un monde virtuel durable, où chaque joueur
+                    contribue à l’équilibre de l’écosystème. Construis, explore, et commerce dans un environnement
+                    réaliste inspiré par la nature. Défie tes compétences de gestion et d’ingéniosité pour prospérer
+                    tout en préservant les ressources de SpaziaEco.
+                </p>
+                <p class="custom-p">
                     Prépare-toi à une expérience de jeu sans limites sur SpaziaEco, où ta légende débute.
-                    </p>
+                </p>
             </div>
             <div class="col-lg-6 d-flex justify-content-center">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/iSsfR7TKrv0?si=pRlWsWJW5aJz_nFO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/iSsfR7TKrv0?si=pRlWsWJW5aJz_nFO" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </section>
         <section class="custom-section">
@@ -273,30 +289,36 @@
                     <div class="card card-darkmode" style="width: 30rem;">
                         <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
-                        <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Live</b></span>
-                        <h5 class="text-uppercase"><b>live</b></h5>
-                        <p style="color:#767676 !important;">07 novembre 2024</p>
-                        <p style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <span
+                                class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Live</b></span>
+                            <h5 class="text-uppercase"><b>live</b></h5>
+                            <p style="color:#767676 !important;">07 novembre 2024</p>
+                            <p style="color:#767676 !important;">Some quick example text to build on the card title and
+                                make up the bulk of the card's content.</p>
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
                         <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
-                        <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
-                        <h5 class="text-uppercase"><b>Journal</b></h5>
-                        <p style="color:#767676 !important;">01 novembre 2024</p>
-                        <p style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <span
+                                class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
+                            <h5 class="text-uppercase"><b>Journal</b></h5>
+                            <p style="color:#767676 !important;">01 novembre 2024</p>
+                            <p style="color:#767676 !important;">Some quick example text to build on the card title and
+                                make up the bulk of the card's content.</p>
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
                         <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <div>
-                                <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
+                                <span
+                                    class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
                             </div>
-                        <h5 class="text-uppercase"><b>Update</b></h5>
-                        <p style="color:#767676 !important;">03 novembre 2024</p>
-                        <p class="" style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <h5 class="text-uppercase"><b>Update</b></h5>
+                            <p style="color:#767676 !important;">03 novembre 2024</p>
+                            <p class="" style="color:#767676 !important;">Some quick example text to build on
+                                the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
                 </div>
