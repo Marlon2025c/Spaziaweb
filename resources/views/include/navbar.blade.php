@@ -8,13 +8,13 @@
                 <!-- Section pour les liens (à droite) -->
                 <ul class="p-0 m-0 d-flex">
                     <li class="list-group-item nav-li-textsp">
-                        <a class="link-underline-dark nav-ul-a btn btn-sm p-2" href="#">
+                        <a class="link-underline-dark nav-ul-a btn btn-sm p-2" href="{{ route('support') }}">
                             Support
                         </a>
                     </li>
                     <li class="list-group-item nav-li-textsp">
                         <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2 d-flex align-items-center justify-content-center shakeme"
-                            href="#">
+                            href="https://discord.gg/yx3PUySCN8" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-discord svg-icon me-1" viewBox="0 0 16 16">
                                 <path
@@ -75,7 +75,7 @@
                         </a>
                     </li>
                     <li class="nav-li-textsp">
-                        <a class="nav-link text-uppercase nav-ul-a p-2" href="{{ route('notations') }}">
+                        <a class="nav-link text-uppercase nav-ul-a p-2" href="">
                             <h6 class="m-0">Notations</h6>
                         </a>
                     </li>
