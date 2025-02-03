@@ -20,7 +20,7 @@ class PostController extends Controller
     }
     public function admin_wiki(): View
     {
-        $commands = CommandAdminWiki::all(); // Récupère toutes les lignes de la table
-        return view('wiki/admin_wiki', compact('commands'));
+        $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
+        return view('wiki/admin_wiki', compact('adminCommands'));
     }
 }

@@ -15,6 +15,7 @@ class CreateAdminCommandsTable extends Migration
             $table->id(); // Colonne auto-incrémentée pour l'identifiant
             $table->string('command'); // Commande principale
             $table->string('quick_command')->nullable(); // Commande rapide (optionnelle)
+            $table->string('group');
             $table->text('description'); // Description de la commande
             $table->timestamps(); // Colonnes created_at et updated_at
         });

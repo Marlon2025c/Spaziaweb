@@ -85,7 +85,7 @@
                         </a>
                     </li>
                     <li class="nav-li-textsp">
-                        <a class="nav-link text-uppercase nav-ul-a p-2" href="#">
+                        <a class="nav-link text-uppercase nav-ul-a p-2" href="{{ route('admin_wiki') }}">
                             <h6 class="m-0">Wiki</h6>
                         </a>
                     </li>
