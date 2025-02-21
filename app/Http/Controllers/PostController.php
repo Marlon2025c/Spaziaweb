@@ -23,4 +23,14 @@ class PostController extends Controller
         $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
         return view('wiki/admin_wiki', compact('adminCommands'));
     }
+    public function luancherspcraft() 
+    {
+    return view('launcher_spaziacraft');    
+    }
+
+    public function download()
+    {
+        $filePath = public_path('downloads/SpaziaCraft_Launcher.exe'); // Assure-toi que le fichier est bien dans public/downloads
+        return response()->download($filePath, 'SpaziaCraft_Launcher.exe');
+    }
 }

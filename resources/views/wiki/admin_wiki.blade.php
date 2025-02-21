@@ -659,13 +659,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($adminCommands->where('group', 'chron') as $adminCommands)
+                    {{-- @foreach ($adminCommands->where('group', 'chron') as $adminCommands)
                         <tr>
                             <td>{{ $adminCommands->command }}</td>
                             <td>{{ $adminCommands->quick_command }}</td>
                             <td>{{ $adminCommands->description }}</td>
                         </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
         </div>
