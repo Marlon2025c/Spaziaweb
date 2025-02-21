@@ -17,5 +17,6 @@ class CommandAdminWiki extends Model
         'command',
         'quick_command',
         'description',
+        'group',
     ];
 }
