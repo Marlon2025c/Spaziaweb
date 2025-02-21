@@ -1123,6 +1123,12 @@ class AdminCommandSeeder extends Seeder
                 'quick_command' => '/levelup',
                 'description' => 'Monte un skill au maximum.',
             ],
+            [
+                'command' => '/chron Events',
+                'group' => 'chron',
+                'quick_command' => '',
+                'description' => 'Events, Page (1) Répertoriez les dernières entrées pour un ensemble de types d’événements. Séparez les types d’événements par espace. Icône de validation par la communauté',
+            ],
 
         ]);
     }
