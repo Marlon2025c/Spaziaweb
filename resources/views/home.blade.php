@@ -201,8 +201,54 @@
             font-size: 75%;
             font-weight: 700;
         }
+        .shine {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            z-index: 2;
+            pointer-events: none; /* Empêche toute interaction */
+            opacity: 0;
+            transition: none; /* Désactive les transitions qui garderaient l'effet */
+        }
+
+        .shine:hover::before {
+            opacity: 1;
+            animation: shine 0.75s ease-in-out;
+        }
+
+        @keyframes shine {
+            from {
+                left: -150%;
+            }
+            to {
+                left: 150%;
+            }
+        }
+
+        /* Réinitialiser après l'animation */
+        .shine:hover::before {
+            animation: shine 0.75s ease-in-out forwards;
+        }
+
+        .shine:not(:hover)::before {
+            animation: none;
+            opacity: 0;
+        }
+
+
+
     </style>
-    @include('include.navbar')
     <div class="background-container">
         <!-- Image de fond -->
         <img class="background-image" src="{{ asset('img/spazia.png') }}" alt="SpaziaEco Background">
@@ -255,7 +301,7 @@
                 </p>
             </div>
             <div class="col-lg-6 d-flex justify-content-center">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/iSsfR7TKrv0?si=pRlWsWJW5aJz_nFO"
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/PufNLRIC94c?si=dENEajSZSOgxE6V9"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -274,18 +320,23 @@
             <div class="">
                 <div class="tiles d-flex justify-content-evenly">
                     <div class="card card-darkmode" style="width: 30rem;">
-                        <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
+                        <div class="shine">
+                            <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
+                        </div>
                         <div class="card-body">
-                            <span
-                                class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Live</b></span>
+                            <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">
+                                <b>Live</b>
+                            </span>
                             <h5 class="text-uppercase"><b>live</b></h5>
                             <p style="color:#767676 !important;">07 novembre 2024</p>
-                            <p style="color:#767676 !important;">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
+                            <p style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
+                    
                     <div class="card card-darkmode" style="width: 30rem;">
-                        <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
+                        <div class="shine">
+                            <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
+                        </div>
                         <div class="card-body">
                             <span
                                 class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
@@ -296,7 +347,9 @@
                         </div>
                     </div>
                     <div class="card card-darkmode" style="width: 30rem;">
-                        <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
+                        <div class="shine">
+                            <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
+                        </div>
                         <div class="card-body">
                             <div>
                                 <span
@@ -313,57 +366,6 @@
         </section>
         <br>
         <br><br><br><br><br><br><b></b>
-        <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis totam consequuntur aliquid neque harum
-            aspernatur aliquam delectus, eaque, voluptate magni quibusdam laudantium? Incidunt consectetur doloremque,
-            quas
-            minus amet libero dolorem?</h1>
-        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet voluptas nisi et laborum possimus
-            consectetur
-            molestiae harum quo nostrum provident quidem assumenda, ex aperiam optio, iste sint numquam? Facilis,
-            accusamus.
-        </h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
-        <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio fugiat laborum eius saepe et culpa
-            repellendus
-            molestias officia iusto ipsa, minima est quam, natus dignissimos? Ullam esse excepturi possimus beatae!</h1>
 
         <script>
             window.onscroll = function() {
@@ -375,4 +377,4 @@
                 }
             };
         </script>
-    @endsection
+@endsection

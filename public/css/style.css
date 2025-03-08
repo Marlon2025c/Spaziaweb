@@ -101,3 +101,8 @@
     opacity: 1;
     /* Lors de l'affichage, l'opacité passe à 1 */
 }
+
+/* Footer */
+.footer-a {
+    color: white;
+}
