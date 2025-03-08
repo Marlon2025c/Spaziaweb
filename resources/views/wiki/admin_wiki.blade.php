@@ -551,7 +551,7 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="{{ asset('img/spaziaeco logo.png') }}" alt="">
+                    <img src="{{ asset('img/spaziaeco logo.webp') }}" alt="">
                 </span>
                 <div class="text logo-text">
                     <span class="name">Spazia Eco</span>

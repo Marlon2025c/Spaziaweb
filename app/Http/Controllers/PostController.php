@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ville;
 use Illuminate\Contracts\View\View;
 use App\Models\CommandAdminWiki;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -23,9 +21,9 @@ class PostController extends Controller
         $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
         return view('wiki/admin_wiki', compact('adminCommands'));
     }
-    public function luancherspcraft() 
+    public function luancherspcraft()
     {
-    return view('launcher_spaziacraft');    
+        return view('launcher_spaziacraft');
     }
 
     public function download()

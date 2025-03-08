@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Spazia - Accuiel')
+@section('title', 'Spazia - Accueil')
 @section('content')
     <style>
         p {
@@ -201,6 +201,7 @@
             font-size: 75%;
             font-weight: 700;
         }
+
         .shine {
             position: relative;
             display: inline-block;
@@ -214,12 +215,14 @@
             left: -150%;
             width: 200%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.4) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .4) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-25deg);
             z-index: 2;
-            pointer-events: none; /* Empêche toute interaction */
+            pointer-events: none;
+            /* Empêche toute interaction */
             opacity: 0;
-            transition: none; /* Désactive les transitions qui garderaient l'effet */
+            transition: none;
+            /* Désactive les transitions qui garderaient l'effet */
         }
 
         .shine:hover::before {
@@ -231,6 +234,7 @@
             from {
                 left: -150%;
             }
+
             to {
                 left: 150%;
             }
@@ -245,9 +249,6 @@
             animation: none;
             opacity: 0;
         }
-
-
-
     </style>
     <div class="background-container">
         <!-- Image de fond -->
@@ -291,10 +292,14 @@
             <div class="col-lg-5"> <!-- Centre le conteneur dans la colonne -->
                 <h1 class="pt-4 pb-4"><b>Découvre SpaziaEco</b></h1>
                 <p class="custom-p" style="text-align: justify;">
-                    Rejoins une communauté engagée dans la création d’un monde virtuel durable, où chaque joueur
-                    contribue à l’équilibre de l’écosystème. Construis, explore, et commerce dans un environnement
-                    réaliste inspiré par la nature. Défie tes compétences de gestion et d’ingéniosité pour prospérer
-                    tout en préservant les ressources de SpaziaEco.
+                    Rejoins un monde où chaque décision compte. Bâtis ta ville, choisis ton métier et développe ton économie
+                    tout en respectant l'écosystème. Un système de notation récompense les meilleures villes, et l'histoire
+                    de SpaziaEco continue d'évoluer depuis la saison 5.
+
+                    Plonge dans l'aventure et écris ta propre légende.
+
+                    Rejoignez-nous dès maintenant et laisse ton empreinte sur SpaziaEco.
+
                 </p>
                 <p class="custom-p">
                     Prépare-toi à une expérience de jeu sans limites sur SpaziaEco, où ta légende débute.
@@ -317,64 +322,59 @@
                     Actualités
                 </h2>
             </div>
-            <div class="">
-                <div class="tiles d-flex justify-content-evenly">
-                    <div class="card card-darkmode" style="width: 30rem;">
-                        <div class="shine">
-                            <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">
-                                <b>Live</b>
-                            </span>
-                            <h5 class="text-uppercase"><b>live</b></h5>
-                            <p style="color:#767676 !important;">07 novembre 2024</p>
-                            <p style="color:#767676 !important;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card card-darkmode" style="width: 30rem;">
-                        <div class="shine">
-                            <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <span
-                                class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
-                            <h5 class="text-uppercase"><b>Journal</b></h5>
-                            <p style="color:#767676 !important;">01 novembre 2024</p>
-                            <p style="color:#767676 !important;">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                    <div class="card card-darkmode" style="width: 30rem;">
-                        <div class="shine">
-                            <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <span
-                                    class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
+            <div class="row custom-section">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div class="tiles d-flex justify-content-evenly">
+                        <div class="card card-darkmode" style="width: 30rem;">
+                            <div class="shine">
+                                <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
                             </div>
-                            <h5 class="text-uppercase"><b>Update</b></h5>
-                            <p style="color:#767676 !important;">03 novembre 2024</p>
-                            <p class="" style="color:#767676 !important;">Some quick example text to build on
-                                the card title and make up the bulk of the card's content.</p>
+                            <div class="card-body">
+                                <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">
+                                    <b>Live</b>
+                                </span>
+                                <h5 class="text-uppercase"><b>live</b></h5>
+                                <p style="color:#767676 !important;">07 novembre 2024</p>
+                                <p style="color:#767676 !important;">Some quick example text to build on the card title and
+                                    make
+                                    up the bulk of the card's content.</p>
+                            </div>
+                        </div>
+
+                        <div class="card card-darkmode" style="width: 30rem;">
+                            <div class="shine">
+                                <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <span
+                                    class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
+                                <h5 class="text-uppercase"><b>Journal</b></h5>
+                                <p style="color:#767676 !important;">01 novembre 2024</p>
+                                <p style="color:#767676 !important;">Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.</p>
+                            </div>
+                        </div>
+                        <div class="card card-darkmode" style="width: 30rem;">
+                            <div class="shine">
+                                <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <span
+                                        class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
+                                </div>
+                                <h5 class="text-uppercase"><b>Update</b></h5>
+                                <p style="color:#767676 !important;">03 novembre 2024</p>
+                                <p class="" style="color:#767676 !important;">Some quick example text to build on
+                                    the card title and make up the bulk of the card's content.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-1"></div>
             </div>
         </section>
         <br>
         <br><br><br><br><br><br><b></b>
-
-        <script>
-            window.onscroll = function() {
-                var navbar = document.querySelector('.fixed-top');
-                if (window.pageYOffset > 50) { // Ajustez la valeur selon vos besoins
-                    navbar.classList.add('navbar-scrolled'); // Ajouter la classe pour changer la couleur
-                } else {
-                    navbar.classList.remove('navbar-scrolled'); // Retirer la classe
-                }
-            };
-        </script>
-@endsection
+    @endsection
