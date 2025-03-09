@@ -253,7 +253,6 @@
     <div class="background-container">
         <!-- Image de fond -->
         <img class="background-image" src="{{ asset('img/spazia.png') }}" alt="SpaziaEco Background">
-        <!-- http://localhost/Spaziaweb/public/img/spazia.png -->
         <h1 class="centered-title">SpaziaEco</h1>
     </div>
     <div class="container col-container">
