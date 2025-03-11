@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ParametresClassement extends Model
 {
     use HasFactory;
+    protected $table = 'parametre_classement';
+    public $timestamps = false;
 
     protected $fillable = [
         'montant_donne',
