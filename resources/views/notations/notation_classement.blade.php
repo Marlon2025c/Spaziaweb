@@ -23,12 +23,18 @@
                 <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                     title="Économie : <br>Note générée en fonction de l'argent en banque et de l'augmentation/perte par rapport à la semaine précente ainsi que sur le PIB de votre ville et aussi sur le livre en fabrication">
                     Économie</th>
-                <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="Gestion : <br>">
+                <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                    title="Gestion : <br> Note généree en function de votre nombre de membres, de vos recrutements et de vos lois">
                     Gestion</th>
-                <th>Métier</th>
-                <th>Unseco</th>
-                <th>Architecture</th>
-                <th>Pollution</th>
+                <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                    title="Métier: <br> Note généree en function des niveaux de métier de vos citoyens">
+                    Métier</th>
+                <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="Unseco">Unseco</th>
+                <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="Architecture">
+                    Architecture</th>
+                <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                    title="Pollution : <br> Note généree en function de la pollution de votre ville">
+                    Pollution</th>
                 <th>Total des Points</th> <!-- Ajout de la colonne pour le total -->
             </tr>
         </thead>
