@@ -34,5 +34,10 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'steam' => [
+        'client_id' => env('STEAM_KEY'),
+        'client_secret' => '',
+        'redirect' => env('APP_URL') . '/auth/steam/callback',
+    ],
 
 ];

@@ -20,7 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'steam_id',
+        'avatar'
     ];
 
     /**
@@ -44,5 +45,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    protected function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id'); // relation avec la table roles
     }
 }

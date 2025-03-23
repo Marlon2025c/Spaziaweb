@@ -6,8 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ilzrv/laravel-steam-auth": "^3.2",
         "laravel/framework": "^11.9",
+        "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.9",
+        "socialiteproviders/steam": "^4.3",
         "twbs/bootstrap": "5.3.3"
     },
     "require-dev": {

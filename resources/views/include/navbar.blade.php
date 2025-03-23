@@ -23,11 +23,25 @@
                             Discord
                         </a>
                     </li>
-                    <li class="list-group-item nav-li-textsp">
-                        <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2" href="#">
-                            Connexion / Inscription
-                        </a>
-                    </li>
+                    @if (Auth::check())
+                        <!-- L'utilisateur est connecté, afficher le bouton de déconnexion -->
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit">Déconnexion</button>
+                        </form>
+                        <div class="container">
+                            <h1>Bienvenue, {{ Auth::user()->name }}</h1>
+                            <img src="{{ Auth::user()->avatar }}" alt="Avatar de {{ Auth::user()->name }}"
+                                class="rounded-circle" width="100">
+                        </div>
+                    @else
+                        <li class="list-group-item nav-li-textsp">
+                            <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2" href="{{ route('login') }}">
+                                Connexion / Inscription
+                            </a>
+                        </li>
+                    @endif
+
                     <li class="list-group-item nav-li-textsp dropdown">
                         <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2 d-flex align-items-center justify-content-center dropdown-toggle"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false" style="position: relative;">
@@ -81,7 +95,7 @@
                     </li>
                     <li class="nav-li-textsp">
                         <a class="nav-link text-uppercase  nav-ul-a p-2" href="#">
-                            <h6 class="m-0">Jornal</h6>
+                            <h6 class="m-0">Journal</h6>
                         </a>
                     </li>
                     <li class="nav-li-textsp">
