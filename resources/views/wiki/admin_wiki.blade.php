@@ -547,7 +547,14 @@
             font-weight: 700;
         }
     </style>
+    
     <nav class="sidebar close">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <header>
             <div class="image-text">
                 <span class="image">

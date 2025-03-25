@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ParametresClassement extends Model
 {
     use HasFactory;
-    protected $table = 'parametre_classement';
+
     public $timestamps = false;
+    protected $table = 'parametre_classement'; // Nom de la table
+    protected $primaryKey = 'id_parametre_classement ';
 
     protected $fillable = [
         'montant_donne',
@@ -19,3 +21,4 @@ class ParametresClassement extends Model
         'lois_max',
     ];
 }
+

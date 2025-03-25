@@ -10,26 +10,47 @@ class Notation extends Controller
 {
     public function index()
     {
-        $villes = Ville::all();
+        // Récupérer toutes les villes avec leurs notations et architectures
+        $villes = Ville::with(['notation', 'architectures'])->get();
 
         // Calculer le total des points pour chaque ville
         foreach ($villes as $ville) {
-            $ville->total_points = $ville->economie + $ville->gestion + $ville->metier + $ville->unseco + $ville->architecture + $ville->pollution;
+            if ($ville->notation) {
+                $note_architecture = 0;
+                // Additionner toutes les colonnes numériques de la table 'architectures'
+                foreach ($ville->architectures as $architecture) {
+                    $note_architecture += array_sum(array_filter($architecture->toArray(), 'is_numeric'));
+                }
+
+                // Calculer le total des points
+                $ville->total_points = $ville->notation->sum('activite') +
+                                        $ville->notation->sum('economie') +
+                                        $ville->notation->sum('gestion') +
+                                        $ville->notation->sum('metier') +
+                                        $ville->notation->sum('unseco') +
+                                        $note_architecture - // Soustraire la note de pollution
+                                        $ville->notation->sum('pollution');
+            } else {
+                $ville->total_points = 0;
+            }
+
+            // Calculer le montant pour chaque ville (proportionnel à 8000 pour 100 points)
+            $montant_ville = ($ville->total_points / 100) * 8000;
+            $ville->montant_ville = number_format($montant_ville, 2, '.', ','); // Formater le montant
         }
 
-        // Trier les villes par total des points de manière décroissante
-        $villes = $villes->sortByDesc('total_points');
+        // Trier les villes par total de points de manière décroissante
+        $villes = $villes->sortByDesc('total_points')->values();
 
-        // Réinitialiser les indices pour le classement
-        $villes = $villes->values(); // Réindexe les valeurs de la collection
-
-        // Ajouter le classement basé sur l'ordre après tri
+        // Ajouter le classement à chaque ville
         foreach ($villes as $index => $ville) {
-            $ville->classement = $index + 1; // Le classement commence à 1
+            $ville->classement = $index + 1;
         }
 
-        $parametres = ParametresClassement::orderBy('id', 'desc')->first();
+        // Récupérer les paramètres du classement (dernier paramètre ajouté)
+        $parametres = ParametresClassement::orderBy('id_parametre_classement', 'desc')->first();
 
+        // Retourner la vue avec les villes et les paramètres
         return view('notations/notation_classement', ['villes' => $villes, 'parametres' => $parametres]);
     }
 }

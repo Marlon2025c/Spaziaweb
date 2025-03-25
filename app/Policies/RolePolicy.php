@@ -8,6 +8,7 @@ class RolePolicy
 {
     public function isAdmin(User $user)
     {
-        return $user->id_role === 1; // 1 = Admin
+        return $user->id_role === 2; // 2 = admin
     }
 }
+

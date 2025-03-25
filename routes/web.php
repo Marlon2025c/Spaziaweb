@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Contract;
 use App\Http\Controllers\Notation;
 use App\Http\Controllers\Auth\SteamAuthController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Models\User;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
@@ -12,10 +13,11 @@ Route::get('/support', [PostController::class, 'support'])->name('support');
 
 Route::get('/notations', [Notation::class, 'index'])->name('notation_classement');
 
-Route::get('/admin_wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki');
+// Route::get('/admin_wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki');
+// Dans ton fichier de routes (web.php)
 
-// Route::get('/admin_wiki',  [PostController::class, 'admin_wiki'])->name('admin_wiki')->can('isAdmin', User::class);
 
+Route::get('/admin_wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki')->middleware('auth','is_admin:2');
 
 Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nous');
 

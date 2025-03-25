@@ -19,9 +19,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
         'steam_id',
-        'avatar'
+        'avatar',
+        'id_role'
     ];
 
     /**
@@ -49,5 +49,9 @@ class User extends Authenticatable
     protected function role()
     {
         return $this->belongsTo(Role::class, 'role_id'); // relation avec la table roles
+    }
+    public function isAdmin()
+    {
+        return $this->id_role === 2; // Vérifie si l'utilisateur a le rôle admin
     }
 }
