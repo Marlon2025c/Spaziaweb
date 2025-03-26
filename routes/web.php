@@ -17,7 +17,8 @@ Route::get('/notations', [Notation::class, 'index'])->name('notation_classement'
 // Dans ton fichier de routes (web.php)
 
 
-Route::get('/admin_wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki')->middleware('auth','is_admin:2');
+Route::get('/dashboard', [PostController::class, 'dashboard'])->name('dashboard')->middleware('auth', 'is_admin:2');
+Route::get('/admin_wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki');
 
 Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nous');
 

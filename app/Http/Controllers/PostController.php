@@ -31,4 +31,8 @@ class PostController extends Controller
         $filePath = public_path('downloads/SpaziaCraft_Launcher.exe'); // Assure-toi que le fichier est bien dans public/downloads
         return response()->download($filePath, 'SpaziaCraft_Launcher.exe');
     }
+    public function dashboard(): View
+    {
+        return view("admin/admin_dashboard");
+    }
 }

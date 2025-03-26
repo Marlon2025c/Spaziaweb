@@ -26,24 +26,29 @@
                     @if (Auth::check())
                         <li class="list-group-item nav-li-textsp dropdown">
                             <a class="fw-bold link-underline-dark nav-ul-a btn btn-sm p-2 d-flex align-items-center justify-content-center dropdown-toggle"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false" style="position: relative;">
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar de {{ Auth::user()->name }}"class="rounded-circle" width="30">
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                style="position: relative;">
+                                <img src="{{ Auth::user()->avatar }}"
+                                    alt="Avatar de {{ Auth::user()->name }}"class="rounded-circle" width="30">
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Bienvenue, {{ Auth::user()->name }}</a></li>
-                                @if (Auth::user()->role === "2")
-                                    <li><a class="dropdown-item" href="#">Another action {{ Auth::user()->role }}</a></li>
+                                @if (Auth::user()->role === '2')
+                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Another action
+                                            {{ Auth::user()->role }}</a></li>
                                 @endif
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
                                     @csrf
                                 </form>
 
-                                <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Déconnexion
-                                </a></li>
+                                <li><a class="dropdown-item" href="#"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Déconnexion
+                                    </a></li>
                             </ul>
                         </li>
                     @else
