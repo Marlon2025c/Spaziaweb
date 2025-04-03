@@ -12,9 +12,7 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/support', [PostController::class, 'support'])->name('support');
 
 Route::get('/notations', [Notation::class, 'index'])->name('notation_classement');
-
-// Route::get('/admin_wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki');
-// Dans ton fichier de routes (web.php)
+Route::get('/notations/{id}', [Notation::class, 'show'])->name('show');
 
 
 Route::get('/dashboard', [PostController::class, 'dashboard'])->name('dashboard')->middleware('auth', 'is_admin:2');
@@ -24,6 +22,11 @@ Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nou
 
 Route::get('/launcher', [PostController::class, 'luancherspcraft'])->name('launcher');
 Route::get('/telechargement/launcher', [PostController::class, 'download'])->name('telecharger.launcher');
+
+
+
+
+
 
 
 Route::get('/login', SteamAuthController::class)->name('login');

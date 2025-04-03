@@ -34,8 +34,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Bienvenue, {{ Auth::user()->name }}</a></li>
                                 @if (Auth::user()->role === '2')
-                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Another action
-                                            {{ Auth::user()->role }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
                                 @endif
                                 <li>
                                     <hr class="dropdown-divider">

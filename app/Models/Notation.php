@@ -23,5 +23,10 @@ class Notation extends Model
         return $this->belongsTo(ParametresClassement::class, 'id_parametre_classement');
     }
 
-    // Relation avec la table Architecture (si nécessaire)Z
+    // Relation avec la table Architecture
+    public function architecture()
+    {
+        return $this->belongsTo(Architecture::class, 'id_architecture');
+    }
 }
+

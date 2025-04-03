@@ -10,8 +10,8 @@ class ParametresClassement extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'parametre_classement'; // Nom de la table
-    protected $primaryKey = 'id_parametre_classement ';
+    protected $table = 'parametre_classement';
+    protected $primaryKey = 'id_parametre_classement';
 
     protected $fillable = [
         'montant_donne',
@@ -21,4 +21,5 @@ class ParametresClassement extends Model
         'lois_max',
     ];
 }
+
 
