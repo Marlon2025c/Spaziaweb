@@ -39,6 +39,14 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
+                                <li>
+                                    <form id="startAppForm" method="POST">
+                                        @csrf
+                                        <button href="{{ route('start-notepad') }}" type="button" onclick="startApp()" class="btn btn-primary">
+                                            Lancer l'application
+                                        </button>
+                                    </form>
+                                </li>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
                                     @csrf

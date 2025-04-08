@@ -5,8 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Contract;
 use App\Http\Controllers\Notation;
 use App\Http\Controllers\Auth\SteamAuthController;
-use App\Http\Middleware\AdminMiddleware;
-use App\Models\User;
+use App\Http\Controllers\RemoteAppController;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/support', [PostController::class, 'support'])->name('support');
@@ -24,6 +23,8 @@ Route::get('/launcher', [PostController::class, 'luancherspcraft'])->name('launc
 Route::get('/telechargement/launcher', [PostController::class, 'download'])->name('telecharger.launcher');
 
 
+Route::get('/start-notepad', [RemoteAppController::class, 'startApp'])->name('start-notepad');
+Route::get('/stop-notepad', [RemoteAppController::class, 'stopApp']);
 
 
 
