@@ -123,8 +123,8 @@ class Ville extends Model
             'terraforming',
             'coherence_du_style',
             'batiment_metier',
-            'coherence_lumieres',
-            'presence_de_route',
+            'presence_lumieres',
+            'route_paver',
             'activité_recente',
             'blocs_utilises',
             'habitabilité_des_maisons',
@@ -132,10 +132,10 @@ class Ville extends Model
             'terraforming_realiste',
             'coherence_du_biome',
             'roleplay_de_la_ville',
-            'banque',
-            'mairie',
-            'tribunal',
-            'prison',
+            'route_en_asphalte',
+            'presence_dorganiques',
+            'signalisation_routiere',
+            'presence_de_mobilier',
         ];
 
         // Filtrer les architectures par l'id donné

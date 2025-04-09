@@ -2,7 +2,6 @@
 @section('title', 'Spazia - Notation')
 
 @section('content')
-
     <div class="container mt-5">
         <br>
         <br>
@@ -56,13 +55,40 @@
                             <strong>{{ $ville->nom_villes }}</strong>
                         </a>
                     </td>
+                    
                     <td>{{ $ville->notation->sum('activite') }}</td>
                     <td>{{ $ville->notation->sum('economie') }}</td>
                     <td>{{ $ville->notation->sum('gestion') }}</td>
                     <td>{{ $ville->notation->sum('metier') }}</td>
                     <td>{{ $ville->notation->sum('unseco') }}</td>
-                    <td>{{ -$ville->notation->sum('pollution') }}</td>
-                    <td>{{ $ville->calculerSommeArchitectures() }}</td>
+                    <td>{{ $ville->notation->sum('pollution') }}</td>
+                    <td class="text-start tooltip-left-align"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        title="<div class='tooltip-inner-custom'> 
+                                <p>Note détaillée</p>
+                                <p style='display: flex; justify-content: space-between;'><span>terraforming</span><span>/2</span></p>
+                                <p><span>cohérence du style 
+                                    /2</span></p>
+                                <p><span>bâtiment métier du style /29</span></p>
+                                <p><span>presence lumieres /2</span></p>
+                                <p><span>presence de route :</span></p>
+                                   <p><span>route paver /1</span></p>
+                                   <p><span>route en asphalte /1</span></p>
+                                <p><span>activité recente /4</span></p>
+                                <p><span>blocs utilises /2</span></p>
+                                <p><span>habitabilité des maisons /2</span></p>
+                                <p><span>batiments abandonnes /-2</span></p>
+                                <p><span>terraforming realiste /1</span></p>
+                                <p><span>coherence du biome /2</span></p>
+                                <p><span>roleplay de la ville /4</span></p>
+                                <p><span>presence d'organiques /1</span></p>
+                                <p><span>signalisation routiere /1</span></p>
+                                <p><span>presence de mobilier /2</span></p>
+                            </div>">
+                            {{ $ville->calculerSommeArchitectures() }}
+                    </td>
                     <td class="fw-bold text-primary">{{ $ville->total_points }}</td>
                     <td>{{ $ville->montant_ville }}</td>
                 </tr>
@@ -102,4 +128,32 @@
         });
         
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+              tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                const tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+          
+                if (tooltipTriggerEl.classList.contains('tooltip-left-align')) {
+                  tooltip._config.customClass = 'tooltip-align-left';
+                }
+              });
+            });
+          </script>
+          
+          <style>
+          .tooltip-align-left .tooltip-inner {
+            text-align: left;
+          }
+          </style>
+          <style>
+            .tooltip-inner-custom p {
+              margin: 2px 0;
+              font-size: 12px;
+            }
+            .tooltip-inner-custom p.indent {
+              padding-left: 10px;
+            }
+            </style>
+          
 @endsection
