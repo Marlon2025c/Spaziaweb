@@ -547,7 +547,7 @@
             font-weight: 700;
         }
     </style>
-    
+
     <nav class="sidebar close">
         <br>
         <br>
@@ -605,7 +605,7 @@
                         </a>
                     </li>
                     <li class="nav-link">
-                        <a href="#" onclick="showContent('liste_staff')">
+                        <a href="" onclick="showContent('liste_staff')">
                             <i class='bx bx-wallet icon'></i>
                             <span class="text nav-text">Liste staff</span>
                         </a>
