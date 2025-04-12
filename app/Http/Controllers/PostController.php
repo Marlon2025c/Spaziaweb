@@ -19,7 +19,7 @@ class PostController extends Controller
     public function admin_wiki(): View
     {
         $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
-        return view('wiki/admin_wiki', compact('adminCommands'));
+        return view('include/comingsoon', compact('adminCommands'));
     }
     public function luancherspcraft()
     {
@@ -33,6 +33,7 @@ class PostController extends Controller
     }
     public function dashboard(): View
     {
-        return view("admin/admin_dashboard");
+        $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
+        return view("admin/admin_dashboard", compact('adminCommands'));
     }
 }

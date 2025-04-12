@@ -9,12 +9,12 @@
         <br>
         <br>
         <h1 class="mb-4 d-flex justify-content-center">🏆 Classement des Villes 🏆</h1>
-        <h2>
-            <li class="list-group-item"><strong>Date de la semaine :</strong>
+        <h5>
+            <li class="list-group-item"><strong>Semaine du  :</strong>
                 {{ \Carbon\Carbon::parse($parametres->date_semaine)->isoFormat('D MMMM Y') }}
 
             </li>
-        </h2>
+        </h5>
         <div class="table-responsive">
             <table class="table table-hover align-middle" id="classementTable">
                 <thead class="table-dark">

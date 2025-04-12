@@ -39,14 +39,34 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
+                                @if (Auth::user()->name === 'aym' || Auth::user()->name === 'Freki Liches' || Auth::user()->name === 'Akina' || Auth::user()->name === 'Marlon Cross')
                                 <li>
-                                    <form id="startAppForm" method="POST">
-                                        @csrf
-                                        <button href="{{ route('start-notepad') }}" type="button" onclick="startApp()" class="btn btn-primary">
-                                            Lancer l'application
-                                        </button>
-                                    </form>
+                                    <button id="startAppBtn" class="dropdown-item">Lancer l'application</button>
+                                    <script>
+                                        document.getElementById('startAppBtn').addEventListener('click', function () {
+                                            fetch("{{ route('start-notepad') }}", {
+                                                method: "POST",
+                                                headers: {
+                                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify({})
+                                            })
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                console.log("Réponse API :", data);
+                                                alert("Application lancée !");
+                                                // ou affiche une notification ou autre...
+                                            })
+                                            .catch(error => {
+                                                console.error("Erreur :", error);
+                                                alert("Erreur lors du lancement.");
+                                            });
+                                        });
+                                        </script>
+                                        
                                 </li>
+                                @endif
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
                                     @csrf
@@ -99,7 +119,7 @@
                         </a>
                     </li>
                     <li class="nav-li-textsp">
-                        <a class="nav-link text-uppercase  nav-ul-a p-2" href="#">
+                        <a class="nav-link text-uppercase  nav-ul-a p-2" href="{{ route('journal') }}">
                             <h6 class="m-0">Journal</h6>
                         </a>
                     </li>

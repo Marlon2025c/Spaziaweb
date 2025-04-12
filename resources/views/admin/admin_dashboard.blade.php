@@ -15,9 +15,6 @@
         <br>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
         <style>
             .content-section {
                 display: none;
@@ -36,11 +33,11 @@
             }
 
             .card-darkmode-p {
-                color: white
+                color: rgb(0, 0, 0)
             }
 
             .cart_p_white {
-                color: white
+                color: rgb(0, 0, 0);
             }
         </style>
         <div class="container-fluid page-body-wrapper">
@@ -63,95 +60,46 @@
                     </li>
                     @if (Auth::user()->name === 'Marlon Cross')
                         <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="showContent('main_panel')">
+                            <a class="nav-link" href="#forms" onclick="showContent('main_panel')">
                                 <span class="menu-title">Dashboard</span>
                                 <i class="mdi mdi-home menu-icon"></i>
                             </a>
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showContent('command_utile')">
-                            <span class="menu-title">Commande Utile</span>
-                            <i class="mdi mdi-home menu-icon"></i>
+                        <a class="nav-link" data-bs-toggle="collapse" href="#forms5" aria-expanded="false"
+                            aria-controls="forms5">
+                            <span class="menu-title">Commandes</span>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                         </a>
+                        <div class="collapse" id="forms5">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="showContent('staff_utiles')">Staff Utiles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="showContent('toutes')">Toutes</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#forms" aria-expanded="false"
                             aria-controls="forms">
-                            <span class="menu-title">Forms</span>
+                            <span class="menu-title">Notation</span>
                             <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                         </a>
                         <div class="collapse" id="forms">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="pages/forms/basic_elements.html">Form Elements</a>
+                                    <a class="nav-link" href="#" onclick="showContent('wiki_notation')">Wiki Admin</a>
                                 </li>
                             </ul>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false"
-                            aria-controls="charts">
-                            <span class="menu-title">Charts</span>
-                            <i class="mdi mdi-chart-bar menu-icon"></i>
-                        </a>
-                        <div class="collapse" id="charts">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/charts/chartjs.html">ChartJs</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false"
-                            aria-controls="tables">
-                            <span class="menu-title">Tables</span>
-                            <i class="mdi mdi-table-large menu-icon"></i>
-                        </a>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false"
-                            aria-controls="auth">
-                            <span class="menu-title">User Pages</span>
-                            <i class="menu-arrow"></i>
-                            <i class="mdi mdi-lock menu-icon"></i>
-                        </a>
-                        <div class="collapse" id="auth">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/samples/login.html"> Login </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/samples/register.html"> Register </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/samples/error-404.html"> 404 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/samples/error-500.html"> 500 </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="docs/documentation.html" target="_blank">
-                            <span class="menu-title">Documentation</span>
-                            <i class="mdi mdi-file-document-box menu-icon"></i>
-                        </a>
                     </li>
                 </ul>
             </nav>
+            
             <!-- partial -->
             @if (Auth::user()->name === 'Marlon Cross')
                 <div class="main-panel content-section" id="main_panel">
@@ -314,142 +262,657 @@
 
                 </div>
             @else
-                <div class="main-panels content-section" id="command_utile">
-                    <h1>test</h1>
-
-                </div>
-            @endif
-            <div class="main-panels content-section hidden" id="command_utile">
-
+            <div class="main-panels content-section hidden" id="staff_utiles">
                 <div class="container mt-5">
                     <div class="row g-4">
-
-                        <!-- Carte /ban -->
+            
                         <div class="col-md-6 col-lg-4">
-                            <div class="card shadow-sm border-danger darkmode">
-                                <div class="card-header bg-danger text-white">
-                                    <h5 class="card-title text-white">🔨 /ban &lt;pseudo&gt; &lt;raison&gt;</h5>
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white" style="font-size: "><i class="bi bi-hammer me-2 cart_p_white"></i> <b> /ban &lt;pseudo&gt; &lt;raison&gt; </b></h5>
                                 </div>
                                 <div class="card-body">
-                                    <p>Bannit un joueur du serveur de façon permanente.</p>
-                                    <p><strong>Utilisation :</strong> En cas de triche ou comportement inacceptable.</p>
-                                    <pre><code>/ban MarlonGrief Grief de la mairie</code></pre>
+                                    <p class="card-text">Bannit un joueur du serveur de façon permanente.</p>
+                                    <p class="card-text"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i> <strong>Utilisation :</strong> En cas de triche ou comportement inacceptable.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/ban MarlonGrief Grief de la mairie</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-shield-slash-fill text-danger me-2"></i> <strong>Impact :</strong> Suppression définitive de l'accès au serveur.</p>
+                                        <p><i class="bi bi-person-x-fill text-danger me-2"></i> <strong>Niveau d'autorisation :</strong> Super Admin ou plus.</p>
+                                    </div>
                                 </div>
                                 <div class="card-footer text-muted">
                                     Utilisé en cas de violation grave des règles.
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Carte /mute -->
+            
                         <div class="col-md-6 col-lg-4">
-                            <div class="card shadow-sm border-warning darkmode">
-                                <div class="card-header bg-warning text-dark">
-                                    <h5 class="card-title text-white">🛡️ /skills give &lt;pseudo&gt; &lt;durée&gt;</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Empêche un joueur d’écrire dans le chat pendant un temps défini.</p>
-                                    <p><strong>Durée :</strong> 5m, 30m, 1h, etc.</p>
-                                    <pre><code>/mute PseudoToxique 30m</code></pre>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    Utile pour les joueurs spammant le chat.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte /kick -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card shadow-sm border-primary">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="card-title text-white">📋 /kick &lt;pseudo&gt; &lt;raison&gt;</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Expulse un joueur temporairement sans bannissement.</p>
-                                    <pre><code>/kick TrollMaster Spam dans le chat</code></pre>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    À utiliser pour des infractions mineures.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte /invsee -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card shadow-sm border-secondary">
-                                <div class="card-header bg-secondary text-white">
-                                    <h5 class="card-title text-white">🕵️‍♂️ /invsee &lt;pseudo&gt;</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Permet de voir l’inventaire d’un joueur discrètement.</p>
-                                    <p>Très utile pour vérifier les objets suspects.</p>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    À utiliser pour vérifier la possession d'objets interdits.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte /gamemode -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card shadow-sm border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="card-title text-white">🧱 /gamemode &lt;mode&gt; &lt;pseudo&gt;</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Change le mode de jeu d’un joueur.</p>
-                                    <pre><code>/gamemode creative Marlon</code></pre>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    À utiliser pour accorder des privilèges temporaires.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Carte /msg -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card shadow-sm border-info">
+                            <div class="card command-card shadow-sm border-info">
                                 <div class="card-header bg-info text-white">
-                                    <h5 class="card-title text-white">💬 /msg &lt;pseudo&gt; &lt;message&gt;</h5>
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-award-fill me-2"></i> <b> /skills give &lt;métier&gt; &lt;pseudo&gt; </b></h5>
                                 </div>
                                 <div class="card-body">
-                                    <p>Envoie un message privé à un joueur.</p>
-                                    <pre><code>/msg Pseudo Viens vocal 2 min ?</code></pre>
+                                    <p class="card-text">Attribue un métier spécifique à un joueur.</p>
+                                    <p class="card-text"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Utilisation :</strong> Après validation de la construction requise.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/skills give NomJoueur, engrais</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-gear-fill text-warning me-2"></i> <strong>Fonction :</strong> Débloque des compétences et des accès spécifiques.</p>
+                                        <p><i class="bi bi-person-plus-fill text-success me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    Pour discuter discrètement avec un joueur.
+                                    Permet de gérer la progression et les rôles des joueurs.
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Carte Commandes d'urgence -->
-                        <div class="col-12">
-                            <div class="card shadow-sm border-dark">
-                                <div class="card-header bg-dark text-white">
-                                    <h5 class="card-title text-white">🚨 Commandes d'urgence</h5>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-box-seam-fill me-2 cart_p_white"></i> <b> /give &lt;item&gt; &lt;quantité&gt;</b></h5>
                                 </div>
                                 <div class="card-body">
-                                    <ul>
-                                        <li><code>/stop</code> : Arrête complètement le serveur (attention !)</li>
-                                        <li><code>/reload</code> : Recharge les plugins (risque de bug)</li>
-                                    </ul>
+                                    <p class="card-text">Donne des objets à votre personnage.</p>
+                                    <p class="card-text"><i class="bi bi-question-circle-fill text-info me-2"></i> <strong>Utilisation :</strong> Pour tester, aider un joueur (avec modération).</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/give wood, 10</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-archive-fill text-primary me-2"></i> <strong>Type :</strong> Manipulation d'inventaire personnel.</p>
+                                        <p><i class="bi bi-person-fill text-primary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    À utiliser uniquement en cas d’urgence.
+                                    À utiliser avec discernement.
                                 </div>
                             </div>
                         </div>
-
-                    </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-infinity me-2"></i><b> /fgive &lt;item&gt; &lt;quantité&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Donne des objets sans limite de points (si applicable).</p>
+                                    <p class="card-text"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour les besoins spécifiques du staff ou événements.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/fgive wood, 999</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-archive-fill text-primary me-2"></i> <strong>Type :</strong> Manipulation d'inventaire personnel (sans limite).</p>
+                                        <p><i class="bi bi-key-fill text-warning me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Commande à utiliser avec grande précaution.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-geo-alt-fill me-2"></i><b> /claim</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Permet de revendiquer une zone sans utiliser sa propre propriété.</p>
+                                    <p class="card-text"><i class="bi bi-map-fill text-success me-2"></i> <strong>Utilisation :</strong> Pour créer des zones protégées pour des événements ou des constructions staff.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/claim</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-flag-fill text-success me-2"></i> <strong>Fonction :</strong> Création de zones protégées temporaires ou permanentes.</p>
+                                        <p><i class="bi bi-ruler-fill text-success me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Utile pour l'organisation et la protection de zones spécifiques.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-fuel-pump-fill me-2"></i><b> /fuel </b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Remplit le réservoir de carburant d'un véhicule.</p>
+                                    <p class="card-text"><i class="bi bi-droplet-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour la maintenance des véhicules staff ou pour aider les joueurs.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/fuel</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-car-front-fill text-secondary me-2"></i> <strong>Type :</strong> Gestion des véhicules.</p>
+                                        <p><i class="bi bi-wrench-adjustable-circle-fill text-secondary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Essentiel pour la logistique et le déplacement.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-heart-fill me-2"></i> <b>/eat &lt;calories&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Restaure vos calories (peut donner un avantage).</p>
+                                    <p class="card-text"><i class="bi bi-star-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour tester les mécaniques de faim ou donner un boost temporaire (avec modération).</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/eat</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-battery-full-fill text-success me-2"></i> <strong>Fonction :</strong> Augmentation des statistiques du joueur.</p>
+                                        <p><i class="bi bi-person-fill text-success me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Peut influencer l'équilibre du jeu, à utiliser avec prudence.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-trash-fill me-2"></i> <b>/clear-rubble</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Supprime tous les débris de pierre de la carte.</p>
+                                    <p class="card-text"><i class="bi bi-broom-fill text-primary me-2"></i> <strong>Utilisation :</strong> Pour améliorer la visibilité et la performance du serveur.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/clear-rubble</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-globe-americas-fill text-primary me-2"></i> <strong>Impact :</strong> Modification de l'environnement global.</p>
+                                        <p><i class="bi bi-server-fill text-primary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Utile pour la maintenance de l'environnement du jeu.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-trash-fill me-2"></i><b> /clear-treedebris</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Supprime les débris d'arbres (branches tombées).</p>
+                                    <p class="card-text"><i class="bi bi-leaf-fill text-success me-2"></i> <strong>Utilisation :</strong> Pour nettoyer les zones forestières et améliorer l'esthétique.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/clear-treedebris</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-tree-fill text-success me-2"></i> <strong>Impact :</strong> Modification de l'environnement local.</p>
+                                        <p><i class="bi bi-server-fill text-primary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Contribue à un environnement de jeu plus propre.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-eye-slash-fill me-2"></i><b> /util invisible</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Rend votre personnage invisible sur la carte.</p>
+                                    <p class="card-text"><i class="bi bi-incognito-fill text-secondary me-2"></i> <strong>Utilisation :</strong> Pour l'observation discrète des joueurs ou des zones.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/util invisible</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-person-bounding-box text-secondary me-2"></i> <strong>Fonction :</strong> Mode furtif pour le staff.</p>
+                                        <p><i class="bi bi-eye-fill text-secondary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Outil précieux pour la surveillance sans être détecté.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-door-open-fill me-2"></i><b> /kick &lt;pseudo&gt; &lt;raison&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Expulse temporairement un joueur du serveur.</p>
+                                    <p class="card-text"><i class="bi bi-x-octagon-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour les infractions mineures ou pour avertir un joueur.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/kick BadPlayer, Comportement inapproprié</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-hourglass-split text-warning me-2"></i> <strong>Durée :</strong> Temporaire, le joueur peut se reconnecter.</p>
+                                        <p><i class="bi bi-person-dash-fill text-warning me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        À utiliser pour les avertissements ou les problèmes mineurs.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
                 </div>
-
-                <!-- main-panel ends -->
             </div>
-            <!-- page-body-wrapper ends -->
-        </div>
-        <!-- Bootstrap -->
+            @endif
+            <div class="main-panels content-section hidden" id="staff_utiles">
+                <div class="container mt-5">
+                    <div class="row g-4">
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white" style="font-size: "><i class="bi bi-hammer me-2 cart_p_white"></i> <b> /ban &lt;pseudo&gt; &lt;raison&gt; </b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Bannit un joueur du serveur de façon permanente.</p>
+                                    <p class="card-text"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i> <strong>Utilisation :</strong> En cas de triche ou comportement inacceptable.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/ban MarlonGrief Grief de la mairie</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-shield-slash-fill text-danger me-2"></i> <strong>Impact :</strong> Suppression définitive de l'accès au serveur.</p>
+                                        <p><i class="bi bi-person-x-fill text-danger me-2"></i> <strong>Niveau d'autorisation :</strong> Super Admin ou plus.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Utilisé en cas de violation grave des règles.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-award-fill me-2"></i> <b> /skills give &lt;métier&gt; &lt;pseudo&gt; </b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Attribue un métier spécifique à un joueur.</p>
+                                    <p class="card-text"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Utilisation :</strong> Après validation de la construction requise.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/skills give NomJoueur, engrais</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-gear-fill text-warning me-2"></i> <strong>Fonction :</strong> Débloque des compétences et des accès spécifiques.</p>
+                                        <p><i class="bi bi-person-plus-fill text-success me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Permet de gérer la progression et les rôles des joueurs.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-box-seam-fill me-2 cart_p_white"></i> <b> /give &lt;item&gt; &lt;quantité&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Donne des objets à votre personnage.</p>
+                                    <p class="card-text"><i class="bi bi-question-circle-fill text-info me-2"></i> <strong>Utilisation :</strong> Pour tester, aider un joueur (avec modération).</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/give wood, 10</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-archive-fill text-primary me-2"></i> <strong>Type :</strong> Manipulation d'inventaire personnel.</p>
+                                        <p><i class="bi bi-person-fill text-primary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    À utiliser avec discernement.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-infinity me-2"></i><b> /fgive &lt;item&gt; &lt;quantité&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Donne des objets sans limite de points (si applicable).</p>
+                                    <p class="card-text"><i class="bi bi-exclamation-circle-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour les besoins spécifiques du staff ou événements.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/fgive wood, 999</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-archive-fill text-primary me-2"></i> <strong>Type :</strong> Manipulation d'inventaire personnel (sans limite).</p>
+                                        <p><i class="bi bi-key-fill text-warning me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Commande à utiliser avec grande précaution.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-geo-alt-fill me-2"></i><b> /claim</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Permet de revendiquer une zone sans utiliser sa propre propriété.</p>
+                                    <p class="card-text"><i class="bi bi-map-fill text-success me-2"></i> <strong>Utilisation :</strong> Pour créer des zones protégées pour des événements ou des constructions staff.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/claim</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-flag-fill text-success me-2"></i> <strong>Fonction :</strong> Création de zones protégées temporaires ou permanentes.</p>
+                                        <p><i class="bi bi-ruler-fill text-success me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Utile pour l'organisation et la protection de zones spécifiques.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-fuel-pump-fill me-2"></i><b> /fuel </b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Remplit le réservoir de carburant d'un véhicule.</p>
+                                    <p class="card-text"><i class="bi bi-droplet-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour la maintenance des véhicules staff ou pour aider les joueurs.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/fuel</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-car-front-fill text-secondary me-2"></i> <strong>Type :</strong> Gestion des véhicules.</p>
+                                        <p><i class="bi bi-wrench-adjustable-circle-fill text-secondary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Essentiel pour la logistique et le déplacement.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-heart-fill me-2"></i> <b>/eat &lt;calories&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Restaure vos calories (peut donner un avantage).</p>
+                                    <p class="card-text"><i class="bi bi-star-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour tester les mécaniques de faim ou donner un boost temporaire (avec modération).</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/eat</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-battery-full-fill text-success me-2"></i> <strong>Fonction :</strong> Augmentation des statistiques du joueur.</p>
+                                        <p><i class="bi bi-person-fill text-success me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Peut influencer l'équilibre du jeu, à utiliser avec prudence.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-trash-fill me-2"></i> <b>/clear-rubble</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Supprime tous les débris de pierre de la carte.</p>
+                                    <p class="card-text"><i class="bi bi-broom-fill text-primary me-2"></i> <strong>Utilisation :</strong> Pour améliorer la visibilité et la performance du serveur.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/clear-rubble</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-globe-americas-fill text-primary me-2"></i> <strong>Impact :</strong> Modification de l'environnement global.</p>
+                                        <p><i class="bi bi-server-fill text-primary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Utile pour la maintenance de l'environnement du jeu.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-trash-fill me-2"></i><b> /clear-treedebris</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Supprime les débris d'arbres (branches tombées).</p>
+                                    <p class="card-text"><i class="bi bi-leaf-fill text-success me-2"></i> <strong>Utilisation :</strong> Pour nettoyer les zones forestières et améliorer l'esthétique.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/clear-treedebris</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-tree-fill text-success me-2"></i> <strong>Impact :</strong> Modification de l'environnement local.</p>
+                                        <p><i class="bi bi-server-fill text-primary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Contribue à un environnement de jeu plus propre.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-eye-slash-fill me-2"></i><b> /util invisible</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Rend votre personnage invisible sur la carte.</p>
+                                    <p class="card-text"><i class="bi bi-incognito-fill text-secondary me-2"></i> <strong>Utilisation :</strong> Pour l'observation discrète des joueurs ou des zones.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/util invisible</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-person-bounding-box text-secondary me-2"></i> <strong>Fonction :</strong> Mode furtif pour le staff.</p>
+                                        <p><i class="bi bi-eye-fill text-secondary me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Outil précieux pour la surveillance sans être détecté.
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card command-card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title cart_p_white"><i class="bi bi-door-open-fill me-2"></i><b> /kick &lt;pseudo&gt; &lt;raison&gt;</b></h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Expulse temporairement un joueur du serveur.</p>
+                                    <p class="card-text"><i class="bi bi-x-octagon-fill text-warning me-2"></i> <strong>Utilisation :</strong> Pour les infractions mineures ou pour avertir un joueur.</p>
+                                    <p class="card-text"><i class="bi bi-code me-2"></i> <pre class="bg-light border rounded p-2"><code>/kick BadPlayer, Comportement inapproprié</code></pre></p>
+                                    <div class="command-info mt-3">
+                                        <p><i class="bi bi-hourglass-split text-warning me-2"></i> <strong>Durée :</strong> Temporaire, le joueur peut se reconnecter.</p>
+                                        <p><i class="bi bi-person-dash-fill text-warning me-2"></i> <strong>Niveau d'autorisation :</strong> Modérateur.</p>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        À utiliser pour les avertissements ou les problèmes mineurs.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+            <div class="main-panels content-section hidden" id="toutes">
+                <style>
+                    .custom-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 20px;
+                        background-color: #e9ecef; /* Fond gris clair */
+                        color: #495057; /* Texte sombre */
+                        border: 1px solid #ced4da;
+                    }
 
-        <!-- FontAwesome -->
+                    .custom-table th,
+                    .custom-table td {
+                        padding: 10px;
+                        border: 1px solid #ced4da;
+                        text-align: left;
+                    }
+
+                    .custom-table thead th {
+                        background-color: #007bff; /* En-tête bleu */
+                        color: white;
+                        font-weight: bold;
+                    }
+
+                    .custom-table tbody tr:nth-child(even) {
+                        background-color: #f8f9fa; /* Lignes paires légèrement plus claires */
+                    }
+
+                    .custom-table tbody tr:hover {
+                        background-color: #cce5ff; /* Couleur au survol */
+                    }
+                </style>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Commande</th>
+                            <th scope="col">Commande rapide</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($adminCommands->where('group', 'Admin') as $adminCommands)
+                            <tr>
+                                <td>{{ $adminCommands->command }}</td>
+                                <td>{{ $adminCommands->quick_command }}</td>
+                                <td>{{ $adminCommands->description }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="main-panel content-section hidden" id="wiki_notation">
+                <style>
+                    body {
+                        font-family: sans-serif;
+                        background-color: #f8f9fa;
+                        padding-top: 50px;
+                    }
+                    .wiki-container {
+                        max-width: 960px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #fff;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+                    h1, h2 {
+                        color: #333;
+                    }
+                    h2 {
+                        margin-top: 20px;
+                    }
+                    .notation-criteria {
+                        margin-bottom: 15px;
+                        padding: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        background-color: #f9f9f9;
+                    }
+                    .criterion-title {
+                        font-weight: bold;
+                        margin-bottom: 5px;
+                        color: #555;
+                    }
+                    .criterion-details {
+                        margin-left: 15px;
+                        color: #777;
+                    }
+                    .criterion-details ul {
+                        padding-left: 20px;
+                        margin-bottom: 0;
+                    }
+                    .architecture-details {
+                        margin-top: 10px;
+                        padding: 10px;
+                        border: 1px solid #eee;
+                        border-radius: 4px;
+                        background-color: #fefefe;
+                    }
+                    .architecture-details p {
+                        position: relative;
+                        padding-right: 50px;
+                        margin-bottom: 5px;
+                    }
+                    .architecture-details span:last-child {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        color: #999;
+                    }
+                    .important {
+                        font-weight: bold;
+                        color: #dc3545;
+                    }
+                </style>
+                <div class="wiki-container">
+                    <h1>Wiki Admin - Système de Notation des Villes</h1>
+                    <p class="lead">Ce wiki explique en détail le système de notation utilisé pour évaluer les villes sur le serveur.</p>
+            
+                    <h2>Critères de Notation des Villes</h2>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">Activité</h3>
+                        <p class="criterion-details">La note d'activité dépend de l'engagement des membres de la ville. Si plus de la moitié des membres sont inactifs, la ville commence à perdre des points.</p>
+                    </div>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">Économie</h3>
+                        <p class="criterion-details">La note économique est basée sur plusieurs facteurs :</p>
+                        <ul class="criterion-details">
+                            <li>L'argent total en banque de la ville.</li>
+                            <li>L'augmentation ou la perte d'argent par rapport à la semaine précédente.</li>
+                            <li>Le Produit Intérieur Brut (PIB) de la ville.</li>
+                            <li>Le nombre de livres découverts ou craftés par les membres de la ville.</li>
+                        </ul>
+                    </div>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">Gestion</h3>
+                        <p class="criterion-details">La note de gestion prend en compte la structure et l'organisation de la ville :</p>
+                        <ul class="criterion-details">
+                            <li><strong>Recrutement :</strong> Une ville obtient 5 points si elle compte un minimum de <span class="important">20 membres</span>.</li>
+                            <li><strong>Lois Actives :</strong> Une ville gagne 5 points supplémentaires si elle a plus de <span class="important">5 lois actives</span> et fonctionnelles.</li>
+                        </ul>
+                    </div>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">Métier</h3>
+                        <p class="criterion-details">Cette note augmente en fonction du niveau des métiers des citoyens de la ville, avec un maximum de <span class="important">7 points</span>.</p>
+                    </div>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">UNSCO</h3>
+                        <p class="criterion-details">La note UNSCO est sur un total de <span class="important">12 points</span> :</p>
+                        <ul class="criterion-details">
+                            <li><span class="important">2 points</span> pour le bâtiment de sauvegarde de la ville.</li>
+                            <li><span class="important">10 points</span> pour la merveille de la ville.</li>
+                        </ul>
+                        <p class="criterion-details">Pour plus d'informations, veuillez consulter le guide dans le salon Discord <span class="important">#guide-info</span>.</p>
+                    </div>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">Pollution</h3>
+                        <p class="criterion-details">La pollution a un impact négatif sur la note de la ville :</p>
+                        <ul class="criterion-details">
+                            <li>Débris au sol : <span class="important">-5 points</span></li>
+                            <li>Pollution de l'air : <span class="important">-10 points</span></li>
+                            <li>Pollution du sol : <span class="important">-10 points</span></li>
+                        </ul>
+                    </div>
+            
+                    <div class="notation-criteria">
+                        <h3 class="criterion-title">Architecture</h3>
+                        <p class="criterion-details">La note d'architecture est basée sur plusieurs critères détaillés ci-dessous :</p>
+                        <div class="architecture-details">
+                            <p><span>Terraforming</span><span>{{ $ville->architectures[0]->terraforming ?? 0 }}/2</span></p>
+                            <p><span>Cohérence du style</span><span>{{ $ville->architectures[0]->coherence_du_style ?? 0 }}/2</span></p>
+                            <p><span>Bâtiment métier</span><span>{{ $ville->architectures[0]->batiment_metier ?? 0 }}/29</span></p>
+                            <p><span>Présence de lumières</span><span>{{ $ville->architectures[0]->presence_lumieres ?? 0 }}/2</span></p>
+                            <p><span>Route pavée</span><span>{{ $ville->architectures[0]->route_paver ?? 0 }}/1</span></p>
+                            <p><span>Route en asphalte</span><span>{{ $ville->architectures[0]->route_en_asphalte ?? 0 }}/1</span></p>
+                            <p><span>Activité récente</span><span>{{ $ville->architectures[0]->activite_recente ?? 0 }}/4</span></p>
+                            <p><span>Blocs utilisés</span><span>{{ $ville->architectures[0]->blocs_utilises ?? 0 }}/2</span></p>
+                            <p><span>Habitabilité des maisons</span><span>{{ $ville->architectures[0]->habitabilite_des_maisons ?? 0 }}/2</span></p>
+                            <p><span>Bâtiments abandonnés</span><span>{{ $ville->architectures[0]->batiments_abandonnes ?? 0 }}/-2</span></p>
+                            <p><span>Terraforming réaliste</span><span>{{ $ville->architectures[0]->terraforming_realiste ?? 0 }}/1</span></p>
+                            <p><span>Cohérence du biome</span><span>{{ $ville->architectures[0]->coherence_du_biome ?? 0 }}/2</span></p>
+                            <p><span>Roleplay de la ville</span><span>{{ $ville->architectures[0]->roleplay_de_la_ville ?? 0 }}/4</span></p>
+                            <p><span>Présence d'organiques</span><span>{{ $ville->architectures[0]->presence_dorganiques ?? 0 }}/1</span></p>
+                            <p><span>Signalisation routière</span><span>{{ $ville->architectures[0]->signalisation_routiere ?? 0 }}/1</span></p>
+                            <p><span>Présence de mobilier</span><span>{{ $ville->architectures[0]->presence_de_mobilier ?? 0 }}/2</span></p>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
         <script src="{{ asset('js/chart.js') }}"></script>
         <script src="{{ asset('js/dashboard.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>
@@ -718,5 +1181,5 @@
                 });
             })(jQuery);
         </script>
-
+<br>
     @endsection
