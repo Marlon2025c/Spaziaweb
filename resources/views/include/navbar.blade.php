@@ -42,27 +42,55 @@
                                 @if (Auth::user()->name === 'aym' || Auth::user()->name === 'Freki Liches' || Auth::user()->name === 'Akina' || Auth::user()->name === 'Marlon Cross')
                                 <li>
                                     <button id="startAppBtn" class="dropdown-item">Lancer l'application</button>
-                                    <script>
-                                        document.getElementById('startAppBtn').addEventListener('click', function () {
-                                            fetch("{{ route('start-notepad') }}", {
-                                                method: "POST",
-                                                headers: {
-                                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                                    "Content-Type": "application/json"
-                                                },
-                                                body: JSON.stringify({})
-                                            })
-                                            .then(res => res.json())
-                                            .then(data => {
-                                                console.log("Réponse API :", data);
-                                                alert("Application lancée !");
-                                                // ou affiche une notification ou autre...
-                                            })
-                                            .catch(error => {
-                                                console.error("Erreur :", error);
-                                                alert("Erreur lors du lancement.");
+                                        <button id="stopAppBtn" class="dropdown-item" disabled>Arrêter l'application</button>
+
+                                        <script>
+                                            const startBtn = document.getElementById('startAppBtn');
+                                            const stopBtn = document.getElementById('stopAppBtn');
+                                        
+                                            startBtn.addEventListener('click', function () {
+                                                fetch("{{ route('start-notepad') }}", {
+                                                    method: "POST",
+                                                    headers: {
+                                                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    body: JSON.stringify({})
+                                                })
+                                                .then(res => res.json())
+                                                .then(data => {
+                                                    console.log("Réponse API :", data);
+                                                    alert("Application lancée !");
+                                                    startBtn.disabled = true;
+                                                    stopBtn.disabled = false;
+                                                })
+                                                .catch(error => {
+                                                    console.error("Erreur :", error);
+                                                    alert("Erreur lors du lancement.");
+                                                });
                                             });
-                                        });
+                                        
+                                            stopBtn.addEventListener('click', function () {
+                                                fetch("{{ route('stop-notepad') }}", {
+                                                    method: "POST",
+                                                    headers: {
+                                                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    body: JSON.stringify({})
+                                                })
+                                                .then(res => res.json())
+                                                .then(data => {
+                                                    console.log("Réponse API :", data);
+                                                    alert("Application arrêtée !");
+                                                    stopBtn.disabled = true;
+                                                    startBtn.disabled = false;
+                                                })
+                                                .catch(error => {
+                                                    console.error("Erreur :", error);
+                                                    alert("Erreur lors de l'arrêt.");
+                                                });
+                                            });
                                         </script>
                                         
                                 </li>

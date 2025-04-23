@@ -54,7 +54,6 @@
                 <tbody>
                     @foreach ($villes as $ville)
                         <tr>
-
                             <th scope="row">{{ $ville->classement }}</th>
                             <td>
                                 <a href="{{ route('show', ['id' => $ville->id_villes]) }}">
@@ -78,9 +77,9 @@
                                             <p style='position: relative;'><span>presence lumieres</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->presence_lumieres ?? 0 }}/2</span></p>
                                             <p style='position: relative; padding-left: 10px;'><span>route paver</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->route_paver ?? 0 }}/1</span></p>
                                             <p style='position: relative; padding-left: 10px;'><span>route en asphalte</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->route_en_asphalte ?? 0 }}/1</span></p>
-                                            <p style='position: relative;'><span>activité recente</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->activite_recente ?? 0 }}/4</span></p>
+                                            <p style='position: relative;'><span>activité recente</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->activité_recente ?? 0 }}/4</span></p>
                                             <p style='position: relative;'><span>blocs utilises</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->blocs_utilises ?? 0 }}/2</span></p>
-                                            <p style='position: relative;'><span>habitabilité des maisons</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->habitabilite_des_maisons ?? 0 }}/2</span></p>
+                                            <p style='position: relative;'><span>habitabilité des maisons</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->habitabilité_des_maisons ?? 0 }}/2</span></p>
                                             <p style='position: relative;'><span>batiments abandonnes</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->batiments_abandonnes ?? 0 }}/-2</span></p>
                                             <p style='position: relative;'><span>terraforming realiste</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->terraforming_realiste ?? 0 }}/1</span></p>
                                             <p style='position: relative;'><span>coherence du biome</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->coherence_du_biome ?? 0 }}/2</span></p>
@@ -171,7 +170,7 @@
             top: 0;
             /* Aligne le haut avec le texte */
             text-align: right;
-            width: 30px;
+            width: 40px;
             /* Largeur approximative pour les chiffres (ajuster) */
         }
     </style>

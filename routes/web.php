@@ -25,7 +25,7 @@ Route::get('/telechargement/launcher', [PostController::class, 'download'])->nam
 
 Route::post('/start-notepad', [RemoteAppController::class, 'startApp'])->name('start-notepad');
 
-Route::get('/stop-notepad', [RemoteAppController::class, 'stopApp']);
+Route::get('/stop-notepad', [RemoteAppController::class, 'stopApp'])->name('stop-notepad');
 
 
 

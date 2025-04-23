@@ -34,38 +34,58 @@ class Ville extends Model
     }
 
     public function calculerTotalPoints($id_parametre)
-    {
-        $notation = $this->notation()->where('id_parametre_classement', $id_parametre)->first();
-    
-        if (!$notation) {
-            return null;
-        }
+{
+    $notation = $this->notation()->where('id_parametre_classement', $id_parametre)->first();
 
-        $note_architecture = $this->architectures
-            ->groupBy('notation_id') // Regrouper par notation_id pour éviter les doublons
-            ->map(function ($group) {
-                return $group->sum(function ($architecture) {
-                    return array_sum(array_filter(
-                        collect($architecture->toArray())
-                            ->except(['id_architecture']) // Exclure aussi id_notation
-                            ->toArray(),
-                        'is_numeric'
-                    ));
-                });
-            })->sum(); // Faire la somme finale de tous les groupes
 
-        return $notation->activite +
-            $notation->economie +
-            $notation->gestion +
-            $notation->metier +
-            $notation->unseco +
-            $note_architecture -
-            $notation->pollution;
+    if (!$notation) {
+        return null;
     }
+
+    $architectures = $this->architecturesFiltrees($id_parametre)
+        ->where('notation.id_notation', $notation->id_notation)
+        ->get();
+
+        $note_architecture_mapped = $architectures->map(function ($architecture) {
+            $data = collect($architecture->toArray())
+                ->except(['id_architecture', 'laravel_through_key', 'id_notation']);
+        
+            $sum = 0;
+        
+            foreach ($data as $key => $value) {
+                if (is_numeric(str_replace(',', '.', $value))) {
+                    $floatValue = floatval(str_replace(',', '.', $value));
+                    // Si c'est "batiments_abandonnes", on le considère comme une pénalité
+                    if ($key === 'batiments_abandonnes') {
+                        $sum -= $floatValue;
+                    } else {
+                        $sum += $floatValue;
+                    }
+                }
+            }
+        
+            return $sum;
+        });
+
+
+    $note_architecture = $note_architecture_mapped->sum();
+
+
+    $total_points = (float) $notation->activite +
+        (float) $notation->economie +
+        (float) $notation->gestion +
+        (float) $notation->metier +
+        (float) $notation->unseco +
+        (float) $note_architecture -
+        (float) $notation->pollution;
+
+
+    return $total_points;
+}
 
     public function calculerMontant($total_points)
     {
-        return number_format(($total_points / 100) * 8000, 2, '.', ',');
+        return number_format(($total_points / 100) * 3000, 2, '.', ',');
     }
 
     public static function withClassement($id_parametre)
@@ -104,11 +124,16 @@ class Ville extends Model
     }
     public function calculerSommeArchitectures()
     {
-        return $this->architectures->sum(function ($architecture) {
+        $colonnes_negatives = ['batiments_abandonnes']; // Colonne(s) à considérer comme négative(s)
+
+        return $this->architectures->sum(function ($architecture) use ($colonnes_negatives) {
             return collect($architecture->toArray())
-                ->except(['id_architecture', 'id_parametre_classement', 'id_villes','laravel_through_key']) // Exclure les ID
-                ->filter(fn($value) => is_numeric($value)) // Garder uniquement les valeurs numériques
-                ->sum();
+                ->except(['id_architecture', 'id_parametre_classement', 'id_notation', 'id_villes', 'laravel_through_key'])
+                ->filter(fn($value) => is_numeric($value)) // On garde que les nombres
+                ->reduce(function ($carry, $value, $key) use ($colonnes_negatives) {
+                    $floatValue = floatval($value);
+                    return $carry + (in_array($key, $colonnes_negatives) ? -$floatValue : $floatValue);
+                }, 0);
         });
     }
     public function calculerSommeArchitecturesParNotation($id_architecture)
