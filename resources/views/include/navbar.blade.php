@@ -2,6 +2,28 @@
     <section class="navbar-header p-0">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center">
+                <audio id="radioPlayer" controls style="height: 20px">
+                    <source id="radioSource" src="{{ url('/radio-stream') }}?t={{ time() }}" type="audio/mpeg">
+                    Votre navigateur ne supporte pas l'audio HTML5.
+                </audio>
+                <script>
+                    const radio = document.getElementById("radioPlayer");
+                    const source = document.getElementById("radioSource");
+                    const originalSrc = "{{ url('/radio-stream') }}";
+
+                    function refreshRadio() {
+                        const newSrc = originalSrc + "?t=" + new Date().getTime();
+                        source.src = newSrc;
+                        radio.load();
+                        radio.play().catch(e => {
+                            console.warn("Lecture impossible (souvent à cause d'une politique navigateur) : ", e);
+                        });
+                    }
+
+                    // Recharge le flux toutes les 30 secondes (ajuste si besoin)
+                    setInterval(refreshRadio, 30000);
+                </script>
+
                 <!-- Section pour le lecteur de radio (à gauche) -->
                 <div class="me-auto">
                 </div>
