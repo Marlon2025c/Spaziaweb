@@ -27,18 +27,6 @@ Route::post('/start-notepad', [RemoteAppController::class, 'startApp'])->name('s
 
 Route::get('/stop-notepad', [RemoteAppController::class, 'stopApp'])->name('stop-notepad');
 
-Route::get('/radio-stream', function () {
-    return response()->stream(function () {
-        $stream = fopen('http://192.168.1.12:8000/radio.mp3', 'r');
-        fpassthru($stream);
-        fclose($stream);
-    }, 200, [
-        'Content-Type' => 'audio/mpeg',
-    ]);
-});
-
-
-
 
 Route::get('/login', SteamAuthController::class)->name('login');
 
@@ -53,3 +41,11 @@ Route::post('/logout', function (Request $request) {
 
     return redirect('/');
 })->name('logout');
+
+
+/* SpaziaRadio */
+
+use App\Http\Controllers\RadioController;
+
+Route::get('/radio', [RadioController::class, 'show'])->name('radio.show');
+Route::get('/api/nowplaying-local', [RadioController::class, 'nowPlaying'])->name('nowplaying.local');

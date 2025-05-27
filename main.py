@@ -1,36 +1,21 @@
-from pynput.mouse import Button, Controller
-from pynput.keyboard import Listener, Key
-import threading
-import time
+import requests
+import urllib3
 
-mouse = Controller()
-clicking = False  # Contrôle du clic
-program_running = True  # Contrôle du programme
+# Désactiver les avertissements SSL (si le certificat est auto-signé)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def clicker():
-    while program_running:
-        if clicking:
-            mouse.click(Button.left, 1)
-            time.sleep(0.01)  # Vitesse du clic (ajuste si tu veux plus rapide/lent)
-        else:
-            time.sleep(0.1)
+url = "https://192.168.1.12/api/nowplaying/spaziaradio"
 
-def on_press(key):
-    global clicking, program_running
-    try:
-        if key == Key.esc:  # Touche Échap pour arrêter
-            program_running = False
-            return False  # Arrête le listener clavier
-        elif key.char == 's':  # Touche S pour démarrer/arrêter le clic
-            clicking = not clicking
-            print("Auto-clicker:", "ON" if clicking else "OFF")
-    except AttributeError:
-        pass
+try:
+    response = requests.get(url, verify=False)  # verify=False ignore les erreurs SSL
+    response.raise_for_status()  # Vérifie que la réponse est OK (code 200)
+    data = response.json()
 
-# Lancement du thread pour le clicker
-click_thread = threading.Thread(target=clicker)
-click_thread.start()
+    # Affichage du JSON de façon lisible
+    import json
+    print(json.dumps(data, indent=4))
 
-# Lancement de l'écoute du clavier
-with Listener(on_press=on_press) as listener:
-    listener.join()
+except requests.exceptions.RequestException as e:
+    print("Erreur lors de la requête :", e)
+except ValueError as e:
+    print("Erreur lors de la lecture du JSON :", e)
