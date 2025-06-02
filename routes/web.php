@@ -49,3 +49,7 @@ use App\Http\Controllers\RadioController;
 
 Route::get('/radio', [RadioController::class, 'show'])->name('radio.show');
 Route::get('/api/nowplaying-local', [RadioController::class, 'nowPlaying'])->name('nowplaying.local');
+
+use App\Http\Controllers\Dashboard\ArticleController;
+
+Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');

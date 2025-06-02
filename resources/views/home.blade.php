@@ -305,7 +305,7 @@
                 </p>
             </div>
             <div class="col-lg-6 d-flex justify-content-center">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/PufNLRIC94c?si=dENEajSZSOgxE6V9"
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/kWGF39p8TxE?si=DVams8XYM2mU4ccH"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -328,50 +328,29 @@
                 <div class="col-1"></div>
                 <div class="col-10">
                     <div class="tiles d-flex justify-content-evenly">
-                        <div class="card card-darkmode" style="width: 30rem;">
-                            <div class="shine">
-                                <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top" alt="...">
-                            </div>
-                            <div class="card-body">
-                                <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">
-                                    <b>Live</b>
-                                </span>
-                                <h5 class="text-uppercase"><b>live</b></h5>
-                                <p style="color:#767676 !important;">07 novembre 2024</p>
-                                <p style="color:#767676 !important;">Some quick example text to build on the card title and
-                                    make
-                                    up the bulk of the card's content.</p>
-                            </div>
-                        </div>
 
-                        <div class="card card-darkmode" style="width: 30rem;">
-                            <div class="shine">
-                                <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
-                            </div>
-                            <div class="card-body">
-                                <span
-                                    class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Journal</b></span>
-                                <h5 class="text-uppercase"><b>Journal</b></h5>
-                                <p style="color:#767676 !important;">01 novembre 2024</p>
-                                <p style="color:#767676 !important;">Some quick example text to build on the card title and
-                                    make up the bulk of the card's content.</p>
-                            </div>
-                        </div>
-                        <div class="card card-darkmode" style="width: 30rem;">
-                            <div class="shine">
-                                <img src="{{ asset('img/testhobe.jpg') }}" class="card-img-top shine" alt="...">
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <span
-                                        class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1"><b>Update</b></span>
+                        @foreach ($articles as $article)
+                            <div class="card card-darkmode" style="width: 30rem;">
+                                <div class="shine" style="height: 200px; background-color: #f0f0f0;">
+                                    <img src="{{ asset('storage/' . $article->logo) }}" class="card-img-top"
+                                        style="height: 100%; width: 100%; object-fit: contain;" alt="...">
                                 </div>
-                                <h5 class="text-uppercase"><b>Update</b></h5>
-                                <p style="color:#767676 !important;">03 novembre 2024</p>
-                                <p class="" style="color:#767676 !important;">Some quick example text to build on
-                                    the card title and make up the bulk of the card's content.</p>
+                                <div class="card-body">
+                                    <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">
+                                        <b>{{ $article->tag }}</b>
+                                    </span>
+                                    <h5 class="text-uppercase"><b>{{ $article->title }}</b></h5>
+                                    <p style="color:#767676 !important;">
+                                        {{ \Carbon\Carbon::parse($article->date)->translatedFormat('d F Y') }}
+                                    </p>
+                                    <p style="color:#767676 !important;">
+                                        <a href="{{ $article->lien_pubhtml5 }}" target="_blank">Voir l'article complet</a>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
+
+
                     </div>
                 </div>
                 <div class="col-1"></div>
@@ -380,50 +359,51 @@
         <br>
         <br><br><br><br><br><br><b></b>
         <div id="now-playing">
-        <p>Chargement...</p>
+            <p>Chargement...</p>
 
-    </div>
+        </div>
         <audio id="radioPlayer" controls style="height: 20px; width: 100%;">
-            <source id="radioSource"  src="https://192.168.1.12/radio/8000/radio.mp3" type="audio/mpeg">
+            <source id="radioSource" src="https://192.168.1.12/radio/8000/radio.mp3" type="audio/mpeg">
             Votre navigateur ne supporte pas l'audio HTML5.
         </audio>
-    <script>
-        let lastTitle = "";
-        let lastArtist = "";
+        <script>
+            let lastTitle = "";
+            let lastArtist = "";
 
-        async function fetchNowPlaying() {
-            try {
-                const response = await fetch('{{ route('nowplaying.local') }}');
-                const data = await response.json();
-                const song = data.now_playing?.song;
+            async function fetchNowPlaying() {
+                try {
+                    const response = await fetch('{{ route('nowplaying.local') }}');
+                    const data = await response.json();
+                    const song = data.now_playing?.song;
 
-                const artist = song?.artist || "Artiste inconnu";
-                const title = song?.title || "Titre inconnu";
-                const art = song?.art || "https://via.placeholder.com/300x300?text=Pas+d'image";
-                const duration = data.now_playing?.duration || 180; // durée en secondes (par défaut 3 min)
+                    const artist = song?.artist || "Artiste inconnu";
+                    const title = song?.title || "Titre inconnu";
+                    const art = song?.art || "https://via.placeholder.com/300x300?text=Pas+d'image";
+                    const duration = data.now_playing?.duration || 180; // durée en secondes (par défaut 3 min)
 
-                if (artist !== lastArtist || title !== lastTitle) {
-                    const html = `
+                    if (artist !== lastArtist || title !== lastTitle) {
+                        const html = `
                         <h2>${artist} - ${title}</h2>
                         <img src="${art}" alt="Pochette de la musique">
                     `;
-                    document.getElementById("now-playing").innerHTML = html;
+                        document.getElementById("now-playing").innerHTML = html;
 
-                    lastArtist = artist;
-                    lastTitle = title;
+                        lastArtist = artist;
+                        lastTitle = title;
+                    }
+
+                    // Refaire la requête après durée estimée de la chanson
+                    setTimeout(fetchNowPlaying, duration * 1000);
+
+                } catch (error) {
+                    console.error(error);
+                    document.getElementById("now-playing").innerHTML = `<p>Impossible de récupérer les données</p>`;
+                    setTimeout(fetchNowPlaying, 30000); // Réessaie dans 30s en cas d'erreur
                 }
-
-                // Refaire la requête après durée estimée de la chanson
-                setTimeout(fetchNowPlaying, duration * 1000);
-
-            } catch (error) {
-                console.error(error);
-                document.getElementById("now-playing").innerHTML = `<p>Impossible de récupérer les données</p>`;
-                setTimeout(fetchNowPlaying, 30000); // Réessaie dans 30s en cas d'erreur
             }
-        }
 
-        fetchNowPlaying();
-    </script>
-        <iframe src='https://online.pubhtml5.com/lgual/laxz/'  seamless='seamless' scrolling='no' frameborder='0' allowtransparency='true' allowfullscreen='true' ></iframe>
+            fetchNowPlaying();
+        </script>
+        <iframe style="height: 500px; width: 500px;"src='https://online.pubhtml5.com/lgual/laxz/' seamless='seamless'
+            scrolling='no' frameborder='0' allowtransparency='true' allowfullscreen='true'></iframe>
     @endsection

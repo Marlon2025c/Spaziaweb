@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Contracts\View\View;
 use App\Models\CommandAdminWiki;
 
 class PostController extends Controller
 {
+
     public function index()
     {
+        $articles = Article::orderBy('date', 'desc')->take(3)->get(); // ou ->latest('date')->take(3)->get()
 
-        return view('home');
+        return view('home', compact('articles'));
     }
     public function support()
     {
