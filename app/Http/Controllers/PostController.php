@@ -15,15 +15,18 @@ class PostController extends Controller
 
         return view('home', compact('articles'));
     }
+
     public function support()
     {
         return view(view: 'support');
     }
+
     public function admin_wiki(): View
     {
         $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
         return view('include/comingsoon', compact('adminCommands'));
     }
+
     public function luancherspcraft()
     {
         return view('launcher_spaziacraft');
@@ -34,9 +37,16 @@ class PostController extends Controller
         $filePath = public_path('downloads/SpaziaCraft_Launcher.exe'); // Assure-toi que le fichier est bien dans public/downloads
         return response()->download($filePath, 'SpaziaCraft_Launcher.exe');
     }
+
     public function dashboard(): View
     {
         $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
         return view("admin/admin_dashboard", compact('adminCommands'));
+    }
+
+    public function actualites(): View
+    {
+        $articles = Article::orderBy('date', 'desc')->get();
+        return view("actualites", compact('articles'));
     }
 }

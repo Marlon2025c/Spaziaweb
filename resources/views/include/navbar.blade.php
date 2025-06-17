@@ -2,6 +2,121 @@
     <section class="navbar-header p-0">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center">
+                <div style="display: flex; align-items: center; ">
+                    <style>
+                        #now-playing {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.85rem; /* texte un peu plus petit */
+                        }
+
+                        #now-playing h2 {
+                        margin: 0;
+                        font-weight: normal;
+                        max-width: 200px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        }
+
+                        #playImage {
+                        width: 50px !important;
+                        height: 50px !important;
+                        object-fit: cover;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                        transition: box-shadow 0.3s ease;
+                        }
+
+                        #playImage:hover {
+                        box-shadow: 0 0 15px rgba(0, 128, 255, 0.5);
+                        }
+
+                        #togglePlay {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(0,0,0,0.6);
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 20px !important;
+                        height: 20px !important;
+                        font-size: 14px !important;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0;
+                        }
+                    </style>
+                    <div id="now-playing" style="display: flex; align-items: center; gap: 10px;">
+                        <p>Chargement...</p>
+                    </div>
+                    <audio id="radioPlayer" controls style="height: 30px; width: auto; flex-grow: 1;" >
+                        <source src="https://spazia.fr/radio-proxy" type="audio/mpeg">
+                        Votre navigateur ne supporte pas l'audio HTML5.
+                    </audio>
+                    <script>
+                        let lastTitle = "";
+                        let lastArtist = "";
+                        async function fetchNowPlaying() {
+                            try {
+                                const response = await fetch('{{ route('nowplaying.local') }}');
+                                const data = await response.json();
+                                const song = data.now_playing?.song;
+
+                                const artist = song?.artist || "Artiste inconnu";
+                                const title = song?.title || "Titre inconnu";
+                                const art = song?.art || "https://via.placeholder.com/300x300?text=Pas+d'image";
+                                const duration = data.now_playing?.duration || 180; // durée en secondes (par défaut 3 min)
+                                if (artist !== lastArtist || title !== lastTitle) {
+                                    const html = `
+                                    <div style="position: relative; display: inline-block; width: 50px; height: 50px;">
+                                        <img id="playImage" src="${art}" alt="Pochette">
+                                        <button id="togglePlay">▶️</button>
+                                    </div>
+                                    <h6>${artist} - ${title}</h6>
+                                    `;
+                                document.getElementById("now-playing").innerHTML = html;
+
+                                document.getElementById("togglePlay").addEventListener("click", () => {
+                                    const audio = document.getElementById("radioPlayer");
+                                    const btn = document.getElementById("togglePlay");
+                                    if (audio.paused) {
+                                        audio.src = "https://spazia.fr/radio-proxy";
+                                        audio.load();
+                                        audio.play();
+                                        btn.textContent = "⏸️";
+                                    } else {
+                                        audio.pause();
+                                        btn.textContent = "▶️";
+                                    }
+                                });
+
+                                    lastArtist = artist;
+                                    lastTitle = title;
+                                }
+                                console.log('Données reçues:', data);
+                                console.log('Image:', art);
+                                // Refaire la requête après durée estimée de la chanson
+                                setTimeout(fetchNowPlaying, duration * 1000);
+
+                            } catch (error) {
+                                console.error(error);
+                                document.getElementById("now-playing").innerHTML = `<p>Impossible de récupérer les données</p>`;
+                                setTimeout(fetchNowPlaying, 30000); // Réessaie dans 30s en cas d'erreur
+                            }
+                        }
+
+                        fetchNowPlaying();
+                        const audio = document.getElementById("radioPlayer");
+                        audio.volume = 0.2;
+                    </script>
+                </div>
                 <!-- Section pour le lecteur de radio (à gauche) -->
                 <div class="me-auto">
                 </div>
@@ -147,8 +262,8 @@
                         </a>
                     </li>
                     <li class="nav-li-textsp">
-                        <a class="nav-link text-uppercase  nav-ul-a p-2" href="{{ route('journal') }}">
-                            <h6 class="m-0">Journal</h6>
+                        <a class="nav-link text-uppercase  nav-ul-a p-2" href="{{ route('actualites') }}">
+                            <h6 class="m-0">Actualités</h6>
                         </a>
                     </li>
                     <li class="nav-li-textsp">

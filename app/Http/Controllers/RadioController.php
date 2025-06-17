@@ -8,7 +8,7 @@ class RadioController extends Controller
     public function show()
     {
         return response()->stream(function () {
-        $stream = fopen('http://192.168.1.12:8000/radio.mp3', 'r');
+        $stream = fopen('http://spazia.fr:8000/radio.mp3', 'r');
         fpassthru($stream);
         fclose($stream);
         }, 200, [
@@ -18,7 +18,7 @@ class RadioController extends Controller
 
     public function nowPlaying()
     {
-        $url = 'https://192.168.1.12/api/nowplaying/spaziaradio';
+        $url = 'http://192.168.1.12/api/nowplaying/spaziaradio';
 
         try {
             $response = Http::withoutVerifying()->get($url);

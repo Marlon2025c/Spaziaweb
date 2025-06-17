@@ -11,7 +11,7 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.9",
         "ilzrv/laravel-steam-auth": "^3.2",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "12.17",
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.9",
         "socialiteproviders/steam": "^4.3",

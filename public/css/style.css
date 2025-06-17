@@ -1,3 +1,20 @@
+p {
+    margin-top: 5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: white;
+}
+
+body {
+    background-color: #101015;
+}
+
 .nav-ul-a {
     color: white;
 }
@@ -105,4 +122,19 @@
 /* Footer */
 .footer-a {
     color: white;
+}
+
+.card-darkmode {
+    background-color: #14141b;
+}
+
+.card-darkmode-p {
+    color: white;
+}
+
+.tag-darkmode {
+    color: white;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
 }

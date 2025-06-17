@@ -85,7 +85,7 @@ class Ville extends Model
 
     public function calculerMontant($total_points)
     {
-        return number_format(($total_points / 100) * 3000, 2, '.', ',');
+        return number_format(($total_points / 100) * 5000, 2, '.', ',');
     }
 
     public static function withClassement($id_parametre)

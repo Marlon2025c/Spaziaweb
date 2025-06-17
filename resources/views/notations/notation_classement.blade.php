@@ -23,9 +23,9 @@
                         <th scope="col">Nom</th>
                         <th scope="col">Activité</th>
                         <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                            title="Économie : <br>Note basée sur l'argent en banque, l'augmentation/perte par rapport à la semaine précédente, le PIB et les livres en fabrication."
+                            title="Culture : <br>Cette note est fondée sur la culture de la ville et les votes sur chaque citoyen de la ville."
                             scope="col">
-                            Économie
+                            Culture
                         </th>
                         <th data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                             title="Gestion : <br>Basée sur le nombre de membres, recrutements et lois." scope="col">

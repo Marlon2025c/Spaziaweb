@@ -2,22 +2,6 @@
 @section('title', 'Spazia - Accueil')
 @section('content')
     <style>
-        p {
-            margin-top: 5px;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: white
-        }
-
-        body {
-            background-color: #101015
-        }
 
         .nav-ul-a {
             color: white;
@@ -314,11 +298,11 @@
 
             </div>
         </section>
-        <section class="custom-section">
-            <div class="text-center mb-5">
+        <section class="custom-section" style="background-color: #14141B">
+            {{-- <div class="text-center mb-5">
                 <a class="btn btn-secondary col-12 col-lg-3 mt-5" href="">Upadate</a>
                 <a class="btn btn-secondary col-12 col-lg-3 mt-5" href="">Journal</a>
-            </div>
+            </div> --}}
             <div class="">
                 <h2 class="section-title text-center mt-3">
                     Actualités
@@ -330,10 +314,15 @@
                     <div class="tiles d-flex justify-content-evenly">
 
                         @foreach ($articles as $article)
+                        <style>
+                            .card-darkmode {
+                                background-color: #101015;
+                            }
+                        </style>
                             <div class="card card-darkmode" style="width: 30rem;">
-                                <div class="shine" style="height: 200px; background-color: #f0f0f0;">
+                                <div class="shine" style="background-color: #f0f0f0;">
                                     <img src="{{ asset('storage/' . $article->logo) }}" class="card-img-top"
-                                        style="height: 100%; width: 100%; object-fit: contain;" alt="...">
+                                        style="height: 250px; width: 100%; object-fit: cover;" alt="...">
                                 </div>
                                 <div class="card-body">
                                     <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">
@@ -358,52 +347,4 @@
         </section>
         <br>
         <br><br><br><br><br><br><b></b>
-        <div id="now-playing">
-            <p>Chargement...</p>
-
-        </div>
-        <audio id="radioPlayer" controls style="height: 20px; width: 100%;">
-            <source id="radioSource" src="https://192.168.1.12/radio/8000/radio.mp3" type="audio/mpeg">
-            Votre navigateur ne supporte pas l'audio HTML5.
-        </audio>
-        <script>
-            let lastTitle = "";
-            let lastArtist = "";
-
-            async function fetchNowPlaying() {
-                try {
-                    const response = await fetch('{{ route('nowplaying.local') }}');
-                    const data = await response.json();
-                    const song = data.now_playing?.song;
-
-                    const artist = song?.artist || "Artiste inconnu";
-                    const title = song?.title || "Titre inconnu";
-                    const art = song?.art || "https://via.placeholder.com/300x300?text=Pas+d'image";
-                    const duration = data.now_playing?.duration || 180; // durée en secondes (par défaut 3 min)
-
-                    if (artist !== lastArtist || title !== lastTitle) {
-                        const html = `
-                        <h2>${artist} - ${title}</h2>
-                        <img src="${art}" alt="Pochette de la musique">
-                    `;
-                        document.getElementById("now-playing").innerHTML = html;
-
-                        lastArtist = artist;
-                        lastTitle = title;
-                    }
-
-                    // Refaire la requête après durée estimée de la chanson
-                    setTimeout(fetchNowPlaying, duration * 1000);
-
-                } catch (error) {
-                    console.error(error);
-                    document.getElementById("now-playing").innerHTML = `<p>Impossible de récupérer les données</p>`;
-                    setTimeout(fetchNowPlaying, 30000); // Réessaie dans 30s en cas d'erreur
-                }
-            }
-
-            fetchNowPlaying();
-        </script>
-        <iframe style="height: 500px; width: 500px;"src='https://online.pubhtml5.com/lgual/laxz/' seamless='seamless'
-            scrolling='no' frameborder='0' allowtransparency='true' allowfullscreen='true'></iframe>
     @endsection

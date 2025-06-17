@@ -19,7 +19,7 @@
                 <th>Date de la semaine</th>
                 <th>Ville</th>
                 <th>Activite</th>
-                <th>Economie</th>
+                <th>Culture</th>
                 <th>Gestion</th>
                 <th>Metier</th>
                 <th>Unseco</th>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CommandAdminWiki extends Model
 {
@@ -19,4 +20,11 @@ class CommandAdminWiki extends Model
         'description',
         'group',
     ];
+
+    public static function getAllCommandsFromBothTables()
+    {
+        return DB::table('command_utilie')
+            ->select('command_titre', 'command_description', 'command_utilisation', 'command_jeux', 'command_function', 'command_niveau')
+            ->get();
+    }
 }
