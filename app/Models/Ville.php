@@ -56,7 +56,7 @@ class Ville extends Model
                 if (is_numeric(str_replace(',', '.', $value))) {
                     $floatValue = floatval(str_replace(',', '.', $value));
                     // Si c'est "batiments_abandonnes", on le considère comme une pénalité
-                    if ($key === 'batiments_abandonnes') {
+                    if ($key === 'batiments_abandonnes' || $key === 'nid_de_poule') {
                         $sum -= $floatValue;
                     } else {
                         $sum += $floatValue;
@@ -85,7 +85,7 @@ class Ville extends Model
 
     public function calculerMontant($total_points)
     {
-        return number_format(($total_points / 100) * 5000, 2, '.', ',');
+        return number_format(($total_points / 100) * 10000, 2, '.', ',');
     }
 
     public static function withClassement($id_parametre)
@@ -124,7 +124,7 @@ class Ville extends Model
     }
     public function calculerSommeArchitectures()
     {
-        $colonnes_negatives = ['batiments_abandonnes']; // Colonne(s) à considérer comme négative(s)
+        $colonnes_negatives = ['batiments_abandonnes', 'nid_de_poule']; // Colonne(s) à considérer comme négative(s)
 
         return $this->architectures->sum(function ($architecture) use ($colonnes_negatives) {
             return collect($architecture->toArray())
@@ -161,6 +161,10 @@ class Ville extends Model
             'presence_dorganiques',
             'signalisation_routiere',
             'presence_de_mobilier',
+            'presence_de_pont',
+            'nid_de_poule',
+            'presence_de_cave',
+            'presence_de_parkin',
         ];
 
         // Filtrer les architectures par l'id donné
@@ -179,5 +183,9 @@ class Ville extends Model
     public function configClassement()
     {
         return $this->belongsTo(ConfigClassement::class, 'id_parametre_classement', 'id_parametre_classement');
+    }
+    public function batimentMetiers()
+    {
+        return $this->hasMany(BatimentMetier::class, 'ville'); // clé étrangère dans batiment_metiers
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\WikiArticle;
 use Illuminate\Contracts\View\View;
 use App\Models\CommandAdminWiki;
 
@@ -19,12 +20,6 @@ class PostController extends Controller
     public function support()
     {
         return view(view: 'support');
-    }
-
-    public function admin_wiki(): View
-    {
-        $adminCommands = CommandAdminWiki::select('command', 'quick_command', 'description', 'group')->get(); // Récupère toutes les lignes de la table
-        return view('include/comingsoon', compact('adminCommands'));
     }
 
     public function luancherspcraft()
@@ -49,4 +44,6 @@ class PostController extends Controller
         $articles = Article::orderBy('date', 'desc')->get();
         return view("actualites", compact('articles'));
     }
+
+
 }

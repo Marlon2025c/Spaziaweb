@@ -12,7 +12,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'logo' => 'required|file|mimes:jpg,jpeg,png,gif|max:50000',
+            'logo' => 'required|file|mimes:jpg,jpeg,png,gif|max:500000',
             'tag' => 'required|string|max:50',
             'title' => 'required|string|max:255',
             'lien_pubhtml5' => 'required|url',

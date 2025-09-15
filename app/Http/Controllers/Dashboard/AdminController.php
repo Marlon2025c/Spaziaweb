@@ -73,4 +73,10 @@ class AdminController extends Controller
 
         return $response->json();
     }
+
+    public function batiment()
+    {
+        $villes = Ville::with('batimentMetiers')->get();
+        return view('batiments', compact('villes'));
+    }
 }

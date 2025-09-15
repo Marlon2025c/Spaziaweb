@@ -11,10 +11,6 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="container-scroller">
-        <br>
-        <br>
-        <br>
-        <br>
         <style>
             .content-section {
                 display: none;
@@ -40,6 +36,8 @@
                 color: rgb(0, 0, 0);
             }
         </style>
+        <br>
+        <br>
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -106,10 +104,27 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#forms" onclick="showContent('article')">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#forms8" aria-expanded="false"
+                            aria-controls="forms8">
                             <span class="menu-title">Article</span>
-                            <i class="mdi mdi-home menu-icon"></i>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                         </a>
+                        <div class="collapse" id="forms8">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#forms8" onclick="showContent('article')">
+                                        <span class="menu-title">Article Journall</span>
+                                        <i class="mdi mdi-home menu-icon"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#forms8" onclick="showContent('articlewiki')">
+                                        <span class="menu-title">Article Wiki</span>
+                                        <i class="mdi mdi-home menu-icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -279,31 +294,27 @@
                 <div class="main-panels content-section hidden" id="staff_utiles">
                     <div class="container mt-5">
                         <div class="row g-4">
-                            @foreach ($adminCommandsAdmin as $adminCommandsAdmin)
+                            @foreach ($adminCommandsAdmin as $command)
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card command-card shadow-sm border-info">
-                                                    <div class="card-header bg-info text-white">
-                                                        <h5 class="card-title cart_p_white" style="font-size: "><i
-                                                                class="bi bi-hammer me-2 cart_p_white"></i> <b> {{ $adminCommandsAdmin->command_titre }} </b></h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <p class="card-text">{{ $adminCommandsAdmin->command_description }}</p>
-                                                        <p class="card-text"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
-                                                            <strong>Utilisation :</strong> {{ $adminCommandsAdmin->command_utilisation }}
-                                                        </p>
-                                                        <p class="card-text"><i class="bi bi-code me-2"></i>
-                                                            <pre class="bg-light border rounded p-2"><code>{{ $adminCommandsAdmin->command_jeux }}</code></pre>
-                                                        </p>
-                                                        <div class="command-info mt-3">
-                                                            <p><i class="bi bi-shield-slash-fill text-danger me-2"></i> <strong>Impact
-                                                                    :</strong> {{ $adminCommandsAdmin->command_function }}</p>
-                                                            <p><i class="bi bi-person-x-fill text-danger me-2"></i> <strong>Niveau
-                                                                    d'autorisation :</strong> {{ $adminCommandsAdmin->command_niveau }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>                            
+                                        <div class="card-header bg-info text-white">
+                                            <h5 class="card-title cart_p_white"><i class="bi bi-hammer me-2 cart_p_white"></i> <b>{{ $command->command_titre }}</b></h5>
                                         </div>
-                                    @endforeach
+                                        <div class="card-body">
+                                            <p class="card-text">{{ $command->command_description }}</p>
+                                            <p class="card-text">
+                                                <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+                                                <strong>Utilisation :</strong> {{ $command->command_utilisation }}
+                                            </p>
+                                            <p class="card-text">
+                                                <i class="bi bi-code me-2"></i>
+                                                <pre class="bg-light border rounded p-2"><code>{{ $command->command_jeux }}</code></pre>
+                                            </p>
+                                            <!-- Ajoute ici le reste si besoin -->
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                                     </div>
                                 </div>
                                 </div>
@@ -311,29 +322,25 @@
             <div class="main-panels content-section hidden" id="staff_utiles">
                 <div class="container mt-5">
                     <div class="row g-4">
-                        @foreach ($adminCommandsAdmin as $adminCommandsAdmin)
+                        @foreach ($adminCommandsAdmin as $command)
                             <div class="col-md-6 col-lg-4">
-                                    <div class="card command-card shadow-sm border-info">
-                                        <div class="card-header bg-info text-white">
-                                            <h5 class="card-title cart_p_white" style="font-size: "><i
-                                                    class="bi bi-hammer me-2 cart_p_white"></i> <b> {{ $adminCommandsAdmin->command_titre }} </b></h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text">{{ $adminCommandsAdmin->command_description }}</p>
-                                            <p class="card-text"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
-                                                <strong>Utilisation :</strong> {{ $adminCommandsAdmin->command_utilisation }}
-                                            </p>
-                                            <p class="card-text"><i class="bi bi-code me-2"></i>
-                                                <pre class="bg-light border rounded p-2"><code>{{ $adminCommandsAdmin->command_jeux }}</code></pre>
-                                            </p>
-                                            <div class="command-info mt-3">
-                                                <p><i class="bi bi-shield-slash-fill text-danger me-2"></i> <strong>Impact
-                                                        :</strong> {{ $adminCommandsAdmin->command_function }}</p>
-                                                <p><i class="bi bi-person-x-fill text-danger me-2"></i> <strong>Niveau
-                                                        d'autorisation :</strong> {{ $adminCommandsAdmin->command_niveau }}</p>
-                                            </div>
-                                        </div>
-                                    </div>                            
+                                <div class="card command-card shadow-sm border-info">
+                                    <div class="card-header bg-info text-white">
+                                        <h5 class="card-title cart_p_white"><i class="bi bi-hammer me-2 cart_p_white"></i> <b>{{ $command->command_titre }}</b></h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">{{ $command->command_description }}</p>
+                                        <p class="card-text">
+                                            <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+                                            <strong>Utilisation :</strong> {{ $command->command_utilisation }}
+                                        </p>
+                                        <p class="card-text">
+                                            <i class="bi bi-code me-2"></i>
+                                            <pre class="bg-light border rounded p-2"><code>{{ $command->command_jeux }}</code></pre>
+                                        </p>
+                                        <!-- Ajoute ici le reste si besoin -->
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -650,6 +657,51 @@
                     </div>
                 </div>
             </div>
+            <div class="main-panels content-section hidden" id="articlewiki">
+                <<style>
+                    .note-editor .note-editable {
+                    background-color: white !important;
+                    color: black !important;
+                }
+                </style>
+                <div class="container">
+                    <h1>Créer un article</h1>
+
+                    <form action="{{ route('wiki.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titre de l'article</label>
+                        <input type="text" name="title" id="title" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                    <label for="content" class="form-label">Contenu</label>
+                    <textarea name="summernote" id="summernote" style="background-color:white"></textarea>
+                </div>
+
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+            <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
+            
+            <script>
+            $('#summernote').summernote({
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['codeview', 'help']]
+                ]
+            });
+            </script>
         </div>
     </div>
     <script src="{{ asset('js/chart.js') }}"></script>

@@ -87,6 +87,10 @@
                                             <p style='position: relative;'><span>presence d'organiques</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->presence_dorganiques ?? 0 }}/1</span></p>
                                             <p style='position: relative;'><span>signalisation routiere</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->signalisation_routiere ?? 0 }}/1</span></p>
                                             <p style='position: relative;'><span>presence de mobilier</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->presence_de_mobilier ?? 0 }}/2</span></p>
+                                            <p style='position: relative;'><span>presence de pont</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->presence_de_pont ?? 0 }}/4</span></p>
+                                            <p style='position: relative;'><span>nid de poule</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->nid_de_poule ?? 0 }}/-1</span></p>
+                                            <p style='position: relative;'><span>presence de cave</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->presence_de_cave ?? 0 }}/1</span></p>
+                                            <p style='position: relative;'><span>presence de parkin</span><span style='position: absolute; right: 0;'>{{ $ville->architectures[0]->presence_de_parkin ?? 0 }}/1</span></p>
                                         </div>">
                                 {{ $ville->calculerSommeArchitectures() }}
                             </td>

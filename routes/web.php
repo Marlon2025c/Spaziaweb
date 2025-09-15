@@ -21,7 +21,7 @@ Route::post('/start-notepad', [AdminController::class, 'startApp'])->name('start
 Route::get('/stop-notepad', [AdminController::class, 'stopApp'])->name('stop-notepad')->middleware('auth', 'is_admin:2');
 
 
-Route::get('/wiki', [PostController::class, 'admin_wiki'])->name('admin_wiki');
+Route::get('/wiki', [PostController::class, 'wiki'])->name('wiki');
 Route::get('/actualites', [PostController::class, 'actualites'])->name('actualites');
 Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nous');
 
@@ -69,3 +69,17 @@ Route::get('/radio-proxy', function () {
 
     fclose($stream);
 });
+
+
+Route::get('/batiments', [AdminController::class, 'batiment']);
+
+
+use App\Http\Controllers\WikiController;
+
+// Public
+Route::get('/wiki', [WikiController::class, 'wiki'])->name('wiki');
+Route::get('/wiki/{slug}', [WikiController::class, 'wiki'])->name('wiki.show');
+Route::get('/wiki.store', [WikiController::class, 'wiki'])->name('wiki.store');
+
+Route::get('/wiki/ajax/{slug}', [WikiController::class, 'ajaxShow']);
+

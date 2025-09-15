@@ -23,6 +23,8 @@
 <body>
     <div id="app">
         @include('include.navbar')
+        <br>
+        <br>
         @yield('content')
         @include('include.footer')
 
