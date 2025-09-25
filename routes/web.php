@@ -5,7 +5,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Contract;
 use App\Http\Controllers\Notation;
 use App\Http\Controllers\Auth\SteamAuthController;
-use App\Http\Controllers\RemoteAppController;
+use App\Http\Controllers\WikiController;
+
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/support', [PostController::class, 'support'])->name('support');
@@ -74,12 +75,13 @@ Route::get('/radio-proxy', function () {
 Route::get('/batiments', [AdminController::class, 'batiment']);
 
 
-use App\Http\Controllers\WikiController;
-
 // Public
 Route::get('/wiki', [WikiController::class, 'wiki'])->name('wiki');
 Route::get('/wiki/{slug}', [WikiController::class, 'wiki'])->name('wiki.show');
-Route::get('/wiki.store', [WikiController::class, 'wiki'])->name('wiki.store');
+Route::post('/wiki.store', [WikiController::class, 'store'])->name('wiki.store');
 
-Route::get('/wiki/ajax/{slug}', [WikiController::class, 'ajaxShow']);
+// Formulaire d'édition
+Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit');
 
+// Mise à jour
+Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update');

@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
 
@@ -19,14 +20,18 @@
 
 
 </head>
-
-<body>
+@php
+    $firstSegment = request()->segment(1); // récupère le premier segment de l'URL
+@endphp
+<body style="">
     <div id="app">
         @include('include.navbar')
         <br>
         <br>
         @yield('content')
-        @include('include.footer')
+        @if($firstSegment !== 'wiki')
+            @include('include.footer')
+        @endif
 
     </div>
 </body>

@@ -15,32 +15,16 @@ class WikiController extends Controller
         $request->validate([
             'title' => 'required|min:3',
             'summernote' => 'required',
-            'image' => 'nullable|image|max:2048'
         ]);
 
         $slug = Str::slug($request->title);
-
-        $path = null;
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('wiki', 'public');
-        }
 
         WikiArticle::create([
             'title' => $request->title,
             'slug' => $slug,
             'content' => $request->summernote,
-            'image' => $path
         ]);
-    }
-
-    public function ajaxShow($slug)
-    {
-        $article = WikiArticle::where('slug', $slug)->firstOrFail();
-        return response()->json([
-            'title' => $article->title,
-            'content' => $article->content,
-            'image' => $article->image
-        ]);
+        return redirect()->route('wiki')->with('success', 'Article créé avec succès !');
     }
 
     public function wiki(?string $slug = null)
@@ -71,5 +55,34 @@ class WikiController extends Controller
             ]);
         }
     }
+
+
+    public function edit(string $slug)
+{
+    $article = WikiArticle::where('slug', $slug)->firstOrFail();
+
+    return view('wiki.edit', compact('article'));
+}
+
+public function update(Request $request, string $slug)
+{
+    $request->validate([
+        'title' => 'required|min:3',
+        'summernote' => 'required',
+    ]);
+
+    $article = WikiArticle::where('slug', $slug)->firstOrFail();
+
+    // si tu veux régénérer le slug à chaque modif du titre
+    $article->update([
+        'title' => $request->title,
+        'slug' => Str::slug($request->title),
+        'content' => $request->summernote,
+    ]);
+
+    return redirect()->route('wiki.show', $article->slug)
+                     ->with('success', 'Article mis à jour !');
+}
+
 
 }

@@ -1,0 +1,26 @@
+/* Custome class ou id css */
+
+.caracterefont {
+    color: white;
+}
+
+.containerahover a:hover,
+.containerahover button:hover {
+    background: rgb(148, 148, 148, 0.3);
+    border-radius: 10px;
+}
+
+.containeractive a:active,
+.containeractive button:active {
+    color: orangered;
+}
+
+/* Modification css de boostrap ou de base */
+.accordion {
+    --bs-accordion-inner-border-radius: none;
+    --bs-accordion-border-color: none;
+}
+
+.custom-section {
+    max-width: 100%;
+}
