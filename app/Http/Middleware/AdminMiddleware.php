@@ -12,17 +12,20 @@ class AdminMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Request  $request
+     * @param  Closure  $next
+     * @param  mixed  ...$roles
      */
-    public function handle(Request $request, Closure $next, string $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        // Vérifier si l'utilisateur est connecté
         if (!Auth::check()) {
             abort(403, 'Accès interdit : Vous devez être connecté.');
         }
 
-        // Vérifier si l'utilisateur a le bon rôle
-        if (Auth::user()->role !== $role) {
+        // Convertir les rôles en int (si tu passes des IDs)
+        $roles = array_map(fn($r) => (int) $r, $roles);
+
+        if (!Auth::user()->hasRole($roles)) {
             abort(403, 'Accès interdit : Vous n\'avez pas les permissions nécessaires.');
         }
 

@@ -51,12 +51,12 @@
                             </div>
                             <div class="nav-profile-text d-flex flex-column">
                                 <span class="font-weight-bold mb-2">{{ Auth::user()->name }}</span>
-                                <span class="text-secondary text-small">Admin</span>
+                                <span class="text-secondary text-small">{{ Auth::user()->id_role }}</span>
                             </div>
                             <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                         </a>
                     </li>
-                    @if (Auth::user()->name === 'Marlon Cross')
+                    @if (Auth()->user()->hasRole([8]))
                         <li class="nav-item">
                             <a class="nav-link" href="#forms" onclick="showContent('main_panel')">
                                 <span class="menu-title">Dashboard</span>
@@ -98,7 +98,8 @@
                         <div class="collapse" id="forms">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm1">Formulaire 1</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalForm1">Formulaire 1</button>
                                 </li>
                             </ul>
                         </div>
@@ -130,7 +131,7 @@
             </nav>
 
             <!-- partial -->
-            @if (Auth::user()->name === 'Marlon Cross')
+            @if (Auth()->user()->hasRole([8]))
                 <div class="main-panel content-section" id="main_panel">
                     <div class="content-wrapper">
                         <div class="page-header">
@@ -298,7 +299,10 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card command-card shadow-sm border-info">
                                         <div class="card-header bg-info text-white">
-                                            <h5 class="card-title cart_p_white"><i class="bi bi-hammer me-2 cart_p_white"></i> <b>{{ $command->command_titre }}</b></h5>
+                                            <h5 class="card-title cart_p_white"><i
+                                                    class="bi bi-hammer me-2 cart_p_white"></i>
+                                                <b>{{ $command->command_titre }}</b>
+                                            </h5>
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">{{ $command->command_description }}</p>
@@ -315,10 +319,10 @@
                                     </div>
                                 </div>
                             @endforeach
-                                    </div>
-                                </div>
-                                </div>
-                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="main-panels content-section hidden" id="staff_utiles">
                 <div class="container mt-5">
                     <div class="row g-4">
@@ -326,7 +330,9 @@
                             <div class="col-md-6 col-lg-4">
                                 <div class="card command-card shadow-sm border-info">
                                     <div class="card-header bg-info text-white">
-                                        <h5 class="card-title cart_p_white"><i class="bi bi-hammer me-2 cart_p_white"></i> <b>{{ $command->command_titre }}</b></h5>
+                                        <h5 class="card-title cart_p_white"><i class="bi bi-hammer me-2 cart_p_white"></i>
+                                            <b>{{ $command->command_titre }}</b>
+                                        </h5>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">{{ $command->command_description }}</p>
@@ -662,45 +668,45 @@
                     .note-editor .note-editable {
                     background-color: white !important;
                     color: black !important;
-                }
-                </style>
-                <div class="container">
-                    <h1>Créer un article</h1>
+                    }
+                    </style>
+                    <div class="container">
+                        <h1>Créer un article</h1>
 
-                    <form action="{{ route('wiki.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Titre de l'article</label>
-                        <input type="text" name="title" id="title" class="form-control" required>
+                        <form action="{{ route('wiki.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Titre de l'article</label>
+                                <input type="text" name="title" id="title" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Contenu</label>
+                                <textarea name="summernote" id="summernote" style="background-color:white"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </form>
                     </div>
-
-                    <div class="mb-3">
-                    <label for="content" class="form-label">Contenu</label>
-                    <textarea name="summernote" id="summernote" style="background-color:white"></textarea>
-                </div>
-
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </form>
-                </div>
             </div>
             <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 
-            
+
             <script>
-            $('#summernote').summernote({
-                tabsize: 2,
-                height: 120,
-                toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['codeview', 'help']]
-                ]
-            });
+                $('#summernote').summernote({
+                    tabsize: 2,
+                    height: 120,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['codeview', 'help']]
+                    ]
+                });
             </script>
         </div>
     </div>
@@ -973,77 +979,79 @@
         })(jQuery);
     </script>
     <br>
-<!-- Modal Formulaire 1 -->
-<div class="modal fade" id="modalForm1" tabindex="-1" aria-labelledby="modalForm1Label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Ajouter une ville</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{ route('join-villes') }}" method="POST" id="formVille">
-            @csrf
-          <div class="mb-3">
-            <label for="nom_ville" class="form-label">Nom de la ville</label>
-            <input type="text" class="form-control" id="nom_ville" name="nom_ville" required>
+    <!-- Modal Formulaire 1 -->
+    <div class="modal fade" id="modalForm1" tabindex="-1" aria-labelledby="modalForm1Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter une ville</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('join-villes') }}" method="POST" id="formVille">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="nom_ville" class="form-label">Nom de la ville</label>
+                            <input type="text" class="form-control" id="nom_ville" name="nom_ville" required>
 
-            <label for="nombre_joueur" class="form-label mt-2">Nombre de joueurs</label>
-            <input type="number" class="form-control" id="nombre_joueur" name="nombre_joueur" required>
-          </div>
+                            <label for="nombre_joueur" class="form-label mt-2">Nombre de joueurs</label>
+                            <input type="number" class="form-control" id="nombre_joueur" name="nombre_joueur" required>
+                        </div>
 
-          <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-success">Ajouter la ville</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalForm2">
-              Passer au Formulaire 2
-            </button>
-          </div>
-        </form>
-      </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success">Ajouter la ville</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#modalForm2">
+                                Passer au Formulaire 2
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<!-- Modal Formulaire 2 -->
-<div class="modal fade" id="modalForm2" tabindex="-1" aria-labelledby="modalForm2Label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Ajoute Bâtiment de Métier </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{ route('join-metier') }}" method="POST" id="formVilles">
-            @csrf
-            <label for="ville_id" class="form-label">Ville</label>
-            <select name="ville_id" id="ville_id" class="form-select" required>
-                @foreach($villes as $ville)
-                    <option value="{{ $ville->id_villes }}">{{ $ville->nom_villes }}</option>
-                @endforeach
-            </select>
+    <!-- Modal Formulaire 2 -->
+    <div class="modal fade" id="modalForm2" tabindex="-1" aria-labelledby="modalForm2Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajoute Bâtiment de Métier </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('join-metier') }}" method="POST" id="formVilles">
+                        @csrf
+                        <label for="ville_id" class="form-label">Ville</label>
+                        <select name="ville_id" id="ville_id" class="form-select" required>
+                            @foreach ($villes as $ville)
+                                <option value="{{ $ville->id_villes }}">{{ $ville->nom_villes }}</option>
+                            @endforeach
+                        </select>
 
-            <label for="date_valide">Date Valide</label>
-            <input type="date" class="form-control" id="date_valide" name="date_valide" required>
+                        <label for="date_valide">Date Valide</label>
+                        <input type="date" class="form-control" id="date_valide" name="date_valide" required>
 
-            <label for="pseudo">Pseudo</label>
-            <input class="form-control" id="pseudo" name="pseudo" required>
+                        <label for="pseudo">Pseudo</label>
+                        <input class="form-control" id="pseudo" name="pseudo" required>
 
-            <label for="steam_id">Steam ID</label>
-            <input class="form-control" id="steam_id" name="steam_id" required>
+                        <label for="steam_id">Steam ID</label>
+                        <input class="form-control" id="steam_id" name="steam_id" required>
 
-            <label for="batiment">Bâtiment</label>
-            <input class="form-control" id="batiment" name="batiment" required>
+                        <label for="batiment">Bâtiment</label>
+                        <input class="form-control" id="batiment" name="batiment" required>
 
-            <label for="coordonnes">Coordonnées</label>
-            <input class="form-control" id="coordonnes" name="coordonnes" required>
+                        <label for="coordonnes">Coordonnées</label>
+                        <input class="form-control" id="coordonnes" name="coordonnes" required>
 
-            <label for="coop">Coop</label>
-            <input class="form-control" id="coop" name="coop">
+                        <label for="coop">Coop</label>
+                        <input class="form-control" id="coop" name="coop">
 
-            <button type="submit" class="btn btn-success mt-2">Ajouter la ville</button>
-        </form>
-        <button class="btn btn-link" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalForm1">Retour au Formulaire 1</button>
-      </div>
+                        <button type="submit" class="btn btn-success mt-2">Ajouter la ville</button>
+                    </form>
+                    <button class="btn btn-link" data-bs-dismiss="modal" data-bs-toggle="modal"
+                        data-bs-target="#modalForm1">Retour au Formulaire 1</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 @endsection

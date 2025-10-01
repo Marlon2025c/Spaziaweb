@@ -15,11 +15,12 @@ Route::get('/notations', [Notation::class, 'index'])->name('notation_classement'
 Route::get('/notations/{id}', [Notation::class, 'show'])->name('show');
 
 use App\Http\Controllers\Dashboard\AdminController;
-Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:2');
+
+Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:3,4,5,6,7,8');
 Route::post('/join-villes', [AdminController::class, 'joinvilles'])->name('join-villes');
 Route::post('/join-metier', [AdminController::class, 'joinmetier'])->name('join-metier');
-Route::post('/start-notepad', [AdminController::class, 'startApp'])->name('start-notepad')->middleware('auth', 'is_admin:2');
-Route::get('/stop-notepad', [AdminController::class, 'stopApp'])->name('stop-notepad')->middleware('auth', 'is_admin:2');
+Route::post('/start-notepad', [AdminController::class, 'startApp'])->name('start-notepad')->middleware('auth', 'is_admin:7,8');
+Route::get('/stop-notepad', [AdminController::class, 'stopApp'])->name('stop-notepad')->middleware('auth', 'is_admin:7,8');
 
 
 Route::get('/wiki', [PostController::class, 'wiki'])->name('wiki');
@@ -81,7 +82,7 @@ Route::get('/wiki/{slug}', [WikiController::class, 'wiki'])->name('wiki.show');
 Route::post('/wiki.store', [WikiController::class, 'store'])->name('wiki.store');
 
 // Formulaire d'édition
-Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit');
+Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit')->middleware('auth', 'is_admin:6,7,8');
 
 // Mise à jour
 Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update');

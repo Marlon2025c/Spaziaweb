@@ -2,56 +2,51 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'steam_id',
         'avatar',
-        'id_role'
+        'id_role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    // Relation avec la table roles
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+    }
+
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Vérifie si l'utilisateur a un rôle donné ou un des rôles donnés.
+     * @param int|array $roles
      */
-    protected function casts(): array
+
+
+
+
+    public function hasRole(int|array $roles): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        if (is_array($roles)) {
+            return in_array($this->id_role, $roles);
+        }
+        return $this->id_role === $roles;
     }
-    protected function role()
+
+    // Méthode pour récupérer le nom du rôle facilement
+    public function roleName(): ?string
     {
-        return $this->belongsTo(Role::class, 'role_id'); // relation avec la table roles
-    }
-    public function isAdmin()
-    {
-        return $this->id_role === 2; // Vérifie si l'utilisateur a le rôle admin
+        return $this->role?->name_role; // Utilise l'opérateur ?-> pour éviter les erreurs si role est null
     }
 }
