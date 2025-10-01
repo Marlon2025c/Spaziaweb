@@ -118,7 +118,7 @@ html {
         overflow-y: scroll;">
             <h6>Règlements</h6>
             <ul class="nav flex-column mb-2">
-                <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'activite') }}">💡Règlement en jeu</a></li>
+                <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-en-jeu') }}">💡Règlement en jeu</a></li>
                 <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-discord') }}">💡Règlement Discord</a></li>
             </ul>
 
@@ -141,7 +141,7 @@ html {
                 </div>
             </div>    
             <ul class="nav flex-column mb-2">
-                <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'prixmininum') }}">🏠 Prix Mininum</a></li>
+                <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'prix-mininum') }}">🏠 Prix Mininum</a></li>
             </ul>
             <div class="accordion" id="accordionPanelsTutorielspratiques">
 

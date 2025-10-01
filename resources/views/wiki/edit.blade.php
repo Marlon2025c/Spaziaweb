@@ -33,7 +33,7 @@ $(document).ready(function() {
   $('#summernote').summernote({
     tabsize: 2,
     height: 500, // hauteur de l’éditeur
-    fontSizes: ['8', '9', '10', '11', '12','13', '14','15','16','17', '18', '24', '36', '48' , '64', '82', '150'],
+    fontSizes: ['8', '9', '10', '11', '12','13', '14','15','16','17', '18', '24','32', '36', '48' , '64', '82', '150'],
     toolbar: [
       ['style', ['style']],
       ['font', ['bold', 'underline', 'clear']],
