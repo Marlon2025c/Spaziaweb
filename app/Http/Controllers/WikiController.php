@@ -6,6 +6,7 @@ use App\Models\WikiArticle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
+
 class WikiController extends Controller
 {
 
@@ -32,57 +33,49 @@ class WikiController extends Controller
         if ($slug) {
             $article = WikiArticle::where('slug', $slug)->firstOrFail();
 
-            // si AJAX → ne renvoie que le bloc HTML
             if (request()->ajax()) {
-                return response()->view('partials.article', ['article' => $article]);
+                return view('wiki._content', compact('article'));
             }
 
-            // sinon vue complète
-            return view('spaziawiki', [
-                'article' => $article,
-                'slug'    => $slug,
-            ]);
+            return view('spaziawiki', compact('article', 'slug'));
         } else {
             $articles = WikiArticle::orderBy('id', 'desc')->paginate(10);
 
             if (request()->ajax()) {
-                return response()->view('partials.article-list', ['articles' => $articles]);
+                return view('wiki._content', compact('articles'));
             }
 
-            return view('spaziawiki', [
-                'articles' => $articles,
-                'slug'     => null,
-            ]);
+            return view('spaziawiki', compact('articles'));
         }
     }
 
 
+
+
     public function edit(string $slug)
-{
-    $article = WikiArticle::where('slug', $slug)->firstOrFail();
+    {
+        $article = WikiArticle::where('slug', $slug)->firstOrFail();
 
-    return view('wiki.edit', compact('article'));
-}
+        return view('wiki.edit', compact('article'));
+    }
 
-public function update(Request $request, string $slug)
-{
-    $request->validate([
-        'title' => 'required|min:3',
-        'summernote' => 'required',
-    ]);
+    public function update(Request $request, string $slug)
+    {
+        $request->validate([
+            'title' => 'required|min:3',
+            'summernote' => 'required',
+        ]);
 
-    $article = WikiArticle::where('slug', $slug)->firstOrFail();
+        $article = WikiArticle::where('slug', $slug)->firstOrFail();
 
-    // si tu veux régénérer le slug à chaque modif du titre
-    $article->update([
-        'title' => $request->title,
-        'slug' => Str::slug($request->title),
-        'content' => $request->summernote,
-    ]);
+        // si tu veux régénérer le slug à chaque modif du titre
+        $article->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->summernote,
+        ]);
 
-    return redirect()->route('wiki.show', $article->slug)
-                     ->with('success', 'Article mis à jour !');
-}
-
-
+        return redirect()->route('wiki.show', $article->slug)
+            ->with('success', 'Article mis à jour !');
+    }
 }

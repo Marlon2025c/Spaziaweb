@@ -82,7 +82,7 @@ Route::get('/wiki/{slug}', [WikiController::class, 'wiki'])->name('wiki.show');
 Route::post('/wiki.store', [WikiController::class, 'store'])->name('wiki.store');
 
 // Formulaire d'édition
-Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit')->middleware('auth', 'is_admin:6,7,8');
+Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit');
 
 // Mise à jour
 Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update');
