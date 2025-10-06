@@ -16,12 +16,9 @@
             padding: 6px 6px 6px 6px;
         }
 
-        .sidebar .nav-link.active {
-            color: orangered;
-        }
 
         .accordion-button {
-            background-color: transparent !important;
+            background-color: transparent;
             /* plus de fond blanc */
             color: inherit;
             /* garde ta couleur de texte */
@@ -32,10 +29,12 @@
         }
 
         .accordion-button:not(.collapsed) {
+            background-color: rgb(148, 148, 148, 0.3);
+            border-radius: 10px 10px 0px 0px;
             color: orangered;
-            background-color: #101015;
             box-shadow: none !important;
         }
+
 
         .accordion-body {
             background-color: #101015;
@@ -78,9 +77,6 @@
             padding: 0px
         }
 
-        .accordion-button:hover {
-            background-color: aquamarine
-        }
 
         /* Enlève la bordure de l’item */
         .accordion-item {
@@ -90,19 +86,8 @@
         }
 
         /* Effet hover même quand il est ouvert */
-        .accordion-button:not(.collapsed):hover {
-            background-color: rgb(148, 148, 148, 0.3);
-            color: orangered;
-        }
 
-        /* Effet hover sur tout l'item */
-        .accordion-item:hover {
-            background-color: rgb(148, 148, 148, 0.3);
-            /* fond au survol */
-            font-size: 50px;
-            border-radius: 10px;
-            /* optionnel : coins arrondis */
-        }
+
 
         /* Pour Chrome, Edge, Safari (scrollbar navigateur ou menu) */
         html::-webkit-scrollbar {
@@ -135,281 +120,256 @@
             scrollbar-color: orange #101015;
             /* curseur / track */
         }
-    </style>
-    <div class="row article_top caracterefont containerahover" style="max-width: 100%; padding-left: 5%;">
-        <nav class="col-md-3 col-lg-2 d-md-block sidebar caracterefont p-0 ">
-            <div class="position-fixed p-3 overflow-auto"
-                style="min-height: 100vh;
-                        max-height: 100px;
-                height: 200px;
-        overflow-y: scroll;">
-                <h6>Règlements</h6>
-                <ul class="nav flex-column mb-2">
-                    <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-en-jeu') }}">💡Règlement en
-                            jeu</a></li>
-                    <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-discord') }}">💡Règlement
-                            Discord</a></li>
-                </ul>
 
-                <h6>GAMEPLAY</h6>
-                <div class="accordion" id="accordionPanelsTutorielspratiquess">
-                    <div class="accordion-item containerahover">
-                        <h2 class="accordion-header" id="headingGestion">
+
+        
+
+/* Rendre les sous-catégories plus nettes */
+.accordion .accordion .accordion-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+}
+
+/* Lien des sous-éléments */
+.accordion .accordion .accordion-body a {
+    font-size: 0.85rem;
+    padding: 4px 14px;
+}
+
+/* Icônes toujours alignées */
+.accordion-button {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* espace entre icône et texte */
+}
+
+.sidebar .sidebar-fixed {
+  position: fixed;
+  top: 70px;        /* adapte à la hauteur du header */
+  bottom: 0;         /* ou calceur pour aligner avec ton layout — tu peux utiliser left: auto et right: auto si besoin */
+  width: 250px;     /* adapte la largeur ou calcule-la (ex: width: 16.6667%) */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 70px;
+}
+    </style>
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <div class="row article_top caracterefont containerahover" style="max-width: 100%; padding-left: 5%;">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar caracterefont p-0">
+            <div class="sidebar-fixed">
+                <div class="accordion" id="accordionMainWiki">
+                    <h6>Règlements</h6>
+                    <ul class="nav flex-column mb-2">
+                        <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-en-jeu') }}">💡Règlement en
+                                jeu</a></li>
+                        <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-discord') }}">💡Règlement
+                                Discord</a></li>
+                    </ul>
+
+                    <h6>GAMEPLAY</h6>
+                
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#notationSidebarEcognome" aria-expanded="false"
                                 aria-controls="notationSidebarEcognome">
                                 📖 EcoGnome
                             </button>
                         </h2>
-                        <div id="notationSidebarEcognome" class="accordion-collapse collapse"
-                            data-bs-parent="#notationSidebarEcognome">
+                        <div id="notationSidebarEcognome" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
                             <div class="accordion-body">
                                 <a class="ajax-link" href="{{ route('wiki.show', 'ecognome-basique') }}">EcoGnome
                                     Basique</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'ecognomeavancer') }}">EcoGnome Avancer</a>
+                                <a class="ajax-link" href="{{ route('wiki.show', 'ecognome-avancer') }}">EcoGnome Avancer</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <ul class="nav flex-column mb-2">
-                    <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'prix-mininum') }}">🏠 Prix Mininum</a>
-                    </li>
-                </ul>
-                <div class="accordion" id="accordionPanelsTutorielspratiques">
-
-                    <div class="accordion-item containerahover">
-                        <h2 class="accordion-header" id="headingGestion">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#Tutorielspratiques" aria-expanded="false"
-                                aria-controls="Tutorielspratiques">
-                                📋Tutoriels pratiques
-                            </button>
-                        </h2>
-                        <div id="Tutorielspratiques" class="accordion-collapse collapse"
-                            data-bs-parent="#Tutorielspratiques">
-                            <div class="accordion-body">
-                                <a class="ajax-link" href="{{ route('wiki.show', 'quetedemétier') }}">Quête de métier</a>
-                                <a class="ajax-link"
-                                    href="{{ route('wiki.show', 'personnaliserdesaffiches') }}">Personnaliser des
-                                    affiches</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion" id="accordionPanelsLois">
-                    <div class="accordion-item containerahover">
-                        <h2 class="accordion-header" id="headingGestion">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#notationSidebarLois" aria-expanded="false"
-                                aria-controls="notationSidebarLois">
-                                🛠️ Lois
-                            </button>
-                        </h2>
-                        <div id="notationSidebarLois" class="accordion-collapse collapse"
-                            data-bs-parent="#notationSidebarLois">
-                            <div class="accordion-body">
-                                <a class="ajax-link" href="{{ route('wiki.show', 'activite') }}">Activité</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'culture') }}">Culture</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <ul class="nav flex-column mb-2">
-                    <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'fédaration') }}">🏠 Fédaration</a></li>
-                </ul>
-                <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item containerahover">
-                        <h2 class="accordion-header" id="headingGestion">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#notationSidebar" aria-expanded="false" aria-controls="notationSidebar">
-                                🛠️ Notation
-                            </button>
-                        </h2>
-                        <div id="notationSidebar" class="accordion-collapse collapse" data-bs-parent="#notationSidebar">
-                            <div class="accordion-body">
-                                <a class="ajax-link" href="{{ route('wiki.show', 'activite') }}">Activité</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'culture') }}">Culture</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'gestion') }}">Gestion</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'métier') }}">Métier</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'unesco') }}">Unesco</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'ecologie') }}">Ecologie</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'event') }}">Event</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'architecture') }}">Architecture</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h6>Métiers</h6>
-                    <!-- Culture -->
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingCulture">
-                            <a class="accordion-button collapsed ajax-link" style="text-decoration: none;"
-                                href="{{ route('wiki.show', 'batiment-metiers') }}" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseCulture" aria-expanded="false"
-                                aria-controls="collapseCulture">
-                                👷🏼・𝐁𝐚𝐭𝐢𝐦𝐞𝐧𝐭𝐬-𝐌𝐞𝐭𝐢𝐞𝐫𝐬
-                            </a>
-                        </h2>
-                        <div id="collapseCulture" class="accordion-collapse collapse" data-bs-parent="#notationSidebar">
-                            <div class="accordion-body accordion-body-custom">
-
-                                <!-- sous-accordion -->
-                                <div class="accordion" id="subCultureAccordion">
-
-                                    <!-- Sous catégorie 1 -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingSousCat1">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseSousCat1"
-                                                aria-expanded="false" aria-controls="collapseSousCat1">
-                                                🏗️ Basique
-                                            </button>
-                                        </h2>
-                                        <div id="collapseSousCat1" class="accordion-collapse collapse"
-                                            data-bs-parent="#subCultureAccordion">
-                                            <div class="accordion-body">
-                                                <a class="ajax-link" href="{{ route('wiki.show', 'maconnerie') }}">🧱 1.
-                                                    Maconnerie</a>
-                                                <a class="ajax-link" href="{{ route('wiki.show', 'menuiserie') }}">🪚 2.
-                                                    Menuiserie</a>
-                                                <a class="ajax-link" href="{{ route('wiki.show', 'agriculture') }}">🌾 3.
-                                                    Agriculture</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🥩 4.
-                                                    Boucherie</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🐟 5.
-                                                    Poissonnier</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🧵 6.
-                                                    Couturier</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🪛 7. Ingénieur
-                                                    basique</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">⚓ 8. Constructeur
-                                                    navale</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🔥 9. Fondeur</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Sous catégorie 2 -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingSousCat2">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseSousCat2"
-                                                aria-expanded="false" aria-controls="collapseSousCat2">
-                                                🛠️ Avancée
-                                            </button>
-                                        </h2>
-                                        <div id="collapseSousCat2" class="accordion-collapse collapse"
-                                            data-bs-parent="#subCultureAccordion">
-                                            <div class="accordion-body">
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🧪 10.
-                                                    Engrais</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🗑 11. Agent de
-                                                    Tri</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🥣 12.
-                                                    Mouture</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🔨 13.
-                                                    Forgeron</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🏺 14.
-                                                    Poterie</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🪟 15. Travail du
-                                                    verre</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🍽 16.
-                                                    Cuisine</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🍞17.
-                                                    Boulangerie</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">⚙19.
-                                                    Mécanicien</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🧻 20. Production
-                                                    de Papier</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🍹 21. Barman</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingSousCat3">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseSousCat3"
-                                                aria-expanded="false" aria-controls="collapseSousCat3">
-                                                🛠️ Moderne
-                                            </button>
-                                        </h2>
-                                        <div id="collapseSousCat3" class="accordion-collapse collapse"
-                                            data-bs-parent="#subCultureAccordion">
-                                            <div class="accordion-body">
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🛢 22. Forage
-                                                    pétrolier</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🔥 23. Fonte
-                                                    avancée</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🧬 24. Bio
-                                                    chimiste</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🥘 25. Cuisine
-                                                    avancée</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🥐26. Boulangerie
-                                                    avancée</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🌳 27.
-                                                    Composite</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🔨 28. Maconnerie
-                                                    avancée</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">🏭 29.
-                                                    Industriel</a>
-                                                <a class="ajax-link"
-                                                    href="{{ route('wiki.show', 'culture-article-2') }}">⚡30.
-                                                    Électronique</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div><!-- /sub-accordion -->
-
-                            </div>
-                        </div>
-                    </div>
-                    <h6>ITEMS ET MACHINES</h6>
-                    <div class="accordion" id="accordionPanelsItemsduSpaziamod">
-                        <div class="accordion-item containerahover">
+                    <ul class="nav flex-column mb-2">
+                        <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'prix-mininum') }}">🏠 Prix Mininum</a>
+                        </li>
+                    </ul>
+                    <div class="accordion">
+                        <div class="accordion-item">
                             <h2 class="accordion-header" id="headingGestion">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#notationSidebarItemsduSpaziamod" aria-expanded="false"
-                                    aria-controls="notationSidebarItemsduSpaziamod">
-                                    📖 Items du Spaziamod
+                                    data-bs-target="#Tutorielspratiques" aria-expanded="false"
+                                    aria-controls="Tutorielspratiques">
+                                    📋Tutoriels pratiques
                                 </button>
-
                             </h2>
-                            <div id="notationSidebarItemsduSpaziamod" class="accordion-collapse collapse"
-                                data-bs-parent="#notationSidebarItemsduSpaziamod">
+                            <div id="Tutorielspratiques" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki"
+                                >
+                                <div class="accordion-body">
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'quetedemétier') }}">Quête de métier</a>
+                                    <a class="ajax-link"
+                                        href="{{ route('wiki.show', 'personnaliserdesaffiches') }}">Personnaliser des
+                                        affiches</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingGestion">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#notationSidebarLois" aria-expanded="false"
+                                    aria-controls="notationSidebarLois">
+                                    🛠️ Lois
+                                </button>
+                            </h2>
+                            <div id="notationSidebarLois" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
                                 <div class="accordion-body">
                                     <a class="ajax-link" href="{{ route('wiki.show', 'activite') }}">Activité</a>
                                     <a class="ajax-link" href="{{ route('wiki.show', 'culture') }}">Culture</a>
                                 </div>
                             </div>
                         </div>
+                        <ul class="nav flex-column mb-2">
+                            <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'fédaration') }}">🏠 Fédaration</a></li>
+                        </ul>
+
+                        <ul class="nav flex-column mb-2">
+                            <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'guide-des-unsco') }}">📜 Guide des UNSCO</a></li>
+                        </ul>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingGestion">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#notationSidebar" aria-expanded="false" aria-controls="notationSidebar">
+                                    🛠️ Notation
+                                </button>
+                            </h2>
+                            <div id="notationSidebar" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
+                                <div class="accordion-body">
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'activite') }}">Activité</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'culture') }}">Culture</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'gestion') }}">Gestion</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'métier') }}">Métier</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'unesco') }}">Unesco</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'ecologie') }}">Ecologie</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'event') }}">Event</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'architecture') }}">Architecture</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6>Métiers</h6>
+                        <!-- Culture -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingCulture">
+                                <a class="accordion-button collapsed ajax-link" style="text-decoration: none;"
+                                    href="{{ route('wiki.show', 'batiment-metiers') }}" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseCulture" aria-expanded="false"
+                                    aria-controls="collapseCulture">
+                                    👷🏼・Batiment-Métiers
+                                </a>
+                            </h2>
+                            <div id="collapseCulture" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
+                                <div class="accordion-body  accordion-body-custom">
+
+                                    <!-- sous-accordion -->
+                                    <div class="accordion " id="accordionBatimentsMetiers">
+
+                                        <!-- Sous catégorie 1 -->
+                                        <div class="accordion-item" >
+                                            <h2 class="accordion-header" id="headingBasique">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseBasique"
+                                                    aria-expanded="false" aria-controls="collapseBasique">
+                                                    🏗️ Basique
+                                                </button>
+                                            </h2>
+                                            <div id="collapseBasique" class="accordion-collapse collapse" data-bs-parent="#accordionBatimentsMetiers">
+                                                <div class="accordion-body accordion-body-custom">
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '1-maconnerie') }}">🧱 1. Maconnerie</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '2-menuiserie') }}">🪚 2. Menuiserie</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '3-agriculture') }}">🌾 3. Agriculture</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '4-boucherie') }}">🥩 4. Boucherie</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '5-poissonnier') }}">🐟 5. Poissonnier</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '6-couturier') }}">🧵 6. Couturier</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '7-ingénieur-basique') }}">🪛 7. Ingénieur basique</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '8-constructeur-navale') }}">⚓ 8. Constructeur navale</a>
+                                                    <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '9-fondeur') }}">🔥 9. Fondeur</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sous catégorie 2 -->
+                                        <div class="accordion-item ">
+                                            <h2 class="accordion-header" id="headingAvancee">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseAvancee"
+                                                    aria-expanded="false" aria-controls="collapseAvancee">
+                                                    🛠️ Avancée
+                                                </button>
+                                            </h2>
+                                            <div id="collapseAvancee" class="accordion-collapse collapse"data-bs-parent="#accordionBatimentsMetiers" >
+                                                <div class="accordion-body accordion-body-custom">
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '10-engrais') }}">🧪 10. Engrais</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '11-agent-de-Tri') }}">🗑 11. Agent de Tri</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '12-mouture') }}">🥣 12. Mouture</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '13-forgeron') }}">🔨 13. Forgeron</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '14-poterie') }}">🏺 14. Poterie</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '15-travail-du-verre') }}">🪟 15. Travail du verre</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '16-cuisine') }}">🍽 16. Cuisine</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '17-boulangerie') }}">🍞17.Boulangerie</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '18-peinture') }}">🖼 18. Peinture</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '19-mécanicien') }}">⚙19.Mécanicien</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '20-production-de-papier') }}">🧻 20. Production de Papier</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '21-barman') }}">🍹 21. Barman</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingModerne">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseModerne"
+                                                    aria-expanded="false" aria-controls="collapseModerne">
+                                                    🛠️ Moderne
+                                                </button>
+                                            </h2>
+                                            <div id="collapseModerne" class="accordion-collapse collapse" data-bs-parent="#accordionBatimentsMetiers">
+                                                <div class="accordion-body ">
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '22-forage-pétrolier') }}">🛢 22. Forage pétrolier</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '23-fonte-avancée') }}">🔥 23. Fonte avancée</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '24-bio-chimiste') }}">🧬 24. Bio chimiste</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '25-cuisine-avancée') }}">🥘 25. Cuisine avancée</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '26-boulangerie-avancée') }}">🥐26. Boulangerie avancée</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '27-composite') }}">🌳 27. Composite</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '28-maconnerie-avancée') }}">🔨 28. Maconnerie avancée</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '29-industriel') }}">🏭 29. Industriel</a>
+                                                    <a class="ajax-link" href="{{ route('wiki.show', '30-électronique') }}">⚡30. Électronique</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /sub-accordion -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <h6>ITEMS ET MACHINES</h6>
+                        <div class="accordion" id="accordionPanelsItemsduSpaziamod">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingGestion">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#notationSidebarItemsduSpaziamod" aria-expanded="false"
+                                        aria-controls="notationSidebarItemsduSpaziamod">
+                                        📖 Items du Spaziamod
+                                    </button>
+
+                                </h2>
+                                <div id="notationSidebarItemsduSpaziamod" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
+                                    <div class="accordion-body">
+                                        <a class="ajax-link" href="{{ route('wiki.show', 'activite') }}">Activité</a>
+                                        <a class="ajax-link" href="{{ route('wiki.show', 'culture') }}">Culture</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
         </nav>
         <div class="col-md-6" style="padding-left: 5%;" id="wiki-content">
             @if (isset($article) || isset($articles))
@@ -433,30 +393,31 @@
 
             e.preventDefault();
 
+            // Supprime toutes les classes 'active'
+            document.querySelectorAll('.accordion-body a.active, .nav-link.active').forEach(a => a.classList.remove('active'));
+
+            // Ajoute 'active' au lien cliqué
+            link.classList.add('active');
+
             fetch(link.href, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('wiki-content').innerHTML = html;
-                    window.history.pushState({}, '', link.href);
-                })
-                .catch(err => console.error(err));
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('wiki-content').innerHTML = html;
+                window.history.pushState({}, '', link.href);
+            })
+            .catch(err => console.error(err));
         });
 
-        // Gestion du bouton "Retour"
-        window.addEventListener('popstate', function() {
-            fetch(window.location.href, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(res => res.text())
-                .then(html => document.getElementById('wiki-content').innerHTML = html);
-        });
     </script>
 
+    <script>
+        document.querySelectorAll('.accordion-collapse').forEach(collapse => {
+            collapse.addEventListener('hidden.bs.collapse', function () {
+                collapse.querySelectorAll('a.ajax-link.active').forEach(a => a.classList.remove('active'));
+            });
+        });
+    </script>
 
 @endsection

@@ -26677,15 +26677,12 @@ dl li {
                             <p><span>Activité
                                     récente</span><span>{{ $ville->architectures[0]->activite_recente ?? 0 }}/4</span></p>
                             <p><span>Blocs
-                                    utilisés</span><span>{{ $ville->architectures[0]->blocs_utilises ?? 0 }}/2</span></p>
+                                    utilisés</span><span>{{ $ville->architectures[0]->tier_utiliser ?? 0 }}/2</span></p>
                             <p><span>Habitabilité des
                                     maisons</span><span>{{ $ville->architectures[0]->habitabilite_des_maisons ?? 0 }}/2</span>
                             </p>
                             <p><span>Bâtiments
                                     abandonnés</span><span>{{ $ville->architectures[0]->batiments_abandonnes ?? 0 }}/-2</span>
-                            </p>
-                            <p><span>Terraforming
-                                    réaliste</span><span>{{ $ville->architectures[0]->terraforming_realiste ?? 0 }}/1</span>
                             </p>
                             <p><span>Cohérence du
                                     biome</span><span>{{ $ville->architectures[0]->coherence_du_biome ?? 0 }}/2</span></p>

@@ -26,7 +26,6 @@
                 <th>Pollution</th>
                 <th>Architectures</th>
                 <th>Montant Donné</th>
-                <th>Date de la notation</th>
             </tr>
         </thead>
         <tbody>
@@ -35,14 +34,13 @@
                     <td>{{ $notation->parametreClassement->date_semaine }}</td>
                     <td>{{ $ville->nom_villes }}</td>
                     <td>{{ $notation->activite }}</td>
-                    <td>{{ $notation->economie }}</td>
+                    <td>{{ $notation->culture }}</td>
                     <td>{{ $notation->gestion }}</td>
                     <td>{{ $notation->metier }}</td>
                     <td>{{ $notation->unseco }}</td>
-                    <td>{{ $notation->pollution }}</td>
-                    <td>{{ $ville->calculerSommeArchitecturesParNotation($notation->id_architecture) }}</td>
+                    <td>0</td>
+                    <td>0</td>
                     <td>{{ $notation->parametreClassement->montant_donne ?? 'Non défini' }}</td>
-                    <td>{{ $notation->created_at ?? 'Non disponible' }}</td>
                 </tr>
             @empty
                 <tr>

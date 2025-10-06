@@ -4,17 +4,6 @@
     color: white;
 }
 
-.containerahover a:hover,
-.containerahover button:hover {
-    background: rgb(148, 148, 148, 0.3);
-    border-radius: 10px;
-}
-
-.containeractive a:active,
-.containeractive button:active {
-    color: orangered;
-}
-
 /* Modification css de boostrap ou de base */
 .accordion {
     --bs-accordion-inner-border-radius: none;
@@ -23,4 +12,40 @@
 
 .custom-section {
     max-width: 100%;
+}
+
+/* Rendre les sous-catégories plus nettes */
+.accordion .accordion .accordion-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+}
+
+/* Lien des sous-éléments */
+.accordion .accordion .accordion-body a {
+    font-size: 0.85rem;
+    padding: 4px 14px;
+}
+
+/* Icônes toujours alignées */
+.accordion-button {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* espace entre icône et texte */
+}
+
+.sidebar .nav-link.active {
+    color: orangered;
+}
+
+.containerahover a:hover,
+.containerahover button:hover {
+    background: rgb(148, 148, 148, 0.3);
+    color: orangered;
+    border-radius: 10px;
+}
+
+.nav-link.active,
+.accordion-body a.active {
+    color: orangered;
+    font-weight: bold; /* optionnel */
 }

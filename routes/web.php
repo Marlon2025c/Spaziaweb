@@ -86,3 +86,5 @@ Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edi
 
 // Mise à jour
 Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update');
+
+Route::get('/bthg', [WikiController::class, 'bthg'])->name('bthg');

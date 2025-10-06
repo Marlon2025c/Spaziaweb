@@ -28,5 +28,9 @@ class Notation extends Model
     {
         return $this->belongsTo(Architecture::class, 'id_architecture');
     }
+    public function ecologie()
+    {
+        return $this->belongsTo(Ecologie::class, 'id_ecologie');
+    }
 }
 

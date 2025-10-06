@@ -14,37 +14,43 @@ class Notation extends Controller
         // On récupère le dernier paramètre de classement
         $id_parametre = ConfigClassement::dernierParametre();
 
-        // Vérifier qu'un paramètre de classement existe
         if (!$id_parametre) {
             return redirect()->back()->with('error', 'Aucun paramètre de classement trouvé.');
         }
 
-        // Sélectionner uniquement les villes ayant des notations avec un id_parametre_classement valide
         $villes = Ville::whereHas('notation', function ($query) use ($id_parametre) {
-                // On filtre les notations selon l'id_parametre et s'assure que ce paramètre existe dans la table ConfigClassement
                 $query->where('id_parametre_classement', $id_parametre)
                     ->whereIn('id_parametre_classement', ConfigClassement::pluck('id_parametre_classement'));
             })
             ->with(['notation' => function ($query) use ($id_parametre) {
-                // Filtrage supplémentaire des notations selon l'id_parametre
-                $query->where('id_parametre_classement', $id_parametre);
+                $query->where('id_parametre_classement', $id_parametre)
+                    ->with('ecologie'); // on charge directement l'écologie
             }])
             ->get();
-        // Ajouter les architectures filtrées à chaque ville
+
         foreach ($villes as $ville) {
             $ville->architectures = $ville->architecturesFiltrees($id_parametre)->get();
             $ville->total_points = $ville->calculerTotalPoints($id_parametre);
             $ville->montant_ville = $ville->calculerMontant($ville->total_points);
+
+            // Préparer un objet ecologie prêt à afficher
+            $notation = $ville->notation->first(); // on prend la première notation
+            if ($notation && $notation->ecologie) {
+                $ville->ecologie_detail = $notation->ecologie->toArray();
+                $ville->ecologie_total_negatif = $notation->ecologie->totalPointsNegatifs();
+            } else {
+                $ville->ecologie_detail = [];
+                $ville->ecologie_total_negatif = 0;
+            }
         }
 
-                // Trier la collection par total de points de manière décroissante
-        $villes = $villes->sortByDesc('total_points')->values();
+        // Trier et ajouter le classement
+        $villes = $villes->sortByDesc('total_points')->values()
+                        ->map(function ($ville, $index) {
+                            $ville->classement = $index + 1;
+                            return $ville;
+                        });
 
-        // Ajouter le classement directement à la collection $villes
-        $villes = $villes->map(function ($ville, $index) {
-            $ville->classement = $index + 1;
-            return $ville;
-        });
         return view('notations/notation_classement', [
             'villes' => $villes,
             'parametres' => ParametresClassement::where('id_parametre_classement', $id_parametre)->first()
@@ -58,21 +64,21 @@ class Notation extends Controller
     {
         // Charger la ville avec ses notations et les architectures associées
         $ville = Ville::with(['notation.parametreClassement', 'notation.architecture'])->find($id);
-    
+
         if (!$ville) {
             return response()->json(['message' => 'Ville non trouvée'], 404);
         }
-    
-        // Regrouper les notations par date de semaine PUIS par architecture
-        $notations = $ville->notation->groupBy('parametreClassement.date_semaine')
-            ->map(function ($group) {
-                return $group->groupBy('id_architecture');
-            });
-    
+
+        // Préparer pour chaque notation le total des architectures
+        foreach ($ville->notation as $notation) {
+            $notation->total_architecture = $ville->calculerSommeArchitecturesParNotation($notation->id_notation);
+        }
+
+
         return view('notations.ville', [
             'ville' => $ville,
-            'notations' => $notations
         ]);
     }
+
     
 }

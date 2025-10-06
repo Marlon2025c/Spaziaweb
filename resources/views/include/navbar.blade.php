@@ -247,7 +247,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item nav-li-textsp">
                         <a class="navbar-brand nav-ul-a p-1" href="#">
-                            <img src="{{ asset('img/spaziaeco logo.webp') }}" alt="Logo" height="50"
+                            <img src="{{ asset('img/Spaziaeco logo halloween.png') }}" alt="Logo" height="50"
                                 width="auto" class="rounded-circle">
                             <b>SpaziaEco</b>
                         </a>

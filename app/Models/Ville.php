@@ -72,20 +72,22 @@ class Ville extends Model
 
 
     $total_points = (float) $notation->activite +
-        (float) $notation->economie +
+        (float) $notation->event +
+        (float) $notation->culture +
         (float) $notation->gestion +
         (float) $notation->metier +
         (float) $notation->unseco +
-        (float) $note_architecture -
-        (float) $notation->pollution;
+        (float) $note_architecture;
 
-
+    if ($notation->ecologie) {
+        $total_points += $notation->ecologie->totalPointsNegatifs(); // les points sont déjà négatifs
+    }
     return $total_points;
 }
 
     public function calculerMontant($total_points)
     {
-        return number_format(($total_points / 100) * 10000, 2, '.', ',');
+        return number_format(($total_points / 100) * 25000, 2, '.', ',');
     }
 
     public static function withClassement($id_parametre)
@@ -149,22 +151,31 @@ class Ville extends Model
             'coherence_du_style',
             'batiment_metier',
             'presence_lumieres',
-            'route_paver',
             'activité_recente',
-            'blocs_utilises',
+            'tier_utiliser',
             'habitabilité_des_maisons',
-            'batiments_abandonnes',
-            'terraforming_realiste',
             'coherence_du_biome',
-            'roleplay_de_la_ville',
-            'route_en_asphalte',
             'presence_dorganiques',
-            'signalisation_routiere',
             'presence_de_mobilier',
-            'presence_de_pont',
-            'nid_de_poule',
-            'presence_de_cave',
+
+            // aménagemnt routier
+            'signalisation_routiere',
+            'route_paver',
+            'route_en_asphalte',
             'presence_de_parkin',
+            'presence_de_tunnel',
+
+            // agencement comunale
+            'presence_de_pont',
+            'marie',
+            'pack_public',
+            'tribunal',
+            'banque',
+            'musees',
+
+            // négative
+            'batiments_abandonnes',
+            'nid_de_poule',
         ];
 
         // Filtrer les architectures par l'id donné

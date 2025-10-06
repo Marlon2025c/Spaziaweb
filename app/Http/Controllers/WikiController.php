@@ -48,7 +48,11 @@ class WikiController extends Controller
             return view('spaziawiki', compact('articles'));
         }
     }
+    public function bthg()
+    {
 
+        return view('bthg');
+    }
 
 
 
@@ -78,4 +82,5 @@ class WikiController extends Controller
         return redirect()->route('wiki.show', $article->slug)
             ->with('success', 'Article mis à jour !');
     }
+
 }
