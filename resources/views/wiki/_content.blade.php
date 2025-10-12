@@ -51,7 +51,11 @@
         <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" class="img-fluid mb-3">
     @endif
     <div>{!! $article->content !!}</div>
-    <a href="{{ route('wiki.edit', $article->slug) }}">Modifier</a>
+    @if (Auth::check())
+        @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8])) 
+            <a href="{{ route('wiki.edit', $article->slug) }}">Modifier</a>
+        @endif
+    @endif
 @endif
 <script>
     let paragraph = document.querySelector('.customtextwiki');

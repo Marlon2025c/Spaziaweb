@@ -180,7 +180,6 @@
                             <div class="accordion-body">
                                 <a class="ajax-link" href="{{ route('wiki.show', 'ecognome-basique') }}">EcoGnome
                                     Basique</a>
-                                <a class="ajax-link" href="{{ route('wiki.show', 'ecognome-avancer') }}">EcoGnome Avancer</a>
                             </div>
                         </div>
                     </div>

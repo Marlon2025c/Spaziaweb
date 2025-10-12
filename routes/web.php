@@ -23,7 +23,6 @@ Route::post('/start-notepad', [AdminController::class, 'startApp'])->name('start
 Route::get('/stop-notepad', [AdminController::class, 'stopApp'])->name('stop-notepad')->middleware('auth', 'is_admin:7,8');
 
 
-Route::get('/wiki', [PostController::class, 'wiki'])->name('wiki');
 Route::get('/actualites', [PostController::class, 'actualites'])->name('actualites');
 Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nous');
 
@@ -79,12 +78,10 @@ Route::get('/batiments', [AdminController::class, 'batiment']);
 // Public
 Route::get('/wiki', [WikiController::class, 'wiki'])->name('wiki');
 Route::get('/wiki/{slug}', [WikiController::class, 'wiki'])->name('wiki.show');
-Route::post('/wiki.store', [WikiController::class, 'store'])->name('wiki.store');
+Route::post('/wiki.store', [WikiController::class, 'store'])->name('wiki.store')->middleware('auth', 'is_admin:3,4,5,6,7,8');
 
 // Formulaire d'édition
-Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit');
+Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edit')->middleware('auth', 'is_admin:3,4,5,6,7,8');
 
 // Mise à jour
-Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update');
-
-Route::get('/bthg', [WikiController::class, 'bthg'])->name('bthg');
+Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update')->middleware('auth', 'is_admin:3,4,5,6,7,8');

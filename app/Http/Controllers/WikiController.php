@@ -48,11 +48,6 @@ class WikiController extends Controller
             return view('spaziawiki', compact('articles'));
         }
     }
-    public function bthg()
-    {
-
-        return view('bthg');
-    }
 
 
 

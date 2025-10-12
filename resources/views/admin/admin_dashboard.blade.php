@@ -26798,19 +26798,24 @@ dl li {
 
 
             <script>
+              $(document).ready(function() {
                 $('#summernote').summernote({
-                    tabsize: 2,
-                    height: 120,
-                    toolbar: [
-                        ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['table', ['table']],
-                        ['insert', ['link', 'picture', 'video']],
-                        ['view', ['codeview', 'help']]
-                    ]
+                  tabsize: 2,
+                  height: 500, // hauteur de l’éditeur
+                  fontSizes: ['8', '9', '10', '11', '12','13', '14','15','16','17', '18', '24','32', '36', '48' , '64', '82', '150'],
+                  toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']], // bouton pour tailles
+                    ['fontname', ['fontname']], // bouton pour polices
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['codeview', 'help']]
+                  ]
                 });
+              });
             </script>
         </div>
     </div>
