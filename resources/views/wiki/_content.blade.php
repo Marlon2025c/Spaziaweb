@@ -57,6 +57,11 @@
         @endif
     @endif
 @endif
+@if (isset($message))
+    <div class="alert alert-info text-center mt-5">
+        {{ $message }}
+    </div>
+@endif
 <script>
     let paragraph = document.querySelector('.customtextwiki');
     let customtextwiki = 'Spazia'.repeat(106);

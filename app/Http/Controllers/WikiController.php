@@ -31,7 +31,21 @@ class WikiController extends Controller
     public function wiki(?string $slug = null)
     {
         if ($slug) {
-            $article = WikiArticle::where('slug', $slug)->firstOrFail();
+            $article = WikiArticle::where('slug', $slug)->first();
+
+            // 👉 Si l’article n’existe pas, on affiche un message "prochainement"
+            if (!$article) {
+                if (request()->ajax()) {
+                    return view('wiki._content', [
+                        'message' => '🕓 Cet article est prochainement disponible...'
+                    ]);
+                }
+
+                return view('spaziawiki', [
+                    'message' => '🕓 Cet article est prochainement disponible...',
+                    'slug' => $slug
+                ]);
+            }
 
             if (request()->ajax()) {
                 return view('wiki._content', compact('article'));
@@ -48,7 +62,6 @@ class WikiController extends Controller
             return view('spaziawiki', compact('articles'));
         }
     }
-
 
 
     public function edit(string $slug)
