@@ -23,7 +23,7 @@ class Ecologie extends Model
         return $this->hasMany(Notation::class, 'id_ecologie', 'id_ecologie');
     }
 
-    protected $colonnes_negatives = ['machine_a_vapeur'];
+    protected $colonnes_negatives = ['machine_a_vapeur', 'débris_copeaux_de_bois', 'pollution_terrestre'];
 
     public function totalPointsNegatifs()
     {

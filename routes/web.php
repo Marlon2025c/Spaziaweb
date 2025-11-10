@@ -17,6 +17,8 @@ Route::get('/notations/{id}', [Notation::class, 'show'])->name('show');
 use App\Http\Controllers\Dashboard\AdminController;
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashboardv2');
+
 Route::post('/join-villes', [AdminController::class, 'joinvilles'])->name('join-villes');
 Route::post('/join-metier', [AdminController::class, 'joinmetier'])->name('join-metier');
 Route::post('/start-notepad', [AdminController::class, 'startApp'])->name('start-notepad')->middleware('auth', 'is_admin:7,8');

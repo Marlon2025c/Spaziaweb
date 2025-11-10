@@ -48,14 +48,11 @@ $(document).ready(function() {
   });
 });
 </script>
-@push('scripts')
 <script>
-$(document).ready(function() {
-  $('#summernote').summernote({
-    height: 300
-  });
+  window.addEventListener('beforeunload', function() {
+    if ($('#summernote').length) {
+        $('#summernote').summernote('destroy');
+    }
 });
 </script>
-@endpush
-
 @endsection

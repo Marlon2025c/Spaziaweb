@@ -223,7 +223,7 @@
                             </div>
                         </div>
                         <ul class="nav flex-column mb-2">
-                            <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'fédaration') }}">🏠 Fédaration</a></li>
+                            <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'fédaration') }}">🏠 Fédération</a></li>
                         </ul>
 
                         <ul class="nav flex-column mb-2">
@@ -243,15 +243,14 @@
                                     <a class="ajax-link" href="{{ route('wiki.show', 'culture') }}">Culture</a>
                                     <a class="ajax-link" href="{{ route('wiki.show', 'gestion') }}">Gestion</a>
                                     <a class="ajax-link" href="{{ route('wiki.show', 'métier') }}">Métier</a>
-                                    <a class="ajax-link" href="{{ route('wiki.show', 'unesco') }}">Unesco</a>
+                                    <a class="ajax-link" href="{{ route('wiki.show', 'unesco') }}">UNSCO</a>
                                     <a class="ajax-link" href="{{ route('wiki.show', 'ecologie') }}">Ecologie</a>
                                     <a class="ajax-link" href="{{ route('wiki.show', 'event') }}">Event</a>
                                     <a class="ajax-link" href="{{ route('wiki.show', 'architecture') }}">Architecture</a>
                                 </div>
                             </div>
                         </div>
-                        @if (Auth::check())
-                            @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8]))
+
                             <h6>Métiers</h6>
                             <!-- Culture -->
                             <div class="accordion-item">
@@ -279,7 +278,7 @@
                                                             </button>
                                                         </h2>
                                                         <div id="collapseBasique" class="accordion-collapse collapse" data-bs-parent="#accordionBatimentsMetiers">
-                                                            <div class="accordion-body accordion-body-custom">
+                                                            <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '1-maconnerie') }}">🧱 1. Maconnerie</a>
                                                                 <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '2-menuiserie') }}">🪚 2. Menuiserie</a>
                                                                 <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '3-agriculture') }}">🌾 3. Agriculture</a>
@@ -303,7 +302,7 @@
                                                             </button>
                                                         </h2>
                                                         <div id="collapseAvancee" class="accordion-collapse collapse"data-bs-parent="#accordionBatimentsMetiers" >
-                                                            <div class="accordion-body accordion-body-custom">
+                                                            <div class="accordion-body">
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '10-engrais') }}">🧪 10. Engrais</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '12-mouture') }}">🥣 11. Mouture</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '13-forgeron') }}">🔨 12. Forgeron</a>
@@ -311,7 +310,7 @@
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '16-cuisine') }}">🍽 14. Cuisine</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '17-boulangerie') }}">🍞15.Boulangerie</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '14-poterie') }}">🏺 16. Poterie</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '11-agent-de-Tri') }}">🗑 17. Ingénieur avancer</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '11-agent-de-Tri') }}">🗑 17. Ingénieur avancée</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '19-mécanicien') }}">⚙18.Mécanicien</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '18-peinture') }}">🖼 19. Peinture</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '20-production-de-papier') }}">🧻 20. Production de Papier</a>
@@ -362,7 +361,7 @@
                                     </a>
                                 </h2>
                                         <div id="collapseNVVILLE" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
-                                            <div class="accordion-body  accordion-body-custom">
+                                            <div class="accordion-body">
 
                                                 <!-- sous-accordion -->
                                                 <div class="accordion " id="accordionNVVILLE">
@@ -377,12 +376,16 @@
                                                             </button>
                                                         </h2>
                                                         <div id="collapseBasique" class="accordion-collapse collapse" data-bs-parent="#accordionNVVILLE">
-                                                            <div class="accordion-body accordion-body-custom">
+                                                            <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="2-a-4-niveaux-1" href="{{ route('wiki.show', '2-a-4-niveaux-1') }}">🏚️ Niveaux 1</a>
-                                                                <a class="ajax-link" data-slug="2-a-4-niveaux-2" href="{{ route('wiki.show', '2-a-4-niveaux-2') }}">🏠 Niveaux 2</a>
-                                                                <a class="ajax-link" data-slug="2-a-4-niveaux-3" href="{{ route('wiki.show', '2-a-4-niveaux-3') }}">🏘️ Niveaux 3</a>
-                                                                <a class="ajax-link" data-slug="2-a-4-niveaux-4" href="{{ route('wiki.show', '2-a-4-niveaux-4') }}">🏙️ Niveaux 4</a>
-                                                                <a class="ajax-link" data-slug="2-a-4-niveaux-5" href="{{ route('wiki.show', '2-a-4-niveaux-5') }}">🌆 Niveaux 5</a>
+                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-2" href="{{ route('wiki.show', '2-a-4-niveaux-2') }}">🏠 Niveaux 2</a>
+                                                                @if (Auth::check())
+                                                                     @if (Auth()->user()->hasRole([7, 8]))
+                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-3" href="{{ route('wiki.show', '2-a-4-niveaux-3') }}">🏘️ Niveaux 3</a>
+                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-4" href="{{ route('wiki.show', '2-a-4-niveaux-4') }}">🏙️ Niveaux 4</a>
+                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-5" href="{{ route('wiki.show', '2-a-4-niveaux-5') }}">🌆 Niveaux 5</a>
+                                                                    @endif
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -397,12 +400,16 @@
                                                             </button>
                                                         </h2>
                                                         <div id="collapseAvancee" class="accordion-collapse collapse"data-bs-parent="#accordionNVVILLE" >
-                                                            <div class="accordion-body accordion-body-custom">
+                                                            <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="5-a-8-niveaux-1" href="{{ route('wiki.show', '5-a-8-niveaux-1') }}">🏚️ Niveaux 1</a>
                                                                 <a class="ajax-link" data-slug="5-a-8-niveaux-2" href="{{ route('wiki.show', '5-a-8-niveaux-2') }}">🏠 Niveaux 2</a>
-                                                                <a class="ajax-link" data-slug="5-a-8-niveaux-3" href="{{ route('wiki.show', '5-a-8-niveaux-3') }}">🏘️ Niveaux 3</a>
-                                                                <a class="ajax-link" data-slug="5-a-8-niveaux-4" href="{{ route('wiki.show', '5-a-8-niveaux-4') }}">🏙️ Niveaux 4</a>
-                                                                <a class="ajax-link" data-slug="5-a-8-niveaux-5" href="{{ route('wiki.show', '5-a-8-niveaux-5') }}">🌆 Niveaux 5</a>
+                                                                @if (Auth::check())
+                                                                     @if (Auth()->user()->hasRole([7, 8]))
+                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-3" href="{{ route('wiki.show', '5-a-8-niveaux-3') }}">🏘️ Niveaux 3</a>
+                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-4" href="{{ route('wiki.show', '5-a-8-niveaux-4') }}">🏙️ Niveaux 4</a>
+                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-5" href="{{ route('wiki.show', '5-a-8-niveaux-5') }}">🌆 Niveaux 5</a>
+                                                                    @endif
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -417,11 +424,15 @@
                                                         </h2>
                                                         <div id="collapseModerne" class="accordion-collapse collapse" data-bs-parent="#accordionNVVILLE">
                                                             <div class="accordion-body ">
-                                                                <a class="ajax-link" data-slug="9-a-16+-niveaux-1" href="{{ route('wiki.show', '9-a-16+-niveaux-1') }}">🏚️ Niveaux 1</a>
-                                                                <a class="ajax-link" data-slug="9-a-16+-niveaux-2" href="{{ route('wiki.show', '9-a-16+-niveaux-2') }}">🏠 Niveaux 2</a>
-                                                                <a class="ajax-link" data-slug="9-a-16+-niveaux-3" href="{{ route('wiki.show', '9-a-16+-niveaux-3') }}">🏘️ Niveaux 3</a>
-                                                                <a class="ajax-link" data-slug="9-a-16+-niveaux-4" href="{{ route('wiki.show', '9-a-16+-niveaux-4') }}">🏙️ Niveaux 4</a>
-                                                                <a class="ajax-link" data-slug="9-a-16+-niveaux-5" href="{{ route('wiki.show', '9-a-16+-niveaux-5') }}">🌆 Niveaux 5</a>
+                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-1" href="{{ route('wiki.show', '9-a-16-niveaux-1') }}">🏚️ Niveaux 1</a>
+                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-2" href="{{ route('wiki.show', '9-a-16-niveaux-2') }}">🏠 Niveaux 2</a>
+                                                                @if (Auth::check())
+                                                                     @if (Auth()->user()->hasRole([7, 8]))
+                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-3" href="{{ route('wiki.show', '9-a-16-niveaux-3') }}">🏘️ Niveaux 3</a>
+                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-4" href="{{ route('wiki.show', '9-a-16-niveaux-4') }}">🏙️ Niveaux 4</a>
+                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-5" href="{{ route('wiki.show', '9-a-16-niveaux-5') }}">🌆 Niveaux 5</a>
+                                                                    @endif
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -432,9 +443,7 @@
                                         </div>
 
                                         
-                            </div>
-                            @endif
-                        @endif    
+                            </div>    
                         <h6>ITEMS ET MACHINES</h6>
                         <div class="accordion" id="accordionPanelsItemsduSpaziamod">
                             <div class="accordion-item">
@@ -485,7 +494,10 @@
 
             // Ajoute 'active' au lien cliqué
             link.classList.add('active');
-
+            // Détruire Summernote si présent
+            if ($('#summernote').length) {
+                $('#summernote').summernote('destroy');
+            }
             fetch(link.href, {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })

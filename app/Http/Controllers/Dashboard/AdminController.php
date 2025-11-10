@@ -79,4 +79,9 @@ class AdminController extends Controller
         $villes = Ville::with('batimentMetiers')->get();
         return view('batiments', compact('villes'));
     }
+
+    public function dashboardv2()
+    {
+        return view('Dashboard/dashboardv2');
+    }
 }

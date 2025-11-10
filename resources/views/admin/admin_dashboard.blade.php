@@ -26171,6 +26171,12 @@ dl li {
                             </a>
                         </li>
                     @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="#forms" onclick="showContent('calendrier')">
+                                <span class="menu-title">Calendrier</span>
+                                <i class="mdi mdi-home menu-icon"></i>
+                            </a>
+                        </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#forms5" aria-expanded="false"
                             aria-controls="forms5">
@@ -26195,6 +26201,7 @@ dl li {
                             <span class="menu-title">Notation</span>
                             <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                         </a>
+
                         <div class="collapse" id="forms">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
@@ -26766,6 +26773,87 @@ dl li {
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="main-panels content-section hidden" id="calendrier">
+              @php
+                  use Carbon\Carbon;
+
+                  $year = 2025; // <== change ici l’année à afficher
+
+                  // === Tes événements ici ===
+                  // Format : 'YYYY-MM-DD' => [['title' => '...', 'time' => 'HH:MM'], ...]
+                  $events = [
+                      '2025-10-29' => [['title' => 'Event MIA 🎉', 'time' => '21:00']],
+                      '2025-10-31' => [['title' => 'Halloween', 'time' => '20:00']],
+                      '2025-11-15' => [['title' => 'Chasse Au MODO', 'time' => '21:30']],
+                      '2025-11-09' => [['title' => 'Event Jump', 'time' => '21:00']],
+                      '2025-11-23' => [['title' => 'je sais pas', 'time' => '21:30']],
+                      '2025-11-16' => [['title' => 'je sais pas', 'time' => '21:00']],
+                      '2025-11-30' => [['title' => 'je sais pas', 'time' => '21:00']],
+                      '2025-12-07' => [['title' => 'je sais pas', 'time' => '21:00']],
+                  ];
+
+                  $months = [
+                    10 => 'Octobre', 11 => 'Novembre', 12 => 'Décembre'
+                  ];
+              @endphp
+
+              <div class="container py-4">
+                <h2 class="mb-4">Calendrier complet {{ $year }}</h2>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                  @foreach ($months as $num => $name)
+                    @php
+                        $firstDay = Carbon::create($year, $num, 1);
+                        $start = $firstDay->copy()->startOfWeek(Carbon::MONDAY);
+                        $end = $firstDay->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
+                    @endphp
+
+                    <div class="col">
+                      <div class="card shadow-sm">
+                        <div class="card-header text-center fw-bold bg-primary text-white">
+                          {{ $name }}
+                        </div>
+                        <div class="card-body p-0">
+                          <table class="table table-bordered text-center align-middle m-0">
+                            <thead class="table-light small">
+                              <tr>
+                                <th>Lun</th><th>Mar</th><th>Mer</th><th>Jeu</th><th>Ven</th><th>Sam</th><th>Dim</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @php $day = $start->copy(); @endphp
+                              @while ($day <= $end)
+                                <tr>
+                                  @for ($i = 0; $i < 7; $i++)
+                                    @php
+                                        $isCurrentMonth = $day->month === $num;
+                                        $dateStr = $day->format('Y-m-d');
+                                        $eventList = $events[$dateStr] ?? [];
+                                    @endphp
+
+                                    <td class="{{ $isCurrentMonth ? '' : 'text-muted bg-light' }}" style="height:90px;">
+                                      <div class="fw-bold">{{ $day->day }}</div>
+                                      @foreach ($eventList as $event)
+                                        <div class="small mt-1 bg-warning-subtle rounded p-1">
+                                          <strong>{{ $event['time'] }}</strong><br>
+                                          {{ $event['title'] }}
+                                        </div>
+                                      @endforeach
+                                    </td>
+
+                                    @php $day->addDay(); @endphp
+                                  @endfor
+                                </tr>
+                              @endwhile
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
+                </div>
+              </div>
             </div>
             <div class="main-panels content-section hidden" id="articlewiki">
                 <<style>

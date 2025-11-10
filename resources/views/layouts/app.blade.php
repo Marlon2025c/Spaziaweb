@@ -29,7 +29,7 @@
         <br>
         <br>
         @yield('content')
-        @if($firstSegment !== 'wiki')
+        @if($firstSegment !== 'wiki' && $firstSegment !== 'dashboardv2' )
             @include('include.footer')
         @endif
 

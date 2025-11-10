@@ -314,15 +314,27 @@
                     <div class="tiles d-flex justify-content-evenly">
 
                         @foreach ($articles as $article)
-                        <style>
-                            .card-darkmode {
-                                background-color: #101015;
-                            }
-                        </style>
-                            <div class="card card-darkmode" style="width: 30rem;">
+                            <style>
+                                .card-darkmode {
+                                    background-color: #101015;
+                                }
+                                .card-img-wrapper {
+                                    width: 100%;
+                                    aspect-ratio: 16 / 9; /* Cela force le ratio 1920x1080 */
+                                    overflow: hidden;
+                                }
+
+                                .card-img-top {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover; /* Cela recadre l'image pour remplir le conteneur sans la déformer */
+                                }
+                            </style>
+                           <div class="card card-darkmode" style="width: 30rem;">
                                 <div class="shine" style="background-color: #f0f0f0;">
-                                    <img src="{{ asset('storage/' . $article->logo) }}" class="card-img-top"
-                                        style="height: 250px; width: 100%; object-fit: cover;" alt="...">
+                                    <div class="card-img-wrapper">
+                                        <img src="{{ asset('storage/' . $article->logo) }}" class="card-img-top" alt="...">
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <span class="text-uppercase tag-darkmode d-inline-block mb-2 bg-success lh-1 rounded-1">

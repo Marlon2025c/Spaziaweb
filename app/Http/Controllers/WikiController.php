@@ -87,8 +87,8 @@ class WikiController extends Controller
             'content' => $request->summernote,
         ]);
 
-        return redirect()->route('wiki.show', $article->slug)
-            ->with('success', 'Article mis à jour !');
+        return redirect()->route('wiki.show', $article->slug.'?refresh=1')
+                 ->with('success', 'Article mis à jour !');
     }
 
 }
