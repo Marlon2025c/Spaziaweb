@@ -6,37 +6,26 @@ use App\Http\Controllers\Contract;
 use App\Http\Controllers\Notation;
 use App\Http\Controllers\Auth\SteamAuthController;
 use App\Http\Controllers\WikiController;
-
-
-Route::get('/', [PostController::class, 'index'])->name('home');
-Route::get('/support', [PostController::class, 'support'])->name('support');
-
-Route::get('/notations', [Notation::class, 'index'])->name('notation_classement');
-Route::get('/notations/{id}', [Notation::class, 'show'])->name('show');
+use App\Http\Controllers\Dashboard\ArticleController;
 
 use App\Http\Controllers\Dashboard\AdminController;
 
-Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:3,4,5,6,7,8');
-Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashboardv2');
-
-Route::post('/join-villes', [AdminController::class, 'joinvilles'])->name('join-villes');
-Route::post('/join-metier', [AdminController::class, 'joinmetier'])->name('join-metier');
-Route::post('/start-notepad', [AdminController::class, 'startApp'])->name('start-notepad')->middleware('auth', 'is_admin:7,8');
-Route::get('/stop-notepad', [AdminController::class, 'stopApp'])->name('stop-notepad')->middleware('auth', 'is_admin:7,8');
-
-
-Route::get('/actualites', [PostController::class, 'actualites'])->name('actualites');
-Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nous');
-
-Route::get('/launcher', [PostController::class, 'luancherspcraft'])->name('launcher');
-Route::get('/telechargement/launcher', [PostController::class, 'download'])->name('telecharger.launcher');
-
-
-Route::get('/login', SteamAuthController::class)->name('login');
-
+use App\Http\Controllers\RadioController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
+/* Spazia Génaral */
+Route::get('/', [PostController::class, 'index'])->name('home');
+Route::fallback(function() {
+   return view('include/comingsoon');
+});
+Route::get('/support', [PostController::class, 'support'])->name('support');
+Route::get('/qui_sommes_nous', [Contract::class, 'index'])->name('qui_sommes_nous');
+Route::get('/actualites', [PostController::class, 'actualites'])->name('actualites');
+
+/* Spazia Login*/
+Route::get('/login', SteamAuthController::class)->name('login');
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -46,17 +35,22 @@ Route::post('/logout', function (Request $request) {
     return redirect('/');
 })->name('logout');
 
+/* Spazia Notation*/
+Route::get('/notations', [Notation::class, 'index'])->name('notation_classement');
+Route::get('/notations/{id}', [Notation::class, 'show'])->name('show');
+Route::get('/batiments', [AdminController::class, 'batiment']);
+Route::post('/join-villes', [AdminController::class, 'joinvilles'])->name('join-villes');
+Route::post('/join-metier', [AdminController::class, 'joinmetier'])->name('join-metier');
+
+/* Spazia Dashboard */
+Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashboardv2');
+Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 
 /* SpaziaRadio */
-
-use App\Http\Controllers\RadioController;
-
 Route::get('/radio-stream', [RadioController::class, 'show'])->name('radio.show');
 Route::get('/api/nowplaying-local', [RadioController::class, 'nowPlaying'])->name('nowplaying.local');
 
-use App\Http\Controllers\Dashboard\ArticleController;
-
-Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 
 
 Route::get('/radio-proxy', function () {
@@ -73,9 +67,7 @@ Route::get('/radio-proxy', function () {
     fclose($stream);
 });
 
-
-Route::get('/batiments', [AdminController::class, 'batiment']);
-
+/* SpaziaWiki */
 
 // Public
 Route::get('/wiki', [WikiController::class, 'wiki'])->name('wiki');
@@ -87,3 +79,9 @@ Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edi
 
 // Mise à jour
 Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+
+
+/* SpaziaMC */
+
+Route::get('/launcher', [PostController::class, 'luancherspcraft'])->name('launcher');
+Route::get('/telechargement/launcher', [PostController::class, 'download'])->name('telecharger.launcher');

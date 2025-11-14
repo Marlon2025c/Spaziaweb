@@ -1,59 +1,9 @@
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 <div class="fixed-top">
     <section class="navbar-header p-0">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%;">
             <div class="d-flex justify-content-between align-items-center">
                 <div style="display: flex; align-items: center; ">
-                    <style>
-                        #now-playing {
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                            font-size: 0.85rem;
-                            /* texte un peu plus petit */
-                        }
-
-                        #now-playing h2 {
-                            margin: 0;
-                            font-weight: normal;
-                            max-width: 200px;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                        }
-
-                        #playImage {
-                            width: 50px !important;
-                            height: 50px !important;
-                            object-fit: cover;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                            transition: box-shadow 0.3s ease;
-                        }
-
-                        #playImage:hover {
-                            box-shadow: 0 0 15px rgba(0, 128, 255, 0.5);
-                        }
-
-                        #togglePlay {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            background: rgba(0, 0, 0, 0.6);
-                            color: white;
-                            border: none;
-                            border-radius: 50%;
-                            width: 20px !important;
-                            height: 20px !important;
-                            font-size: 14px !important;
-                            cursor: pointer;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            padding: 0;
-                        }
-                    </style>
                     <div id="now-playing" style="display: flex; align-items: center; gap: 10px;">
                         <p>Chargement...</p>
                     </div>
@@ -156,63 +106,6 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                @if (Auth()->user()->hasRole([7, 8]))
-                                    <li>
-                                        <button id="startAppBtn" class="dropdown-item">Lancer l'application</button>
-                                        <button id="stopAppBtn" class="dropdown-item" disabled>Arrêter
-                                            l'application</button>
-
-                                        <script>
-                                            const startBtn = document.getElementById('startAppBtn');
-                                            const stopBtn = document.getElementById('stopAppBtn');
-
-                                            startBtn.addEventListener('click', function() {
-                                                fetch("{{ route('start-notepad') }}", {
-                                                        method: "POST",
-                                                        headers: {
-                                                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                                            "Content-Type": "application/json"
-                                                        },
-                                                        body: JSON.stringify({})
-                                                    })
-                                                    .then(res => res.json())
-                                                    .then(data => {
-                                                        console.log("Réponse API :", data);
-                                                        alert("Application lancée !");
-                                                        startBtn.disabled = true;
-                                                        stopBtn.disabled = false;
-                                                    })
-                                                    .catch(error => {
-                                                        console.error("Erreur :", error);
-                                                        alert("Erreur lors du lancement.");
-                                                    });
-                                            });
-
-                                            stopBtn.addEventListener('click', function() {
-                                                fetch("{{ route('stop-notepad') }}", {
-                                                        method: "POST",
-                                                        headers: {
-                                                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                                            "Content-Type": "application/json"
-                                                        },
-                                                        body: JSON.stringify({})
-                                                    })
-                                                    .then(res => res.json())
-                                                    .then(data => {
-                                                        console.log("Réponse API :", data);
-                                                        alert("Application arrêtée !");
-                                                        stopBtn.disabled = true;
-                                                        startBtn.disabled = false;
-                                                    })
-                                                    .catch(error => {
-                                                        console.error("Erreur :", error);
-                                                        alert("Erreur lors de l'arrêt.");
-                                                    });
-                                            });
-                                        </script>
-
-                                    </li>
-                                @endif
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
                                     @csrf
