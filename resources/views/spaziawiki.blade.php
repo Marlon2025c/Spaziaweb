@@ -379,9 +379,9 @@
                                                             <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="2-a-4-niveaux-1" href="{{ route('wiki.show', '2-a-4-niveaux-1') }}">🏚️ Niveaux 1</a>
                                                                         <a class="ajax-link" data-slug="2-a-4-niveaux-2" href="{{ route('wiki.show', '2-a-4-niveaux-2') }}">🏠 Niveaux 2</a>
+                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-3" href="{{ route('wiki.show', '2-a-4-niveaux-3') }}">🏘️ Niveaux 3</a>
                                                                 @if (Auth::check())
                                                                      @if (Auth()->user()->hasRole([7, 8]))
-                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-3" href="{{ route('wiki.show', '2-a-4-niveaux-3') }}">🏘️ Niveaux 3</a>
                                                                         <a class="ajax-link" data-slug="2-a-4-niveaux-4" href="{{ route('wiki.show', '2-a-4-niveaux-4') }}">🏙️ Niveaux 4</a>
                                                                         <a class="ajax-link" data-slug="2-a-4-niveaux-5" href="{{ route('wiki.show', '2-a-4-niveaux-5') }}">🌆 Niveaux 5</a>
                                                                     @endif
@@ -403,9 +403,9 @@
                                                             <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="5-a-8-niveaux-1" href="{{ route('wiki.show', '5-a-8-niveaux-1') }}">🏚️ Niveaux 1</a>
                                                                 <a class="ajax-link" data-slug="5-a-8-niveaux-2" href="{{ route('wiki.show', '5-a-8-niveaux-2') }}">🏠 Niveaux 2</a>
+                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-3" href="{{ route('wiki.show', '5-a-8-niveaux-3') }}">🏘️ Niveaux 3</a>
                                                                 @if (Auth::check())
                                                                      @if (Auth()->user()->hasRole([7, 8]))
-                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-3" href="{{ route('wiki.show', '5-a-8-niveaux-3') }}">🏘️ Niveaux 3</a>
                                                                         <a class="ajax-link" data-slug="5-a-8-niveaux-4" href="{{ route('wiki.show', '5-a-8-niveaux-4') }}">🏙️ Niveaux 4</a>
                                                                         <a class="ajax-link" data-slug="5-a-8-niveaux-5" href="{{ route('wiki.show', '5-a-8-niveaux-5') }}">🌆 Niveaux 5</a>
                                                                     @endif
@@ -426,9 +426,9 @@
                                                             <div class="accordion-body ">
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-1" href="{{ route('wiki.show', '9-a-16-niveaux-1') }}">🏚️ Niveaux 1</a>
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-2" href="{{ route('wiki.show', '9-a-16-niveaux-2') }}">🏠 Niveaux 2</a>
+                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-3" href="{{ route('wiki.show', '9-a-16-niveaux-3') }}">🏘️ Niveaux 3</a>
                                                                 @if (Auth::check())
                                                                      @if (Auth()->user()->hasRole([7, 8]))
-                                                                        <a class="ajax-link" data-slug="9-a-16-niveaux-3" href="{{ route('wiki.show', '9-a-16-niveaux-3') }}">🏘️ Niveaux 3</a>
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-4" href="{{ route('wiki.show', '9-a-16-niveaux-4') }}">🏙️ Niveaux 4</a>
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-5" href="{{ route('wiki.show', '9-a-16-niveaux-5') }}">🌆 Niveaux 5</a>
                                                                     @endif
