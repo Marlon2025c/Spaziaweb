@@ -1,0 +1,133 @@
+@import "https://fonts.googleapis.com/css?family=Inconsolata";
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* =============================
+   SECTION 404
+   ============================= */
+.body404 {
+    position: relative;
+    min-height: calc(100vh - 140px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: radial-gradient(#11581e, #041607),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0, 255, 0, 0.03) 0px,
+            rgba(0, 255, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 4px
+        );
+
+    font-family: "Inconsolata", Helvetica, sans-serif;
+    font-size: 1.5rem;
+    text-shadow: 0 0 1ex rgba(51, 255, 51, 1), 0 0 2px rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    overflow: hidden;
+}
+
+/* =============================
+   BRUIT / NOISE (100% fluide)
+   ============================= */
+.noise {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.03) 0px,
+        rgba(255, 255, 255, 0.03) 1px,
+        rgba(0, 0, 0, 0.03) 1px,
+        rgba(0, 0, 0, 0.03) 2px
+    );
+
+    opacity: 0.12;
+
+    animation: noiseMove 0.15s infinite steps(2);
+}
+
+@keyframes noiseMove {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-1px, 1px);
+    }
+}
+
+/* =============================
+   SCANLINE SANS FREEZE
+   (transform = NO LAG)
+   ============================= */
+.scanline {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(32, 128, 32, 0.7) 2%,
+        rgba(32, 128, 32, 0.4) 3%,
+        transparent 4%
+    );
+
+    animation: scanMove 7s linear infinite;
+}
+
+@keyframes scanMove {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(200%);
+    }
+}
+
+/* =============================
+   TERMINAL CONTENT
+   ============================= */
+.terminal {
+    max-width: 1000px;
+    width: 100%;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+}
+
+.output {
+    color: rgba(128, 255, 128, 0.8);
+}
+
+.output::before {
+    content: "> ";
+}
+
+.output a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.output a::before {
+    content: "[";
+}
+.output a::after {
+    content: "]";
+}
+
+.errorcode {
+    color: white;
+}
