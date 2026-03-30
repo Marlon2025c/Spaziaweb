@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="container-scroller">
-        <style>
+<style>
             @charset "UTF-8";
 /*-------------------------------------------------------------------
   ===== Table of Contents =====

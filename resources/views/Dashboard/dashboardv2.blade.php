@@ -161,10 +161,10 @@
                 <div class="accordion" id="accordionMainWiki">
                     <h6>Règlements</h6>
                     <ul class="nav flex-column mb-2">
-                        <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-en-jeu') }}">💡Règlement en
-                                jeu</a></li>
-                        <li><a class="nav-link ajax-link" href="{{ route('wiki.show', 'reglement-discord') }}">💡Règlement
-                                Discord</a></li>
+                        <li><a class="nav-link ajax-link" href="#" onclick="loadSection('home')">🏠 Accueil</a></li>
+                        <li><a class="nav-link ajax-link" href="#" onclick="loadSection('users')">👤 Utilisateurs</a></li>
+                        <li><a class="nav-link ajax-link" href="#" onclick="loadSection('servers')">🖥️ Serveurs</a></li>
+                        <li><a class="nav-link ajax-link" href="#" onclick="loadSection('stats')">📊 Statistiques</a></li>
                     </ul>
 
                     <h6>GAMEPLAY</h6>
@@ -256,19 +256,20 @@
             </div>
         </nav>
 
-        <div class="col-md-6" style="padding-left: 5%;" id="wiki-content">
-            @if (isset($article) || isset($articles))
-                @include('wiki._content', ['article' => $article ?? null, 'articles' => $articles ?? null])
-            @else
-                {{-- Au cas où on arrive direct sur un slug via URL --}}
-                @php
-                    $slug = request()->route('slug');
-                    $article = $slug ? \App\Models\WikiArticle::where('slug', $slug)->first() : null;
-                    $articles = !$article ? \App\Models\WikiArticle::orderBy('id', 'desc')->paginate(10) : null;
-                @endphp
-            @endif
-        </div>
-        <div class="col-md-3"></div>
+        {!! $content !!}
+        <div class="col-md-1"></div>
     </div>
+
+<script>
+function loadSection(section) {
+    fetch("{{ url('/dashboardv2/load') }}/" + section, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(res => res.text())
+    .then(html => {
+        document.getElementById('dashboard-content').innerHTML = html;
+    });
+}
+</script>
 
 @endsection

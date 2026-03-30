@@ -4,7 +4,7 @@
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%;">
             <div class="d-flex justify-content-between align-items-center">
                 <div style="display: flex; align-items: center; ">
-                    <div id="now-playing" style="display: flex; align-items: center; gap: 10px;">
+                    {{-- <div id="now-playing" style="display: flex; align-items: center; gap: 10px;">
                         <p>Chargement...</p>
                     </div>
                     <audio id="radioPlayer" controls style="height: 30px; width: auto; flex-grow: 1; ">
@@ -66,7 +66,7 @@
                         fetchNowPlaying();
                         const audio = document.getElementById("radioPlayer");
                         audio.volume = 0.2;
-                    </script>
+                    </script> --}}
                 </div>
                 <!-- Section pour le lecteur de radio (à gauche) -->
                 <div class="me-auto">
