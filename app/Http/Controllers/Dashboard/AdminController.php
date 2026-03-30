@@ -66,4 +66,8 @@ class AdminController extends Controller
     {
         return view('Dashboard/dashboardv2');
     }
+    public function notationform()
+    {
+        return view('Dashboard/notationform');
+    }
 }
