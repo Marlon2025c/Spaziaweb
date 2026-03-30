@@ -14,7 +14,7 @@ class PostController extends Controller
     {
         $articles = Article::orderBy('date', 'desc')->take(3)->get(); // ou ->latest('date')->take(3)->get()
 
-        return view('home', compact('articles'));
+        return view('home_v2', compact('articles'));
     }
 
     public function support()

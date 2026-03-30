@@ -44,7 +44,14 @@ Route::post('/join-metier', [AdminController::class, 'joinmetier'])->name('join-
 
 /* Spazia Dashboard */
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:3,4,5,6,7,8');
-Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashboardv2');
+
+use App\Http\Controllers\Dashboard\DashboardController;
+
+Route::get('/dashboardv2', [DashboardController::class, 'index'])->name('dashboardv2');
+// Pour charger une section en AJAX :
+Route::get('/dashboardv2/load/{section}', [DashboardController::class, 'loadSection'])->name('dashboardv2.load');
+
+
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 
 /* SpaziaRadio */
