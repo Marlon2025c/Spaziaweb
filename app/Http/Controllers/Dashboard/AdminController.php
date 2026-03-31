@@ -64,7 +64,8 @@ class AdminController extends Controller
 
     public function dashboardv2()
     {
-        return view('Dashboard/dashboardv2');
+        $content = view('Dashboard/prefab')->render();
+        return view('Dashboard/dashboardv2', compact('content'));
     }
     public function notationform()
     {

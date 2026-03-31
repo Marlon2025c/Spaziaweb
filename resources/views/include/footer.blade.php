@@ -43,7 +43,7 @@
             </section>
         </div>
         <div class="footer-a text-decoration-none p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2025 Copyright:
+            © 2025 - 2026 Copyright:
             <a class="text-reset fw-bold" href="https://spazia.fr/">Spazia.fr</a>
         </div>
     </div>
