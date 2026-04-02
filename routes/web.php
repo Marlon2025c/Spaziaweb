@@ -57,7 +57,7 @@ Route::get('/api/nowplaying-local', [RadioController::class, 'nowPlaying'])->nam
 Route::get('/radio-proxy', function () {
     header('Content-Type: audio/mpeg');
     set_time_limit(0);
-    $stream = fopen("http://192.168.1.12:8000/radio.mp3", 'rb');
+    $stream = fopen("https://spazia.fr/radio.mp3", 'rb');
 
     while (!feof($stream)) {
         echo fread($stream, 4096); // lecture petit à petit

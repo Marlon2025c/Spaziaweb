@@ -9,7 +9,7 @@
     .navbar-scrolled { background-color: #101015; }
 
     /* ─── Hero — uniquement ce que Bootstrap ne couvre pas ── */
-    .hero { min-height: 92vh; background: #0a0a10; }
+    .hero { min-height: 99vh; background: #0a0a10; }
     .hero-gradient {
         position: absolute; inset: 0;
         background:
@@ -267,6 +267,313 @@
 </section>
 
 {{-- ══════════════════════════════════════════════════════════
+     ÉQUIPE
+══════════════════════════════════════════════════════════ --}}
+<style>
+    .team-section { background: #0a0a10; padding: 5rem 0 6rem; }
+
+    .team-card {
+        background: rgba(255,255,255,.03);
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 20px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        transition: border-color .3s, transform .3s, box-shadow .3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .team-card:hover {
+        border-color: rgba(249,115,22,.3);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    }
+
+    /* Icône initiale */
+    .team-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 1.2rem;
+        position: relative;
+        flex-shrink: 0;
+    }
+    .team-avatar::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border-radius: 22px;
+        border: 2px solid currentColor;
+        opacity: .25;
+    }
+    .avatar-orange { background: rgba(249,115,22,.15); color: #fb923c; }
+    .avatar-green  { background: rgba(34,197,94,.15);  color: #4ade80; }
+    .avatar-blue   { background: rgba(99,102,241,.15); color: #818cf8; }
+    .avatar-pink   { background: rgba(236,72,153,.15); color: #f472b6; }
+
+    /* Badge rôle */
+    .team-role {
+        display: inline-block;
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        padding: .25rem .8rem;
+        border-radius: 999px;
+        margin-bottom: .75rem;
+    }
+    .role-orange { background: rgba(249,115,22,.15); color: #fb923c; }
+    .role-green  { background: rgba(34,197,94,.15);  color: #4ade80; }
+    .role-blue   { background: rgba(99,102,241,.15); color: #818cf8; }
+    .role-pink   { background: rgba(236,72,153,.15); color: #f472b6; }
+
+    .team-name {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 .4rem;
+    }
+    .team-bio {
+        font-size: .85rem;
+        color: rgba(255,255,255,.45);
+        line-height: 1.65;
+        margin: 0;
+        flex: 1;
+    }
+
+    /* Séparateur discret */
+    .team-divider {
+        width: 30px;
+        height: 2px;
+        border-radius: 1px;
+        margin: .9rem auto;
+        opacity: .4;
+    }
+
+    /* Badge saison */
+    .team-since {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+        font-size: .7rem;
+        font-weight: 600;
+        color: rgba(255,255,255,.35);
+        margin-top: auto;
+        padding-top: 1rem;
+    }
+    .team-since svg { opacity: .6; }
+</style>
+
+<section class="team-section">
+    <div class="container">
+        <p class="section-label">Derrière le serveur</p>
+        <h2 class="section-heading">L'équipe</h2>
+
+        <div id="teamCarousel" class="carousel slide" data-bs-ride="false">
+
+            {{-- Indicateurs --}}
+            <div class="carousel-indicators" style="position:static; margin-top:1.5rem; margin-bottom:0;">
+                <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="0" class="active" style="background:#fb923c; width:8px; height:8px; border-radius:50%; border:none; opacity:.5;"></button>
+                <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="1" style="background:#fb923c; width:8px; height:8px; border-radius:50%; border:none; opacity:.5;"></button>
+                <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="2" style="background:#fb923c; width:8px; height:8px; border-radius:50%; border:none; opacity:.5;"></button>
+            </div>
+
+            <div class="carousel-inner" style="padding-bottom:.5rem;">
+
+                {{-- Slide 1 : Marlon, Akina, Antonio, Freki --}}
+                <div class="carousel-item active">
+                    <div class="row g-4 justify-content-center">
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar avatar-orange">M</div>
+                                <span class="team-role role-orange">Fondateur</span>
+                                <p class="team-name">Marlon2025c</p>
+                                <div class="team-divider" style="background:#fb923c;"></div>
+                                <p class="team-bio">À l'origine de tout. Il a imaginé SpaziaEco de zéro, construit la vision du projet et continue de faire avancer le serveur saison après saison.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 0
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar avatar-pink">Ak</div>
+                                <span class="team-role role-pink">Co-fondatrice · Journaliste</span>
+                                <p class="team-name">Akina</p>
+                                <div class="team-divider" style="background:#f472b6;"></div>
+                                <p class="team-bio">L'ombre derrière la lumière. Co-fondatrice discrète mais indispensable, elle couvre l'actualité et documente chaque chapitre de l'histoire de SpaziaEco.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 0
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar avatar-green">An</div>
+                                <span class="team-role role-green">Responsable Système</span>
+                                <p class="team-name">Antonio</p>
+                                <div class="team-divider" style="background:#4ade80;"></div>
+                                <p class="team-bio">Son plan préféré ? La raclette. Sa mission ? Garder les systèmes en ordre et épauler le staff quand ça coince — toujours avec la même sérénité.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 3
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar avatar-blue">Fr</div>
+                                <span class="team-role role-blue">Responsable · Nain Mineur</span>
+                                <p class="team-name">Freki</p>
+                                <div class="team-divider" style="background:#818cf8;"></div>
+                                <p class="team-bio">Nain des profondeurs et responsable de la communauté. Il gère joueurs et staff avec autant de précision qu'il creuse ses galeries.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 0
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{-- Slide 2 : Mia, Icataria, Pimpampou, Rubi --}}
+                <div class="carousel-item">
+                    <div class="row g-4 justify-content-center">
+
+                        {{-- Mia --}}
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background:rgba(20,184,166,.15);color:#2dd4bf;">Mi</div>
+                                <span class="team-role" style="background:rgba(20,184,166,.15);color:#2dd4bf;">Modératrice · Builder · Journaliste</span>
+                                <p class="team-name">Mia</p>
+                                <div class="team-divider" style="background:#2dd4bf;"></div>
+                                <p class="team-bio">Triple casquette : elle modère, construit et écrit — à temps perdu bien sûr. Un couteau suisse discret mais toujours là où il faut.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 5
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Icataria --}}
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background:rgba(239,68,68,.15);color:#f87171;">Ic</div>
+                                <span class="team-role" style="background:rgba(239,68,68,.15);color:#f87171;">Modératrice</span>
+                                <p class="team-name">Icataria</p>
+                                <div class="team-divider" style="background:#f87171;"></div>
+                                <p class="team-bio">Modératrice investie qui veille au bon déroulement de la vie sur le serveur. Sa présence rassure autant les joueurs que le staff.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 4
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Pimpampou --}}
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background:rgba(234,179,8,.15);color:#facc15;">Pi</div>
+                                <span class="team-role" style="background:rgba(234,179,8,.15);color:#facc15;">Animateur</span>
+                                <p class="team-name">Pimpampou</p>
+                                <div class="team-divider" style="background:#facc15;"></div>
+                                <p class="team-bio">Animateur plein d'énergie, il crée l'ambiance et donne vie aux événements du serveur. Toujours là pour que personne ne s'ennuie.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 5
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Rubi --}}
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background:rgba(168,85,247,.15);color:#c084fc;">Ru</div>
+                                <span class="team-role" style="background:rgba(168,85,247,.15);color:#c084fc;">Animatrice</span>
+                                <p class="team-name">Rubi</p>
+                                <div class="team-divider" style="background:#c084fc;"></div>
+                                <p class="team-bio">L'énergie du serveur. Elle anime, fédère et s'assure que personne ne s'ennuie — ses events sont toujours attendus avec impatience.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 7
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{-- Slide 3 : Kaoli --}}
+                <div class="carousel-item">
+                    <div class="row g-4 justify-content-center">
+
+                        {{-- Kaoli --}}
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background:rgba(249,115,22,.15);color:#fb923c;">Ka</div>
+                                <span class="team-role" style="background:rgba(249,115,22,.15);color:#fb923c;">Modérateur · Rôliste</span>
+                                <p class="team-name">Kaoli</p>
+                                <div class="team-divider" style="background:#fb923c;"></div>
+                                <p class="team-bio">Modérateur passionné de jeu de rôle, il insuffle une dimension narrative unique au serveur. Ses sessions RP sont de vraies expériences immersives.</p>
+                                <span class="team-since">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Depuis Saison 6
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Kenzo --}}
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background:rgba(34,197,94,.15);color:#4ade80;">Ke</div>
+                                <span class="team-role" style="background:rgba(34,197,94,.15);color:#4ade80;">Helpeur</span>
+                                <p class="team-name">Kenzo</p>
+                                <div class="team-divider" style="background:#4ade80;"></div>
+                                <p class="team-bio">Bientôt dans l'équipe. Kenzo rejoindra le staff dès la saison 8 pour aider les nouveaux joueurs à prendre leurs marques sur SpaziaEco.</p>
+                                <span class="team-since" style="color:rgba(74,222,128,.5);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+                                    Arrive Saison 8
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- Flèches --}}
+            <button class="carousel-control-prev" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev"
+                style="width:40px; height:40px; background:rgba(255,255,255,.08); border-radius:50%; border:1px solid rgba(255,255,255,.12); top:50%; transform:translateY(-50%); left:-20px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
+                    <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#teamCarousel" data-bs-slide="next"
+                style="width:40px; height:40px; background:rgba(255,255,255,.08); border-radius:50%; border:1px solid rgba(255,255,255,.12); top:50%; transform:translateY(-50%); right:-20px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
+                    <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
+
+        </div>
+    </div>
+</section>
+
+{{-- ══════════════════════════════════════════════════════════
      ACTUALITÉS
 ══════════════════════════════════════════════════════════ --}}
 <section class="news-section">
@@ -458,7 +765,7 @@
 
     async function fetchNowPlaying() {
         try {
-            const data = await fetch('{{ route("nowplaying.local") }}').then(r => r.json());
+            const data = await fetch('https://spazia.fr/api/nowplaying-local').then(r => r.json());
             const np   = data.now_playing;
             const song = np?.song;
 
