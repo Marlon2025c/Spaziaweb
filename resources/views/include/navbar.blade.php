@@ -168,6 +168,15 @@
                             <h6 class="m-0">Wiki</h6>
                         </a>
                     </li>
+                    <li class="nav-li-textsp">
+                        <a class="nav-link text-uppercase nav-ul-a p-2" href="{{ route('saison75') }}"
+                           style="position:relative;">
+                            <h6 class="m-0" style="display:flex;align-items:center;gap:.35rem;">
+                                Saison 7.5
+                                <span style="font-size:.6rem;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;padding:.1rem .45rem;border-radius:999px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;">NEW</span>
+                            </h6>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

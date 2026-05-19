@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\ArticleController;
 use App\Http\Controllers\Dashboard\AdminController;
 
 use App\Http\Controllers\RadioController;
+use App\Http\Controllers\SaisonCalendrierController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -81,6 +82,17 @@ Route::get('/wiki/{slug}/edit', [WikiController::class, 'edit'])->name('wiki.edi
 // Mise à jour
 Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update')->middleware('auth', 'is_admin:3,4,5,6,7,8');
 
+
+/* Saison 7.5 — Calendrier des arrivées */
+Route::get('/saison-75', [SaisonCalendrierController::class, 'index'])->name('saison75');
+
+
+Route::middleware(['auth', 'is_admin:3,4,5,6,7,8'])->prefix('admin')->group(function () {
+    Route::get('/calendrier',              [SaisonCalendrierController::class, 'adminIndex'])->name('admin.calendrier');
+    Route::post('/calendrier',             [SaisonCalendrierController::class, 'adminStore'])->name('admin.calendrier.store');
+    Route::put('/calendrier/{semaine}',    [SaisonCalendrierController::class, 'adminUpdate'])->name('admin.calendrier.update');
+    Route::delete('/calendrier/{semaine}', [SaisonCalendrierController::class, 'adminDestroy'])->name('admin.calendrier.destroy');
+});
 
 /* SpaziaMC */
 
