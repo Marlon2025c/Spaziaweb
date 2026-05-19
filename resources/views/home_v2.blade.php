@@ -109,7 +109,7 @@
     <div class="hero-content position-relative text-center p-4" style="z-index:2">
         <div class="hero-badge d-inline-block fw-semibold text-uppercase rounded-pill mb-4">
             <span class="status-dot d-inline-block rounded-circle"></span>
-            &nbsp;Saison 7 — En préparation
+            &nbsp;Saison 8 — En préparation
         </div>
         <h1 class="hero-title text-white mb-3">
             Le serveur<br><span>SpaziaEco</span>
@@ -117,7 +117,7 @@
         <p class="hero-sub mx-auto mb-4">
             Un serveur <strong style="color:#fff;">survie économique</strong> où tu bâtis ta ville,
             choisis ton métier et forges ta propre économie.<br>
-            La saison 7 arrive bientôt — prépare-toi.
+            La saison 8 arrive bientôt — prépare-toi.
         </p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
             <a href="/actualites" class="btn-hero-primary d-inline-flex align-items-center gap-2 text-white fw-bold text-decoration-none border-0">
@@ -140,7 +140,7 @@
             </svg>
             <div>
                 <div class="hero-ip-label fw-bold text-uppercase">Statut actuel</div>
-                <div class="hero-ip-value fw-bold font-monospace" style="font-family:inherit; font-size:.95rem;">Serveur en pause · Saison 7 bêta en cours</div>
+                <div class="hero-ip-value fw-bold font-monospace" style="font-family:inherit; font-size:.95rem;">Serveur en pause · Saison 8 bêta en cours</div>
             </div>
         </div>
     </div>
