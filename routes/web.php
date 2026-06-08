@@ -46,6 +46,8 @@ Route::post('/join-metier', [AdminController::class, 'joinmetier'])->name('join-
 /* Spazia Dashboard */
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth', 'is_admin:3,4,5,6,7,8');
 Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashboardv2');
+Route::get('/dashboardv2/load/{section}', [AdminController::class, 'loadSection'])->name('dashboardv2.load');
+Route::post('/dashboardv2/report/store', [AdminController::class, 'storeReport'])->name('report.store');
 Route::get('/notationform', [AdminController::class, 'notationform'])->name('notationform');
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 

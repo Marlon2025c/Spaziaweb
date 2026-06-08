@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-use App\Http\Controllers\Controller; // important !
+use App\Http\Controllers\Controller;
 use App\Models\CommandAdminWiki;
-use Illuminate\Support\Facades\Http;
+use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Ville;
 use App\Models\Batiment;
 class AdminController extends Controller
@@ -64,9 +65,76 @@ class AdminController extends Controller
 
     public function dashboardv2()
     {
-        $content = view('Dashboard/prefab')->render();
+        $content = view('Dashboard/sections/accueil')->render();
         return view('Dashboard/dashboardv2', compact('content'));
     }
+
+    public function loadSection(string $section)
+    {
+        $allowed = [
+            'accueil'     => 'Dashboard/sections/accueil',
+            'report_form' => 'Dashboard/sections/report_form',
+            'report_list' => 'Dashboard/sections/report_list',
+            'formation'   => 'Dashboard/sections/formation',
+            'charte'      => 'Dashboard/sections/charte',
+            'home'        => 'Dashboard/sections/accueil',
+            'users'       => 'Dashboard/prefab',
+            'servers'     => 'Dashboard/prefab',
+            'stats'       => 'Dashboard/prefab',
+        ];
+
+        if (!array_key_exists($section, $allowed)) {
+            abort(404);
+        }
+
+        if ($section === 'report_list') {
+            $reports = Schema::hasTable('reports') ? Report::latest()->get() : collect();
+            return view($allowed[$section], compact('reports'))->render();
+        }
+
+        return view($allowed[$section])->render();
+    }
+    public function storeReport(Request $request)
+    {
+        if (!Schema::hasTable('reports')) {
+            return response()->json(['error' => 'Migration non effectuée — lance php artisan migrate'], 503);
+        }
+
+        $mode = $request->input('mode');
+
+        if ($mode === 'quotidien') {
+            $request->validate([
+                'date'        => 'required|date',
+                'resume'      => 'required|string|max:5000',
+                'auteur'      => 'required|string|max:255',
+            ]);
+            Report::create([
+                'mode'   => 'quotidien',
+                'date'   => $request->date,
+                'resume' => $request->resume,
+                'auteur' => $request->auteur,
+            ]);
+        } else {
+            $request->validate([
+                'pseudo'      => 'required|string|max:255',
+                'steam_id'    => 'nullable|string|max:50',
+                'types'       => 'required|string|max:255',
+                'moderateur'  => 'required|string|max:255',
+                'description' => 'required|string|max:5000',
+            ]);
+            Report::create([
+                'mode'        => 'joueur',
+                'pseudo'      => $request->pseudo,
+                'steam_id'    => $request->steam_id,
+                'types'       => $request->types,
+                'moderateur'  => $request->moderateur,
+                'description' => $request->description,
+            ]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function notationform()
     {
         return view('Dashboard/notationform');
