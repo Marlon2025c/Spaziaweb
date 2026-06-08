@@ -48,6 +48,12 @@ Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->
 Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashboardv2');
 Route::get('/dashboardv2/load/{section}', [AdminController::class, 'loadSection'])->name('dashboardv2.load');
 Route::post('/dashboardv2/report/store', [AdminController::class, 'storeReport'])->name('report.store');
+Route::post('/dashboardv2/formation/store', [AdminController::class, 'storeFormation'])->name('formation.store');
+Route::post('/dashboardv2/formation/{id}/validate', [AdminController::class, 'validateCompletion'])->name('formation.validate');
+Route::delete('/dashboardv2/formation/{id}', [AdminController::class, 'deleteFormation'])->name('formation.delete');
+Route::delete('/dashboardv2/formation/completion/{id}', [AdminController::class, 'deleteCompletion'])->name('formation.completion.delete');
+Route::post('/dashboardv2/charte/store', [AdminController::class, 'storeCharte'])->name('charte.store');
+Route::delete('/dashboardv2/charte/{id}', [AdminController::class, 'deleteCharte'])->name('charte.delete');
 Route::get('/notationform', [AdminController::class, 'notationform'])->name('notationform');
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 

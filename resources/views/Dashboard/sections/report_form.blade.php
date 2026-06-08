@@ -243,7 +243,7 @@
     }
     .btn-send-indigo:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(99,102,241,.5); }
 
-    /* ─── Alert succès ──────────────────────────────── */
+    /* ─── Alert succès / erreur ─────────────────────── */
     .rf-success {
         display: none;
         align-items: center;
@@ -256,6 +256,20 @@
         font-size: .88rem;
         margin-bottom: 1rem;
     }
+    .rf-error {
+        display: none;
+        align-items: center;
+        gap: .6rem;
+        background: rgba(239,68,68,.08);
+        border: 1px solid rgba(239,68,68,.25);
+        border-radius: 12px;
+        color: #f87171;
+        padding: .9rem 1.2rem;
+        font-size: .88rem;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ─── Info badge date ───────────────────────────── */
     .rf-date-badge {
@@ -344,9 +358,17 @@
                 @else
                     <div class="rf-user-avatar-placeholder">{{ strtoupper(substr(auth()->user()?->name ?? '?', 0, 1)) }}</div>
                 @endif
-                <input class="rf-input rf-input-locked" type="text" id="authorQuotidien" name="auteur"
-                       value="{{ auth()->user()?->name ?? '' }}" readonly required>
+                <input class="rf-input {{ auth()->check() ? 'rf-input-locked' : '' }}" type="text" id="authorQuotidien" name="auteur"
+                       value="{{ auth()->user()?->name ?? '' }}" {{ auth()->check() ? 'readonly' : '' }} required
+                       placeholder="Ton pseudo">
             </div>
+        </div>
+
+        <div class="rf-error" id="errorQuotidien">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+            </svg>
+            <span id="errorQuotidienMsg">Une erreur est survenue, veuillez réessayer.</span>
         </div>
 
         <div class="rf-success" id="successQuotidien">
@@ -463,7 +485,7 @@
                 </div>
 
             </div>
-            <input type="hidden" id="joueurType" name="type">
+            <input type="hidden" id="joueurType" name="types">
         </div>
 
         <div class="rf-sep"></div>
@@ -487,8 +509,9 @@
                 @else
                     <div class="rf-user-avatar-placeholder">{{ strtoupper(substr(auth()->user()?->name ?? '?', 0, 1)) }}</div>
                 @endif
-                <input class="rf-input rf-input-locked" type="text" id="modoName" name="moderateur"
-                       value="{{ auth()->user()?->name ?? '' }}" readonly required>
+                <input class="rf-input {{ auth()->check() ? 'rf-input-locked' : '' }}" type="text" id="modoName" name="moderateur"
+                       value="{{ auth()->user()?->name ?? '' }}" {{ auth()->check() ? 'readonly' : '' }} required
+                       placeholder="Ton pseudo">
             </div>
         </div>
 
@@ -497,6 +520,13 @@
             <textarea class="rf-textarea" id="reportText" name="description"
                       placeholder="Décrivez les faits avec précision : heure, contexte, preuves disponibles, témoins éventuels, action prise..." required
                       style="min-height:150px;"></textarea>
+        </div>
+
+        <div class="rf-error" id="errorJoueur">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+            </svg>
+            <span id="errorJoueurMsg">Une erreur est survenue, veuillez réessayer.</span>
         </div>
 
         <div class="rf-success" id="successJoueur">
@@ -546,23 +576,52 @@ function submitForm(e, mode) {
 
     const formId  = mode === 'quotidien' ? 'reportQuotidienForm' : 'reportJoueurForm';
     const succId  = mode === 'quotidien' ? 'successQuotidien'    : 'successJoueur';
+    const errId   = mode === 'quotidien' ? 'errorQuotidien'      : 'errorJoueur';
+    const errMsgId = mode === 'quotidien' ? 'errorQuotidienMsg'  : 'errorJoueurMsg';
     const form    = document.getElementById(formId);
+    const btn     = form.querySelector('[type=submit]');
+
+    // Masque les alertes précédentes
+    document.getElementById(succId).style.display = 'none';
+    document.getElementById(errId).style.display  = 'none';
+
+    // Désactive le bouton pendant l'envoi
+    btn.disabled = true;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Envoi...';
 
     fetch("{{ url('/dashboardv2/report/store') }}", {
         method: 'POST',
         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.content || '' },
         body: new FormData(form)
     })
-    .then(r => r.json())
-    .catch(() => {}) // pas encore de vrai backend
+    .then(async r => {
+        const data = await r.json();
+        if (!r.ok) {
+            // Erreur serveur : affiche le message
+            let msg = 'Une erreur est survenue.';
+            if (data.message) msg = data.message;
+            else if (data.error) msg = data.error;
+            else if (data.errors) msg = Object.values(data.errors).flat().join(' — ');
+            document.getElementById(errMsgId).textContent = msg;
+            document.getElementById(errId).style.display = 'flex';
+        } else {
+            // Succès : reset + message
+            form.reset();
+            document.querySelectorAll('.rtype-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('joueurType').value = '';
+            const s = document.getElementById(succId);
+            s.style.display = 'flex';
+            setTimeout(() => s.style.display = 'none', 4000);
+        }
+    })
+    .catch(() => {
+        document.getElementById(errMsgId).textContent = 'Impossible de contacter le serveur. Vérifie ta connexion.';
+        document.getElementById(errId).style.display = 'flex';
+    })
     .finally(() => {
-        form.reset();
-        document.querySelectorAll('.rtype-card').forEach(c => c.classList.remove('selected'));
-        document.getElementById('joueurType').value = '';
-
-        const s = document.getElementById(succId);
-        s.style.display = 'flex';
-        setTimeout(() => s.style.display = 'none', 4000);
+        btn.disabled = false;
+        btn.innerHTML = originalText;
     });
 }
 </script>

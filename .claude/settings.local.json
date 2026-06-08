@@ -3,7 +3,11 @@
     "allow": [
       "Bash(php artisan *)",
       "Bash(which php8.3 php8.2 php8.1 php8.0 php7.4 php 2>/dev/null || find /usr/bin /usr/local/bin -name \"php*\" 2>/dev/null | head -5)",
-      "Read(//usr/bin/**)"
+      "Read(//usr/bin/**)",
+      "Read(//usr/local/**)",
+      "Read(//snap/bin/**)",
+      "Read(//opt/**)",
+      "Bash(xargs cat)"
     ]
   }
 }
