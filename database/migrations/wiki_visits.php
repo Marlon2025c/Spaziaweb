@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('wiki_visits')) return;
         Schema::create('wiki_visits', function (Blueprint $table) {
             $table->id(); // BIGINT UNSIGNED
             $table->foreignIdFor(\App\Models\WikiArticle::class) // correspond automatiquement au type de id

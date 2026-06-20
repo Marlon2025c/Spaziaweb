@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-use App\Http\Controllers\Controller; // important !
+use App\Http\Controllers\Controller;
 use App\Models\CommandAdminWiki;
-use Illuminate\Support\Facades\Http;
+use App\Models\Report;
+use App\Models\Formation;
+use App\Models\FormationCompletion;
+use App\Models\Charte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Ville;
 use App\Models\Batiment;
 class AdminController extends Controller
@@ -64,9 +69,234 @@ class AdminController extends Controller
 
     public function dashboardv2()
     {
-        $content = view('Dashboard/prefab')->render();
+        $content = view('Dashboard/sections/accueil')->render();
         return view('Dashboard/dashboardv2', compact('content'));
     }
+
+    public function loadSection(string $section)
+    {
+        $allowed = [
+            'accueil'     => 'Dashboard/sections/accueil',
+            'report_form' => 'Dashboard/sections/report_form',
+            'report_list' => 'Dashboard/sections/report_list',
+            'formation'   => 'Dashboard/sections/formation',
+            'charte'      => 'Dashboard/sections/charte',
+            'home'        => 'Dashboard/sections/accueil',
+            'users'       => 'Dashboard/prefab',
+            'servers'     => 'Dashboard/prefab',
+            'stats'       => 'Dashboard/prefab',
+        ];
+
+        if (!array_key_exists($section, $allowed)) {
+            abort(404);
+        }
+
+        if ($section === 'report_list') {
+            $reports = Schema::hasTable('reports') ? Report::latest()->get() : collect();
+            return view($allowed[$section], compact('reports'))->render();
+        }
+
+        if ($section === 'formation') {
+            $formations = Schema::hasTable('formations')
+                ? Formation::with('completions')->orderBy('ordre')->orderBy('id')->get()
+                : collect();
+            return view($allowed[$section], compact('formations'))->render();
+        }
+
+        if ($section === 'charte') {
+            $chartes = Schema::hasTable('chartes')
+                ? Charte::orderBy('id')->get()->keyBy('nom_role')
+                : collect();
+            return view($allowed[$section], compact('chartes'))->render();
+        }
+
+        return view($allowed[$section])->render();
+    }
+    public function storeReport(Request $request)
+    {
+        if (!Schema::hasTable('reports')) {
+            return response()->json(['error' => 'Migration non effectuée — lance php artisan migrate'], 503);
+        }
+
+        $mode = $request->input('mode');
+
+        if ($mode === 'quotidien') {
+            $request->validate([
+                'date'        => 'required|date',
+                'resume'      => 'required|string|max:5000',
+                'auteur'      => 'required|string|max:255',
+            ]);
+            Report::create([
+                'mode'   => 'quotidien',
+                'date'   => $request->date,
+                'resume' => $request->resume,
+                'auteur' => $request->auteur,
+            ]);
+        } else {
+            $request->validate([
+                'pseudo'      => 'required|string|max:255',
+                'steam_id'    => 'nullable|string|max:50',
+                'types'       => 'required|string|max:255',
+                'moderateur'  => 'required|string|max:255',
+                'description' => 'required|string|max:5000',
+            ]);
+            Report::create([
+                'mode'        => 'joueur',
+                'pseudo'      => $request->pseudo,
+                'steam_id'    => $request->steam_id,
+                'types'       => $request->types,
+                'moderateur'  => $request->moderateur,
+                'description' => $request->description,
+            ]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    private function canManageFormations(): bool
+    {
+        return \Illuminate\Support\Facades\Auth::check()
+            && \Illuminate\Support\Facades\Auth::user()->hasRole([7, 8]);
+    }
+
+    public function storeFormation(Request $request)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        if (!Schema::hasTable('formations')) {
+            return response()->json(['error' => 'Migration non effectuée — lance php artisan migrate'], 503);
+        }
+
+        $request->validate([
+            'titre'       => 'required|string|max:255',
+            'description' => 'nullable|string|max:2000',
+            'categorie'   => 'required|string|max:100',
+            'emoji'       => 'nullable|string|max:10',
+            'couleur'     => 'nullable|string|max:20',
+            'pdf_url'     => 'nullable|url|max:500',
+            'pdf_file'    => 'nullable|file|mimes:pdf|max:20480',
+        ]);
+
+        $pdfPath = null;
+        if ($request->hasFile('pdf_file')) {
+            $pdfPath = $request->file('pdf_file')->store('formations', 'public');
+        }
+
+        Formation::create([
+            'titre'       => $request->titre,
+            'description' => $request->description,
+            'categorie'   => $request->categorie,
+            'emoji'       => $request->emoji ?: '📚',
+            'couleur'     => $request->couleur ?: '#f97316',
+            'pdf_path'    => $pdfPath,
+            'pdf_url'     => $request->pdf_url,
+            'ordre'       => Formation::max('ordre') + 1,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function validateCompletion(Request $request, int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        if (!Schema::hasTable('formation_completions')) {
+            return response()->json(['error' => 'Migration non effectuée'], 503);
+        }
+
+        Formation::findOrFail($id);
+
+        $request->validate([
+            'staff_name'   => 'required|string|max:255',
+            'validated_by' => 'required|string|max:255',
+            'notes'        => 'nullable|string|max:1000',
+        ]);
+
+        // Evite les doublons
+        $exists = FormationCompletion::where('formation_id', $id)
+            ->where('staff_name', $request->staff_name)
+            ->exists();
+
+        if ($exists) {
+            return response()->json(['error' => 'Ce membre a déjà validé cette formation.'], 422);
+        }
+
+        FormationCompletion::create([
+            'formation_id' => $id,
+            'staff_name'   => $request->staff_name,
+            'validated_by' => $request->validated_by,
+            'notes'        => $request->notes,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteCompletion(int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+        FormationCompletion::findOrFail($id)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteFormation(int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+        $formation = Formation::findOrFail($id);
+        if ($formation->pdf_path) {
+            Storage::disk('public')->delete($formation->pdf_path);
+        }
+        $formation->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function storeCharte(Request $request)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        $request->validate([
+            'nom_role'               => 'required|string|max:100',
+            'emoji'                  => 'nullable|string|max:10',
+            'couleur'                => 'nullable|string|max:20',
+            'section_role'           => 'nullable|string|max:5000',
+            'section_responsabilites'=> 'nullable|string|max:5000',
+            'section_attentes'       => 'nullable|string|max:5000',
+            'section_interdictions'  => 'nullable|string|max:5000',
+        ]);
+
+        Charte::updateOrCreate(
+            ['nom_role' => $request->nom_role],
+            [
+                'emoji'                   => $request->emoji ?: '📋',
+                'couleur'                 => $request->couleur ?: '#f97316',
+                'section_role'            => $request->section_role,
+                'section_responsabilites' => $request->section_responsabilites,
+                'section_attentes'        => $request->section_attentes,
+                'section_interdictions'   => $request->section_interdictions,
+            ]
+        );
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteCharte(int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+        Charte::findOrFail($id)->delete();
+        return response()->json(['success' => true]);
+    }
+
     public function notationform()
     {
         return view('Dashboard/notationform');
