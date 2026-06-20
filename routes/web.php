@@ -87,12 +87,12 @@ Route::put('/wiki/{slug}', [WikiController::class, 'update'])->name('wiki.update
 Route::get('/saison-75', [SaisonCalendrierController::class, 'index'])->name('saison75');
 
 
-Route::middleware(['auth', 'is_admin:3,4,5,6,7,8'])->prefix('admin')->group(function () {
-    Route::get('/calendrier',              [SaisonCalendrierController::class, 'adminIndex'])->name('admin.calendrier');
-    Route::post('/calendrier',             [SaisonCalendrierController::class, 'adminStore'])->name('admin.calendrier.store');
-    Route::put('/calendrier/{semaine}',    [SaisonCalendrierController::class, 'adminUpdate'])->name('admin.calendrier.update');
-    Route::delete('/calendrier/{semaine}', [SaisonCalendrierController::class, 'adminDestroy'])->name('admin.calendrier.destroy');
-});
+
+Route::get('/calendrier',              [SaisonCalendrierController::class, 'adminIndex'])->name('admin.calendrier')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+Route::post('/calendrier',             [SaisonCalendrierController::class, 'adminStore'])->name('admin.calendrier.store')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+Route::put('/calendrier/{semaine}',    [SaisonCalendrierController::class, 'adminUpdate'])->name('admin.calendrier.update')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+Route::delete('/calendrier/{semaine}', [SaisonCalendrierController::class, 'adminDestroy'])->name('admin.calendrier.destroy')->middleware('auth', 'is_admin:3,4,5,6,7,8');
+
 
 /* SpaziaMC */
 

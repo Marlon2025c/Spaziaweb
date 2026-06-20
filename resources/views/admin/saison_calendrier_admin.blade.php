@@ -172,8 +172,9 @@
                                    placeholder="https://..." value="{{ old('contenu_url') }}">
                         </div>
                         <div id="add_img" class="mb-3 d-none">
-                            <label class="form-label">Image</label>
-                            <input type="file" name="contenu_image" class="form-control" accept="image/*">
+                            <label class="form-label">Images <span class="text-white-50">(plusieurs possibles)</span></label>
+                            <input type="file" name="contenu_images[]" class="form-control" accept="image/*" multiple>
+                            <div class="mt-1" style="font-size:.75rem;color:rgba(255,255,255,.3);">Sélectionne plusieurs fichiers pour activer le carousel</div>
                         </div>
                         <div class="mb-4">
                             <div class="form-check">
@@ -289,8 +290,11 @@
                             <input type="url" name="contenu_url" id="edit_url" class="form-control" placeholder="https://...">
                         </div>
                         <div class="col-12 d-none" id="edit_img_wrap">
-                            <label class="form-label">Nouvelle image <span class="text-white-50">(laisser vide pour conserver)</span></label>
-                            <input type="file" name="contenu_image" class="form-control" accept="image/*">
+                            <label class="form-label">Images actuelles</label>
+                            <div id="edit_current_imgs" class="d-flex gap-2 flex-wrap mb-2"></div>
+                            <label class="form-label">Nouvelles images <span class="text-white-50">(remplace toutes les actuelles si sélectionné)</span></label>
+                            <input type="file" name="contenu_images[]" class="form-control" accept="image/*" multiple>
+                            <div class="mt-1" style="font-size:.75rem;color:rgba(255,255,255,.3);">Sélectionne plusieurs fichiers pour activer le carousel</div>
                         </div>
                         <div class="col-12">
                             <div class="form-check">
@@ -331,7 +335,7 @@
 
     function openEdit(s) {
         const f = document.getElementById('editForm');
-        f.action = '/admin/calendrier/' + s.id;
+        f.action = '/calendrier/' + s.id;
         document.getElementById('edit_num').value   = s.numero_semaine;
         document.getElementById('edit_titre').value = s.titre;
         document.getElementById('edit_date').value  = s.date_revelation ? s.date_revelation.substring(0,10) : '';
@@ -340,6 +344,24 @@
         document.getElementById('edit_texte').value = s.contenu_texte || '';
         document.getElementById('edit_url').value   = s.contenu_url || '';
         document.getElementById('edit_actif').checked = !!s.actif;
+
+        // Afficher les images existantes
+        const imgCont = document.getElementById('edit_current_imgs');
+        imgCont.innerHTML = '';
+        const imgs = Array.isArray(s.contenu_images) && s.contenu_images.length
+            ? s.contenu_images
+            : (s.contenu_image ? [s.contenu_image] : []);
+        if (imgs.length === 0) {
+            imgCont.innerHTML = '<span style="font-size:.75rem;color:rgba(255,255,255,.3);">Aucune image</span>';
+        } else {
+            imgs.forEach(path => {
+                const img = document.createElement('img');
+                img.src = '/storage/' + path;
+                img.style.cssText = 'width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,.1);';
+                imgCont.appendChild(img);
+            });
+        }
+
         toggleFields('edit');
         new bootstrap.Modal(document.getElementById('editModal')).show();
     }

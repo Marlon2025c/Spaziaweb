@@ -17,16 +17,18 @@ class SaisonCalendrier extends Model
         'contenu_texte',
         'contenu_url',
         'contenu_image',
+        'contenu_images',
         'actif',
     ];
 
     protected $casts = [
         'date_revelation' => 'date',
         'actif'           => 'boolean',
+        'contenu_images'  => 'array',
     ];
 
     public function isRevele(): bool
     {
-        return $this->actif && $this->date_revelation->isPast();
+        return $this->date_revelation->isPast();
     }
 }

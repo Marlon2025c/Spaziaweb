@@ -23,20 +23,27 @@ class SaisonCalendrierController extends Controller
     public function adminStore(Request $request)
     {
         $data = $request->validate([
-            'numero_semaine'  => 'required|integer|min:1',
-            'titre'           => 'required|string|max:100',
-            'description'     => 'nullable|string',
-            'date_revelation' => 'required|date',
-            'type_contenu'    => 'required|in:texte,photo,video,lien',
-            'contenu_texte'   => 'nullable|string',
-            'contenu_url'     => 'nullable|url|max:500',
-            'contenu_image'   => 'nullable|image|max:4096',
-            'actif'           => 'nullable|boolean',
+            'numero_semaine'   => 'required|integer|min:1',
+            'titre'            => 'required|string|max:100',
+            'description'      => 'nullable|string',
+            'date_revelation'  => 'required|date',
+            'type_contenu'     => 'required|in:texte,photo,video,lien',
+            'contenu_texte'    => 'nullable|string',
+            'contenu_url'      => 'nullable|url|max:500',
+            'contenu_images'   => 'nullable|array|max:10',
+            'contenu_images.*' => 'image|max:4096',
         ]);
 
-        if ($request->hasFile('contenu_image')) {
-            $data['contenu_image'] = $request->file('contenu_image')->store('calendrier', 'public');
+        unset($data['contenu_images']);
+
+        if ($request->hasFile('contenu_images')) {
+            $paths = [];
+            foreach ($request->file('contenu_images') as $file) {
+                $paths[] = $file->store('calendrier', 'public');
+            }
+            $data['contenu_images'] = $paths;
         }
+
         $data['actif'] = $request->has('actif');
 
         SaisonCalendrier::create($data);
@@ -47,23 +54,38 @@ class SaisonCalendrierController extends Controller
     public function adminUpdate(Request $request, SaisonCalendrier $semaine)
     {
         $data = $request->validate([
-            'numero_semaine'  => 'required|integer|min:1',
-            'titre'           => 'required|string|max:100',
-            'description'     => 'nullable|string',
-            'date_revelation' => 'required|date',
-            'type_contenu'    => 'required|in:texte,photo,video,lien',
-            'contenu_texte'   => 'nullable|string',
-            'contenu_url'     => 'nullable|url|max:500',
-            'contenu_image'   => 'nullable|image|max:4096',
-            'actif'           => 'nullable|boolean',
+            'numero_semaine'   => 'required|integer|min:1',
+            'titre'            => 'required|string|max:100',
+            'description'      => 'nullable|string',
+            'date_revelation'  => 'required|date',
+            'type_contenu'     => 'required|in:texte,photo,video,lien',
+            'contenu_texte'    => 'nullable|string',
+            'contenu_url'      => 'nullable|url|max:500',
+            'contenu_images'   => 'nullable|array|max:10',
+            'contenu_images.*' => 'image|max:4096',
         ]);
 
-        if ($request->hasFile('contenu_image')) {
+        unset($data['contenu_images']);
+
+        if ($request->hasFile('contenu_images')) {
+            // Supprimer les anciennes images
+            if ($semaine->contenu_images) {
+                foreach ($semaine->contenu_images as $img) {
+                    Storage::disk('public')->delete($img);
+                }
+            }
             if ($semaine->contenu_image) {
                 Storage::disk('public')->delete($semaine->contenu_image);
             }
-            $data['contenu_image'] = $request->file('contenu_image')->store('calendrier', 'public');
+
+            $paths = [];
+            foreach ($request->file('contenu_images') as $file) {
+                $paths[] = $file->store('calendrier', 'public');
+            }
+            $data['contenu_images'] = $paths;
+            $data['contenu_image']  = null;
         }
+
         $data['actif'] = $request->has('actif');
 
         $semaine->update($data);
@@ -73,6 +95,11 @@ class SaisonCalendrierController extends Controller
 
     public function adminDestroy(SaisonCalendrier $semaine)
     {
+        if ($semaine->contenu_images) {
+            foreach ($semaine->contenu_images as $img) {
+                Storage::disk('public')->delete($img);
+            }
+        }
         if ($semaine->contenu_image) {
             Storage::disk('public')->delete($semaine->contenu_image);
         }

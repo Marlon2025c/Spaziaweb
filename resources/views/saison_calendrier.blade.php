@@ -245,6 +245,43 @@
     }
     .rv-img-wrap:hover .rv-img-overlay { opacity: .6; }
 
+    /* ── Carousel dans les cartes ── */
+    .rv-carousel { position: relative; }
+    .rv-carousel .carousel-control-prev,
+    .rv-carousel .carousel-control-next {
+        width: 30px; height: 30px;
+        background: rgba(0,0,0,.55); border-radius: 50%;
+        top: 50%; transform: translateY(-50%);
+        margin: 0 .4rem; opacity: 0; transition: opacity .2s;
+    }
+    .rv-card:hover .rv-carousel .carousel-control-prev,
+    .rv-card:hover .rv-carousel .carousel-control-next { opacity: 1; }
+    .rv-carousel .carousel-control-prev-icon,
+    .rv-carousel .carousel-control-next-icon { width: 13px; height: 13px; }
+    .rv-carousel .carousel-indicators { bottom: 5px; margin: 0; }
+    .rv-carousel .carousel-indicators [data-bs-target] {
+        width: 6px; height: 6px; border-radius: 50%;
+        border: none; background: rgba(255,255,255,.45); margin: 0 2px;
+    }
+    .rv-carousel .carousel-indicators .active { background: #f97316; width: 14px; border-radius: 3px; }
+
+    /* ── Carousel dans le modal Voir plus ── */
+    .vm-carousel { position: relative; }
+    .vm-carousel .carousel-control-prev,
+    .vm-carousel .carousel-control-next {
+        width: 36px; height: 36px;
+        background: rgba(0,0,0,.6); border-radius: 50%;
+        top: 50%; transform: translateY(-50%);
+        margin: 0 .5rem;
+    }
+    .vm-carousel .carousel-indicators { bottom: 10px; margin: 0; }
+    .vm-carousel .carousel-indicators [data-bs-target] {
+        width: 7px; height: 7px; border-radius: 50%;
+        border: none; background: rgba(255,255,255,.4); margin: 0 3px;
+    }
+    .vm-carousel .carousel-indicators .active { background: #f97316; width: 16px; border-radius: 3px; }
+    .vm-carousel .carousel-item img { width: 100%; display: block; max-height: 380px; object-fit: cover; }
+
     /* ── Lightbox ── */
     .lb-backdrop {
         position: fixed; inset: 0; z-index: 10000;
@@ -514,14 +551,23 @@
 
                             {{-- ── Contenu ── --}}
                             @php
-                                // Préparer les données pour le modal "Voir plus"
-                                $imgSrc   = null;
+                                // Collecter toutes les images
+                                $images   = [];
                                 $videoUrl = null;
-                                if ($s->type_contenu === 'photo' && ($s->contenu_image || $s->contenu_url)) {
-                                    $imgSrc = $s->contenu_image
-                                        ? asset('storage/' . $s->contenu_image)
-                                        : (str_starts_with($s->contenu_url, 'http') ? $s->contenu_url : asset($s->contenu_url));
+                                if ($s->type_contenu === 'photo') {
+                                    if ($s->contenu_images && count($s->contenu_images) > 0) {
+                                        foreach ($s->contenu_images as $p) {
+                                            $images[] = asset('storage/' . $p);
+                                        }
+                                    } elseif ($s->contenu_image) {
+                                        $images[] = asset('storage/' . $s->contenu_image);
+                                    } elseif ($s->contenu_url) {
+                                        $images[] = str_starts_with($s->contenu_url, 'http') ? $s->contenu_url : asset($s->contenu_url);
+                                    }
                                 }
+                                $imgSrc      = $images[0] ?? null;
+                                $hasCarousel = count($images) > 1;
+
                                 if ($s->type_contenu === 'video' && $s->contenu_url) {
                                     $videoUrl = $s->contenu_url;
                                     if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/', $videoUrl, $m)) {
@@ -535,6 +581,7 @@
                                     'texte'    => $s->contenu_texte,
                                     'type'     => $s->type_contenu,
                                     'img'      => $imgSrc,
+                                    'images'   => $images,
                                     'video'    => $videoUrl,
                                     'lienUrl'  => $s->contenu_url,
                                     'lienLabel'=> $s->contenu_texte ?: 'Voir le contenu',
@@ -543,7 +590,34 @@
 
                             <div class="rv-content" id="content-{{ $s->id }}">
 
-                                @if($imgSrc)
+                                @if($hasCarousel)
+                                    <div id="carousel-{{ $s->id }}" class="carousel slide rv-carousel" data-bs-ride="false">
+                                        <div class="carousel-indicators">
+                                            @foreach($images as $ci => $cimg)
+                                                <button type="button" data-bs-target="#carousel-{{ $s->id }}"
+                                                    data-bs-slide-to="{{ $ci }}"
+                                                    class="{{ $ci === 0 ? 'active' : '' }}"
+                                                    onclick="event.stopPropagation()"></button>
+                                            @endforeach
+                                        </div>
+                                        <div class="carousel-inner">
+                                            @foreach($images as $ci => $cimg)
+                                                <div class="carousel-item {{ $ci === 0 ? 'active' : '' }}">
+                                                    <div class="rv-img-wrap" onclick="event.stopPropagation(); openVoirPlus(this.closest('.rv-content'))">
+                                                        <img src="{{ $cimg }}" alt="{{ $s->titre }}" loading="lazy">
+                                                        <div class="rv-img-overlay"></div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $s->id }}" data-bs-slide="prev" onclick="event.stopPropagation()">
+                                            <span class="carousel-control-prev-icon"></span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $s->id }}" data-bs-slide="next" onclick="event.stopPropagation()">
+                                            <span class="carousel-control-next-icon"></span>
+                                        </button>
+                                    </div>
+                                @elseif($imgSrc)
                                     <div class="rv-img-wrap" onclick="event.stopPropagation(); openVoirPlus(this.closest('.rv-content'))">
                                         <img src="{{ $imgSrc }}" alt="{{ $s->titre }}" loading="lazy">
                                         <div class="rv-img-overlay"></div>
@@ -621,7 +695,26 @@
         const d = JSON.parse(body.dataset.vm);
 
         let mediaHtml = '';
-        if (d.img) {
+        if (d.images && d.images.length > 1) {
+            const carId = 'vm-car-' + Date.now();
+            const items = d.images.map((src, i) => `
+                <div class="carousel-item${i === 0 ? ' active' : ''}">
+                    <img src="${src}" alt="${d.titre}">
+                </div>`).join('');
+            const dots = d.images.map((_, i) => `
+                <button type="button" data-bs-target="#${carId}" data-bs-slide-to="${i}" class="${i === 0 ? 'active' : ''}"></button>`).join('');
+            mediaHtml = `
+                <div id="${carId}" class="carousel slide vm-carousel">
+                    <div class="carousel-indicators">${dots}</div>
+                    <div class="carousel-inner">${items}</div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#${carId}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#${carId}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>`;
+        } else if (d.img) {
             mediaHtml = `<img class="vm-media" src="${d.img}" alt="${d.titre}">`;
         } else if (d.video) {
             mediaHtml = `<div class="vm-video-wrap"><iframe src="${d.video}" title="${d.titre}"
@@ -662,6 +755,10 @@
             if (e.key === 'Escape') { vm.remove(); document.removeEventListener('keydown', esc); }
         });
         document.body.appendChild(vm);
+
+        // Initialiser le carousel Bootstrap s'il est présent
+        const carEl = vm.querySelector('.carousel');
+        if (carEl) new bootstrap.Carousel(carEl, { interval: false });
     }
 
     // ── Lightbox ──────────────────────────────────────────────────────────
@@ -688,7 +785,7 @@
         document.body.appendChild(lb);
     }
 
-    const STORAGE_KEY = 'spazia_cal_75_v4_opened';
+    const STORAGE_KEY = 'spazia_cal_75_v5_opened';
     function getOpened() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
     function saveOpened(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
 
