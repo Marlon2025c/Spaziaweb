@@ -144,6 +144,7 @@
                                 <img src="{{ Auth::user()->avatar }}"
                                     alt="Avatar de {{ Auth::user()->name }}"class="rounded-circle" width="30">
                             </a>
+<<<<<<< HEAD
                             <ul class="dropdown-menu user-menu">
                                 <li class="user-menu-header">
                                     <img src="{{ Auth::user()->avatar }}" alt="" class="user-menu-avatar">
@@ -151,6 +152,17 @@
                                         <span class="user-menu-name">{{ Auth::user()->name }}</span>
                                         <span class="user-menu-role">{{ Auth::user()->roleName() ?? 'Membre' }}</span>
                                     </div>
+=======
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Bienvenue, {{ Auth::user()->name }} Rôle :
+                                        {{ Auth::user()->roleName() }}</a></li>
+                                @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8]))
+                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('votes.index') }}">🗳️ Sondages</a></li>
+                                @endif
+                                <li>
+                                    <hr class="dropdown-divider">
+>>>>>>> 5e85a447b877f4ac1fde5dd32ad8bf473340de18
                                 </li>
 
                                 @if (Auth::user()->steam_id)

@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 
 use App\Http\Controllers\RadioController;
 use App\Http\Controllers\SaisonCalendrierController;
+use App\Http\Controllers\SondageController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -107,3 +108,18 @@ Route::delete('/calendrier/{semaine}', [SaisonCalendrierController::class, 'admi
 
 Route::get('/launcher', [PostController::class, 'luancherspcraft'])->name('launcher');
 Route::get('/telechargement/launcher', [PostController::class, 'download'])->name('telecharger.launcher');
+
+/* Spazia Sondages (votes en réunion staff) */
+Route::middleware('auth', 'is_admin:3,4,5,6,7,8')->group(function () {
+    Route::get('/votes', [SondageController::class, 'index'])->name('votes.index');
+    Route::post('/votes/{sondage}/vote', [SondageController::class, 'vote'])->name('votes.vote');
+    Route::get('/votes/{sondage}/resultats', [SondageController::class, 'resultats'])->name('votes.resultats');
+});
+
+Route::middleware('auth', 'is_admin:7,8')->group(function () {
+    Route::get('/votes/admin', [SondageController::class, 'admin'])->name('votes.admin');
+    Route::post('/votes/admin', [SondageController::class, 'store'])->name('votes.store');
+    Route::post('/votes/admin/{sondage}/close', [SondageController::class, 'close'])->name('votes.close');
+    Route::delete('/votes/admin/{sondage}', [SondageController::class, 'destroy'])->name('votes.destroy');
+    Route::get('/votes/admin/{sondage}/resultats-detail', [SondageController::class, 'resultatsDetail'])->name('votes.resultats.detail');
+});
