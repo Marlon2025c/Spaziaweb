@@ -102,6 +102,7 @@
                                         {{ Auth::user()->roleName() }}</a></li>
                                 @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8]))
                                     <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('votes.index') }}">🗳️ Sondages</a></li>
                                 @endif
                                 <li>
                                     <hr class="dropdown-divider">

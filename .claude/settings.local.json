@@ -7,7 +7,14 @@
       "Read(//usr/local/**)",
       "Read(//snap/bin/**)",
       "Read(//opt/**)",
-      "Bash(xargs cat)"
+      "Bash(xargs cat)",
+      "Bash(php -l app/Models/Sondage.php)",
+      "Bash(php -l app/Models/SondageOption.php)",
+      "Bash(php -l app/Models/SondageVote.php)",
+      "Bash(php -l app/Http/Controllers/SondageController.php)",
+      "Bash(php -l routes/web.php)",
+      "Bash(command -v docker)",
+      "Bash(command -v sail)"
     ]
   }
 }
