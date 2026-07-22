@@ -52,7 +52,7 @@
     @endif
     <div>{!! $article->content !!}</div>
     @if (Auth::check())
-        @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8])) 
+        @if (Auth::user()->isStaff())
             <a href="{{ route('wiki.edit', $article->slug) }}">Modifier</a>
         @endif
     @endif

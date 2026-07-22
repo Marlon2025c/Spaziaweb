@@ -22,7 +22,7 @@ class RadioController extends Controller
 
         try {
             $response = Http::withoutVerifying()->get($url);
-            $json = str_replace('http://192.168.1.12', 'https://spazia.fr', $response->body());
+            $json = str_replace(['http://192.168.1.12', 'https://192.168.1.12'], 'https://spazia.fr', $response->body());
             return response($json, 200)->header('Content-Type', 'application/json');
         } catch (\Exception $e) {
             return response()->json(['error' => 'Impossible de récupérer les données'], 500);

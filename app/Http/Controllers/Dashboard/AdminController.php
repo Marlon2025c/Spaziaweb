@@ -67,14 +67,27 @@ class AdminController extends Controller
         return view('batiments', compact('villes'));
     }
 
+    private function isStaffUser(): bool
+    {
+        return \Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->isStaff();
+    }
+
     public function dashboardv2()
     {
-        $content = view('Dashboard/sections/accueil')->render();
+        if (!$this->isStaffUser()) {
+            abort(403, 'Accès réservé au staff.');
+        }
+        $canManageServer = $this->canManageFormations();
+        $content = view('Dashboard/sections/accueil', compact('canManageServer'))->render();
         return view('Dashboard/dashboardv2', compact('content'));
     }
 
     public function loadSection(string $section)
     {
+        if (!$this->isStaffUser()) {
+            abort(403, 'Accès réservé au staff.');
+        }
+
         $allowed = [
             'accueil'     => 'Dashboard/sections/accueil',
             'report_form' => 'Dashboard/sections/report_form',
@@ -85,10 +98,16 @@ class AdminController extends Controller
             'users'       => 'Dashboard/prefab',
             'servers'     => 'Dashboard/prefab',
             'stats'       => 'Dashboard/prefab',
+            'roles'       => 'Dashboard/sections/roles',
         ];
 
         if (!array_key_exists($section, $allowed)) {
             abort(404);
+        }
+
+        if ($section === 'accueil' || $section === 'home') {
+            $canManageServer = $this->canManageFormations();
+            return view($allowed[$section], compact('canManageServer'))->render();
         }
 
         if ($section === 'report_list') {
@@ -100,7 +119,12 @@ class AdminController extends Controller
             $formations = Schema::hasTable('formations')
                 ? Formation::with('completions')->orderBy('ordre')->orderBy('id')->get()
                 : collect();
-            return view($allowed[$section], compact('formations'))->render();
+            $members = \App\Models\User::with('roles')
+                ->whereHas('roles', fn ($q) => $q->whereNotIn('roles.id_role', [1, 7, 8]))
+                ->orderBy('name')
+                ->get()
+                ->map(fn ($u) => ['name' => $u->name, 'role' => $u->roleName() ?? 'Staff']);
+            return view($allowed[$section], compact('formations', 'members'))->render();
         }
 
         if ($section === 'charte') {
@@ -108,6 +132,15 @@ class AdminController extends Controller
                 ? Charte::orderBy('id')->get()->keyBy('nom_role')
                 : collect();
             return view($allowed[$section], compact('chartes'))->render();
+        }
+
+        if ($section === 'roles') {
+            if (!$this->canManageFormations()) {
+                abort(403, 'Accès réservé aux Fondateurs et Responsables.');
+            }
+            $users    = \App\Models\User::with('roles')->orderBy('name')->get();
+            $allRoles = \App\Models\Role::orderBy('ordre')->get();
+            return view($allowed[$section], compact('users', 'allRoles'))->render();
         }
 
         return view($allowed[$section])->render();
@@ -294,6 +327,23 @@ class AdminController extends Controller
             return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
         }
         Charte::findOrFail($id)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function updateUserRoles(Request $request, int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        $request->validate([
+            'roles'   => 'array',
+            'roles.*' => 'integer|exists:roles,id_role',
+        ]);
+
+        $user = \App\Models\User::findOrFail($id);
+        $user->roles()->sync($request->input('roles', []));
+
         return response()->json(['success' => true]);
     }
 

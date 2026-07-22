@@ -214,6 +214,14 @@
 
 @php $canManage = auth()->check() && auth()->user()->hasRole([7, 8]); @endphp
 
+@if($canManage)
+<datalist id="formationMembersList">
+    @foreach($members ?? [] as $member)
+        <option value="{{ $member['name'] }} ({{ $member['role'] }})">
+    @endforeach
+</datalist>
+@endif
+
 {{-- ── Panel ajout ─────────────────────────────────── --}}
 @if($canManage)
 <div class="fadd-panel">
@@ -327,6 +335,7 @@
             'animation'   => 'Animation',
             'journalisme' => 'Journalisme',
         ];
+        $isValidated = $canManage || $formation->completions->contains('staff_name', auth()->user()?->name);
     @endphp
     <div class="col-12 col-lg-6">
         <div class="fcard h-100" style="border-color:rgba({{ $r }},{{ $g }},{{ $b }},.15);">
@@ -358,25 +367,34 @@
 
                 {{-- PDF links --}}
                 @if($formation->pdf_path || $formation->pdf_url)
-                    <div class="d-flex gap-2 flex-wrap mb-3">
-                        @if($formation->pdf_path)
-                            <a href="{{ asset('storage/' . $formation->pdf_path) }}"
-                               target="_blank" class="btn-pdf btn-pdf-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                                </svg>
-                                Fiche PDF
-                            </a>
-                        @endif
-                        @if($formation->pdf_url)
-                            <a href="{{ $formation->pdf_url }}" target="_blank" class="btn-pdf btn-pdf-ghost">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/>
-                                </svg>
-                                Lien externe
-                            </a>
-                        @endif
-                    </div>
+                    @if($isValidated)
+                        <div class="d-flex gap-2 flex-wrap mb-3">
+                            @if($formation->pdf_path)
+                                <a href="{{ asset('storage/' . $formation->pdf_path) }}"
+                                   target="_blank" class="btn-pdf btn-pdf-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                                    </svg>
+                                    Fiche PDF
+                                </a>
+                            @endif
+                            @if($formation->pdf_url)
+                                <a href="{{ $formation->pdf_url }}" target="_blank" class="btn-pdf btn-pdf-ghost">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/>
+                                    </svg>
+                                    Lien externe
+                                </a>
+                            @endif
+                        </div>
+                    @else
+                        <p style="font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                            Formation disponible — le document sera accessible une fois ta validation faite par un Responsable/Fondateur.
+                        </p>
+                    @endif
                 @else
                     <p style="font-size:.78rem;color:rgba(255,255,255,.25);margin-bottom:1rem;font-style:italic;">Aucun document attaché</p>
                 @endif
@@ -421,7 +439,7 @@
                     <p class="fcompletion-label" style="margin-bottom:.5rem;">Valider pour un membre</p>
                     <div class="fvalidate-form" id="valForm{{ $formation->id }}">
                         <input class="fvalidate-input" type="text" placeholder="Pseudo du membre"
-                               id="valName{{ $formation->id }}">
+                               id="valName{{ $formation->id }}" list="formationMembersList" autocomplete="off">
                         <input class="fvalidate-input" type="text" placeholder="Validé par (ton pseudo)"
                                id="valBy{{ $formation->id }}"
                                value="{{ auth()->user()?->name ?? '' }}">
@@ -511,7 +529,7 @@ function submitFormation() {
 
 // ── Valider un membre ─────────────────────────
 function validateCompletion(formationId, btn) {
-    const staffName  = document.getElementById('valName' + formationId).value.trim();
+    const staffName  = document.getElementById('valName' + formationId).value.trim().replace(/\s*\([^)]*\)\s*$/, '');
     const validatedBy = document.getElementById('valBy'  + formationId).value.trim();
     const msg        = document.getElementById('valMsg'  + formationId);
     msg.style.display = 'none';

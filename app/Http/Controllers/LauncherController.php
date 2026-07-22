@@ -150,29 +150,6 @@ class LauncherController extends Controller
 
         return response()->json($response->json());
     }
-
-    // ─────────────────────────────────────────────────────────────────────
-    // POST /api/mods/unauthorized
-    // Enregistre un mod non autorisé détecté chez un joueur
-    // ─────────────────────────────────────────────────────────────────────
-    public function reportUnauthorizedMod(Request $request)
-    {
-        $player  = $request->get('player'); // injecté par le middleware JWT
-        $modName = $request->input('mod_name');
-
-        if (!$modName) {
-            return response()->json(['error' => 'mod_name manquant'], 400);
-        }
-
-        \DB::table('evergarden')->insert([
-            'mod_name'   => $modName,
-            'user_name'  => $player['pseudo'] ?? 'inconnu',
-            'created_at' => now(),
-        ]);
-
-        return response()->json(['status' => 'ok']);
-    }
-
     // ─────────────────────────────────────────────────────────────────────
     // GET /api/mods
     // Retourne la liste des mods depuis GitHub raw

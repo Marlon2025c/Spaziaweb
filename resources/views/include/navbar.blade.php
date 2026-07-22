@@ -1,4 +1,51 @@
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+<style>
+    .user-menu {
+        min-width: 280px;
+        background: #101015;
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 14px;
+        padding: .5rem;
+        box-shadow: 0 20px 50px rgba(0,0,0,.5);
+    }
+    .user-menu-header {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        padding: .6rem .75rem .8rem;
+    }
+    .user-menu-avatar {
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+    .user-menu-id { display: flex; flex-direction: column; min-width: 0; }
+    .user-menu-name {
+        color: #fff; font-weight: 700; font-size: .92rem;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .user-menu-role { color: rgba(255,255,255,.4); font-size: .78rem; }
+    .user-menu-divider { border-color: rgba(255,255,255,.08); margin: .35rem 0; }
+    .user-menu-item {
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+        padding: .55rem .75rem;
+        border-radius: 9px;
+        color: rgba(255,255,255,.75);
+        font-size: .85rem;
+        font-weight: 600;
+        transition: background .15s, color .15s;
+    }
+    .user-menu-item svg { flex-shrink: 0; opacity: .7; }
+    .user-menu-item:hover {
+        background: rgba(255,255,255,.07);
+        color: #fff;
+    }
+    .user-menu-item:hover svg { opacity: 1; }
+    .user-menu-logout:hover { background: rgba(239,68,68,.12); color: #f87171; }
+</style>
 <div class="fixed-top">
     <section class="navbar-header p-0">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%;">
@@ -97,24 +144,64 @@
                                 <img src="{{ Auth::user()->avatar }}"
                                     alt="Avatar de {{ Auth::user()->name }}"class="rounded-circle" width="30">
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Bienvenue, {{ Auth::user()->name }} Rôle :
-                                        {{ Auth::user()->roleName() }}</a></li>
-                                @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8]))
-                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                                @endif
-                                <li>
-                                    <hr class="dropdown-divider">
+                            <ul class="dropdown-menu user-menu">
+                                <li class="user-menu-header">
+                                    <img src="{{ Auth::user()->avatar }}" alt="" class="user-menu-avatar">
+                                    <div class="user-menu-id">
+                                        <span class="user-menu-name">{{ Auth::user()->name }}</span>
+                                        <span class="user-menu-role">{{ Auth::user()->roleName() ?? 'Membre' }}</span>
+                                    </div>
                                 </li>
+
+                                @if (Auth::user()->steam_id)
+                                    <li>
+                                        <a class="dropdown-item user-menu-item" href="https://steamcommunity.com/profiles/{{ Auth::user()->steam_id }}" target="_blank" rel="noopener">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                                            </svg>
+                                            Voir mon profil Steam
+                                        </a>
+                                    </li>
+                                @endif
+
+                                <li><hr class="dropdown-divider user-menu-divider"></li>
+
+                                @if (Auth::user()->isStaff())
+                                    <li>
+                                        <a class="dropdown-item user-menu-item" href="{{ route('dashboardv2') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
+                                            </svg>
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                @endif
+
+                                <li>
+                                    <a class="dropdown-item user-menu-item" href="https://discord.gg/yx3PUySCN8" target="_blank" rel="noopener">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                                        </svg>
+                                        Discord
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider user-menu-divider"></li>
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
                                     @csrf
                                 </form>
 
-                                <li><a class="dropdown-item" href="#"
+                                <li>
+                                    <a class="dropdown-item user-menu-item user-menu-logout" href="#"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
+                                        </svg>
                                         Déconnexion
-                                    </a></li>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @else

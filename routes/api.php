@@ -16,5 +16,4 @@ Route::middleware('launcher.jwt.agent')->group(function () {
 Route::middleware('launcher.jwt')->group(function () {
     Route::get('/releases',            [LauncherController::class, 'getReleases']);
     Route::get('/mods',                [LauncherController::class, 'getMods']);
-    Route::post('/mods/unauthorized',  [LauncherController::class, 'reportUnauthorizedMod']);
 });

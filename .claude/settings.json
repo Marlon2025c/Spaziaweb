@@ -1,7 +1,33 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php artisan *)"
+      "Bash(php artisan *)",
+      "Bash(git show *)",
+      "Read(//tmp/**)",
+      "Bash(sed -n '715,834p' /tmp/orig_home_v2.blade.php)",
+      "Bash(sed -n '103,238p' \"resources/views/include/radio-player.blade.php\")",
+      "Bash(node -e ' *)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(php -v)",
+      "Bash(composer -V)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8765/)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(npx --yes playwright install chromium --with-deps)",
+      "Bash(npm install *)",
+      "Bash(node screenshot.js)",
+      "Bash(node screenshot-mobile.js)",
+      "Bash(node screenshot-full.js)",
+      "Bash(php -l app/Models/User.php)",
+      "Bash(php -l app/Http/Controllers/Dashboard/AdminController.php)",
+      "Bash(php -l resources/views/Dashboard/sections/roles.blade.php)",
+      "Bash(php artisan tinker '--execute= *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{url_effective}\\\\n\" -I https://spazia.fr/dashboardv2)",
+      "Bash(curl -s -I http://spazia.fr/dashboardv2)",
+      "Bash(curl -s https://spazia.fr/)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" -X POST https://spazia.fr/dashboardv2/roles/1/update -H \"Accept: application/json\" -H \"Content-Type: application/json\" -d '{\"roles\":[]}')",
+      "Bash(curl -s -D - -o /dev/null -X POST https://spazia.fr/dashboardv2/roles/1/update -H \"Accept: application/json\" -H \"Content-Type: application/json\" -d '{\"roles\":[]}')",
+      "Bash(curl -s -D - -o /tmp/resp.html https://spazia.fr/dashboardv2/load/roles -H \"Accept: application/json\")"
     ]
   }
 }

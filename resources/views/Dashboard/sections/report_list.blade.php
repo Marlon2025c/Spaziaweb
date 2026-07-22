@@ -170,9 +170,7 @@
     @if($reports->isEmpty())
         <div class="rl-empty">
             <div class="rl-empty-icon">📋</div>
-            <p class="rl-empty-text">Aucun report pour le moment.<br>
-                <span style="font-size:.8rem;">Lance <code style="background:rgba(255,255,255,.07);padding:.1rem .4rem;border-radius:4px;">php artisan migrate</code> si la table n'est pas encore créée.</span>
-            </p>
+            <p class="rl-empty-text">Aucun report pour le moment.</p>
         </div>
     @else
         <table class="rl-table" id="rlTable">

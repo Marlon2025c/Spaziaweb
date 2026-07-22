@@ -42,7 +42,7 @@
     .dash-wrapper {
         position: relative; z-index: 1;
         display: flex;
-        padding-top: 72px;
+        padding-top: var(--nav-h, 110px);
         min-height: 100vh;
     }
 
@@ -50,9 +50,9 @@
     .dash-sidebar {
         width: 260px;
         min-width: 260px;
-        height: calc(100vh - 72px);
+        height: calc(100vh - var(--nav-h, 110px));
         position: fixed;
-        top: 72px;
+        top: var(--nav-h, 110px);
         left: 0;
         overflow-y: auto;
         padding: 1.25rem 1rem 2rem;
@@ -242,6 +242,20 @@
     }
 </style>
 
+<script>
+    (function () {
+        function setNavHeight() {
+            const nav = document.querySelector('.fixed-top');
+            if (nav) {
+                document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+            }
+        }
+        setNavHeight();
+        window.addEventListener('load', setNavHeight);
+        window.addEventListener('resize', setNavHeight);
+    })();
+</script>
+
 <div class="dash-bg">
     <div class="dash-bg-gradient"></div>
     <div class="dash-grid"></div>
@@ -290,6 +304,12 @@
             <a class="sidebar-link ajax-link" href="#" onclick="loadSection('charte'); return false;">
                 <span class="sidebar-emoji">📜</span> Charte de l'équipe
             </a>
+
+            @if(auth()->check() && auth()->user()->hasRole([7, 8]))
+            <a class="sidebar-link ajax-link" href="#" onclick="loadSection('roles'); return false;">
+                <span class="sidebar-emoji">🎭</span> Rôles
+            </a>
+            @endif
 
         </aside>
 

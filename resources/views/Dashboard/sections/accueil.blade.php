@@ -137,6 +137,16 @@
     .stat-mini-sub   { font-size: .75rem; color: rgba(255,255,255,.4); margin-top:.2rem; }
 </style>
 
+@if(!($canManageServer ?? false))
+    {{-- Accueil simplifié — staff sans accès à la console serveur --}}
+    <div class="mb-4">
+        <p style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0;">Staff</p>
+        <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin:0;">Bienvenue, {{ auth()->user()->name }}</h2>
+        <p style="font-size:.87rem;color:rgba(255,255,255,.35);margin:.3rem 0 0;">
+            La console serveur est réservée aux Responsables et Fondateurs. Utilise le menu à gauche pour accéder aux autres sections.
+        </p>
+    </div>
+@else
 {{-- Titre --}}
 <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
     <div>
@@ -228,6 +238,7 @@
         <button class="btn-terminal" onclick="sendCommand(event)">Envoyer</button>
     </div>
 </div>
+@endif
 
 <script>
 function serverAction(action) {

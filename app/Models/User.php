@@ -14,7 +14,6 @@ class User extends Authenticatable
         'name',
         'steam_id',
         'avatar',
-        'id_role',
     ];
 
     protected $hidden = [
@@ -22,31 +21,32 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // Relation avec la table roles
-    public function role()
+    // Un utilisateur peut désormais avoir plusieurs rôles (ex: Modo-test + Builder)
+    public function roles()
     {
-        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id', 'id', 'id_role');
     }
 
     /**
-     * Vérifie si l'utilisateur a un rôle donné ou un des rôles donnés.
+     * Vérifie si l'utilisateur a au moins un des rôles donnés.
      * @param int|array $roles
      */
-
-
-
-
     public function hasRole(int|array $roles): bool
     {
-        if (is_array($roles)) {
-            return in_array($this->id_role, $roles);
-        }
-        return $this->id_role === $roles;
+        $roles = is_array($roles) ? $roles : [$roles];
+        return $this->roles->pluck('id_role')->intersect($roles)->isNotEmpty();
     }
 
-    // Méthode pour récupérer le nom du rôle facilement
+    // Tous les noms de rôles de l'utilisateur, séparés par une virgule
     public function roleName(): ?string
     {
-        return $this->role?->name_role; // Utilise l'opérateur ?-> pour éviter les erreurs si role est null
+        $names = $this->roles->pluck('name_role')->filter();
+        return $names->isEmpty() ? null : $names->implode(', ');
+    }
+
+    // Fait partie du staff dès qu'un rôle autre que "user" (id 1) lui est attribué
+    public function isStaff(): bool
+    {
+        return $this->roles->pluck('id_role')->diff([1])->isNotEmpty();
     }
 }

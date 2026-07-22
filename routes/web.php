@@ -54,6 +54,7 @@ Route::delete('/dashboardv2/formation/{id}', [AdminController::class, 'deleteFor
 Route::delete('/dashboardv2/formation/completion/{id}', [AdminController::class, 'deleteCompletion'])->name('formation.completion.delete');
 Route::post('/dashboardv2/charte/store', [AdminController::class, 'storeCharte'])->name('charte.store');
 Route::delete('/dashboardv2/charte/{id}', [AdminController::class, 'deleteCharte'])->name('charte.delete');
+Route::post('/dashboardv2/roles/{id}/update', [AdminController::class, 'updateUserRoles'])->name('roles.update');
 Route::get('/notationform', [AdminController::class, 'notationform'])->name('notationform');
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 
@@ -66,7 +67,7 @@ Route::get('/api/nowplaying-local', [RadioController::class, 'nowPlaying'])->nam
 Route::get('/radio-proxy', function () {
     header('Content-Type: audio/mpeg');
     set_time_limit(0);
-    $stream = fopen("https://spazia.fr/radio.mp3", 'rb');
+    $stream = fopen("http://spazia.fr:8000/radio.mp3", 'rb');
 
     while (!feof($stream)) {
         echo fread($stream, 4096); // lecture petit à petit

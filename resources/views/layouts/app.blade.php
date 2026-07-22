@@ -32,6 +32,7 @@
         @endif
 
     </div>
+    @include('include.radio-player')
 </body>
 <script src="{{ asset('js/main.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
