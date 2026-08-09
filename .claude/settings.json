@@ -27,7 +27,10 @@
       "Bash(curl -s https://spazia.fr/)",
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" -X POST https://spazia.fr/dashboardv2/roles/1/update -H \"Accept: application/json\" -H \"Content-Type: application/json\" -d '{\"roles\":[]}')",
       "Bash(curl -s -D - -o /dev/null -X POST https://spazia.fr/dashboardv2/roles/1/update -H \"Accept: application/json\" -H \"Content-Type: application/json\" -d '{\"roles\":[]}')",
-      "Bash(curl -s -D - -o /tmp/resp.html https://spazia.fr/dashboardv2/load/roles -H \"Accept: application/json\")"
+      "Bash(curl -s -D - -o /tmp/resp.html https://spazia.fr/dashboardv2/load/roles -H \"Accept: application/json\")",
+      "Bash(php -l app/Http/Controllers/SondageController.php)",
+      "Bash(php -l app/Http/Middleware/AdminMiddleware.php)",
+      "Bash(php -l routes/web.php)"
     ]
   }
 }

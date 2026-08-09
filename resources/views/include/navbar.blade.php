@@ -144,7 +144,6 @@
                                 <img src="{{ Auth::user()->avatar }}"
                                     alt="Avatar de {{ Auth::user()->name }}"class="rounded-circle" width="30">
                             </a>
-<<<<<<< HEAD
                             <ul class="dropdown-menu user-menu">
                                 <li class="user-menu-header">
                                     <img src="{{ Auth::user()->avatar }}" alt="" class="user-menu-avatar">
@@ -152,17 +151,6 @@
                                         <span class="user-menu-name">{{ Auth::user()->name }}</span>
                                         <span class="user-menu-role">{{ Auth::user()->roleName() ?? 'Membre' }}</span>
                                     </div>
-=======
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Bienvenue, {{ Auth::user()->name }} Rôle :
-                                        {{ Auth::user()->roleName() }}</a></li>
-                                @if (Auth()->user()->hasRole([3, 4, 5, 6, 7, 8]))
-                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('votes.index') }}">🗳️ Sondages</a></li>
-                                @endif
-                                <li>
-                                    <hr class="dropdown-divider">
->>>>>>> 5e85a447b877f4ac1fde5dd32ad8bf473340de18
                                 </li>
 
                                 @if (Auth::user()->steam_id)
@@ -185,6 +173,14 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
                                             </svg>
                                             Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item user-menu-item" href="{{ route('votes.index') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                            </svg>
+                                            Sondages
                                         </a>
                                     </li>
                                 @endif

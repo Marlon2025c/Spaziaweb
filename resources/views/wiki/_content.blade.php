@@ -1,47 +1,38 @@
 <style>
-    .sctiontextwiki{
-        position: relative;
-        width: 100%;
-        height: 5%;
-        background: #001300;
-        overflow: hidden;
-        cursor: default;
-        animation: animateBg 10s linear infinite;
+    .wk-article-title {
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.8rem;
+        margin-bottom: 1.25rem;
     }
-    @keyframes animateBg
-    {
-      0% 
-      {
-        filter: hue-rotate(0deg);
-    
-      }
-      100%
-      {
-        filter: hue-rotate(300deg);
-      }
-    }
-    .customtextwiki{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .customtextwiki span{
-        position: relative;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
+
+    .wk-edit-link {
+        display: inline-flex;
         align-items: center;
-        color: 00ff0a11;
-        transition: 2s
+        gap: .4rem;
+        margin-top: 1.5rem;
+        padding: .5rem 1.1rem;
+        background: rgba(255,255,255,.07);
+        color: rgba(255,255,255,.85);
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 10px;
+        font-size: .85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background .2s, border-color .2s;
     }
-    .customtextwiki span:hover{
-        transition: 0s;
-        font-size: 4em;
-        color: #00ff0a;
-        z-index: 100;
-        text-shadow: 0 0 10px #00ff0a,
-        0 0 50px #00ff0a,
-        0 0 150px #00ff0a;
+
+    .wk-edit-link:hover {
+        background: rgba(249,115,22,.15);
+        border-color: rgba(249,115,22,.35);
+        color: #fb923c;
+    }
+
+    .wk-message {
+        text-align: center;
+        color: rgba(255,255,255,.7);
+        padding: 3rem 1rem;
+        font-size: 1.05rem;
     }
 </style>
 
@@ -53,18 +44,11 @@
     <div>{!! $article->content !!}</div>
     @if (Auth::check())
         @if (Auth::user()->isStaff())
-            <a href="{{ route('wiki.edit', $article->slug) }}">Modifier</a>
+            <a href="{{ route('wiki.edit', $article->slug) }}" class="wk-edit-link">✏️ Modifier</a>
         @endif
     @endif
-@endif
-@if (isset($message))
-    <div class="alert alert-info text-center mt-5">
+@elseif (isset($message))
+    <div class="wk-message">
         {{ $message }}
     </div>
 @endif
-<script>
-    let paragraph = document.querySelector('.customtextwiki');
-    let customtextwiki = 'Spazia'.repeat(106);
-    paragraph.textContent = customtextwiki;
-    paragraph.innerHTML = paragraph.textContent.replace(/\S/g,"<span>$&</span>")
-</script>

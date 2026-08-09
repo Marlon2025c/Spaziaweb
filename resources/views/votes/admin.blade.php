@@ -84,36 +84,57 @@
                     <div id="voters-list" style="max-height:280px; overflow-y:auto;"></div>
                 </div>
             </div>
-        @else
-            {{-- Création d'un nouveau sondage --}}
+        @endif
+
+        {{-- Brouillons préparés à l'avance --}}
+        @if ($brouillons->count())
             <div class="adm-card">
-                <h2 class="text-white fs-5 fw-bold mb-3">Lancer un nouveau sondage</h2>
-                <form id="form-sondage">
-                    <div class="mb-3">
-                        <label class="adm-label d-block mb-1">Titre</label>
-                        <input type="text" name="titre" class="adm-input" placeholder="Ex : Date de sortie de la Saison 8" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="adm-label d-block mb-1">Description (optionnel)</label>
-                        <textarea name="description" class="adm-textarea" rows="2" placeholder="Contexte du vote..."></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="adm-label d-block mb-1">Choix proposés</label>
-                        <div id="options-list">
-                            <div class="opt-row">
-                                <input type="text" name="options[]" class="adm-input" placeholder="Choix 1" required>
-                            </div>
-                            <div class="opt-row">
-                                <input type="text" name="options[]" class="adm-input" placeholder="Choix 2" required>
-                            </div>
+                <h2 class="text-white fs-5 fw-bold mb-3">Sondages préparés ({{ $brouillons->count() }})</h2>
+                @foreach ($brouillons as $b)
+                    <div class="hist-item d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="text-white fw-semibold mb-0">{{ $b->titre }}</p>
+                            @if ($b->description)
+                                <p style="color:rgba(255,255,255,.4);font-size:.75rem;" class="mb-0">{{ $b->description }}</p>
+                            @endif
                         </div>
-                        <button type="button" class="adm-btn-secondary mt-1" onclick="ajouterOption()">+ Ajouter un choix</button>
+                        <div class="d-flex gap-2">
+                            <button class="adm-btn" style="padding:.4rem 1rem;font-size:.85rem;" {{ $sondageOuvert ? 'disabled title="Ferme le sondage en cours avant d\'en activer un autre"' : '' }} onclick="activerSondage({{ $b->id }})">Activer</button>
+                            <button class="adm-btn-danger" onclick="supprimerSondage({{ $b->id }})">Supprimer</button>
+                        </div>
                     </div>
-                    <button type="submit" class="adm-btn">Ouvrir le sondage</button>
-                    <p id="form-error" class="text-danger mt-2 mb-0" style="display:none;"></p>
-                </form>
+                @endforeach
             </div>
         @endif
+
+        {{-- Création d'un nouveau sondage (brouillon) --}}
+        <div class="adm-card">
+            <h2 class="text-white fs-5 fw-bold mb-3">Préparer un sondage</h2>
+            <form id="form-sondage">
+                <div class="mb-3">
+                    <label class="adm-label d-block mb-1">Titre</label>
+                    <input type="text" name="titre" class="adm-input" placeholder="Ex : Date de sortie de la Saison 8" required>
+                </div>
+                <div class="mb-3">
+                    <label class="adm-label d-block mb-1">Description (optionnel)</label>
+                    <textarea name="description" class="adm-textarea" rows="2" placeholder="Contexte du vote..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="adm-label d-block mb-1">Choix proposés</label>
+                    <div id="options-list">
+                        <div class="opt-row">
+                            <input type="text" name="options[]" class="adm-input" placeholder="Choix 1" required>
+                        </div>
+                        <div class="opt-row">
+                            <input type="text" name="options[]" class="adm-input" placeholder="Choix 2" required>
+                        </div>
+                    </div>
+                    <button type="button" class="adm-btn-secondary mt-1" onclick="ajouterOption()">+ Ajouter un choix</button>
+                </div>
+                <button type="submit" class="adm-btn">Enregistrer en brouillon</button>
+                <p id="form-error" class="text-danger mt-2 mb-0" style="display:none;"></p>
+            </form>
+        </div>
 
         {{-- Historique --}}
         @if ($historique->count())
@@ -138,6 +159,12 @@
 
 <script>
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str ?? '';
+        return div.innerHTML;
+    }
 
     function ajouterOption() {
         const list = document.getElementById('options-list');
@@ -177,6 +204,21 @@
         });
     }
 
+    function activerSondage(id) {
+        fetch(`/votes/admin/${id}/activer`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': csrf },
+        })
+        .then(r => r.json().then(data => ({ status: r.status, data })))
+        .then(({ status, data }) => {
+            if (status !== 200 || data.error) {
+                alert(data.error || 'Erreur inconnue');
+                return;
+            }
+            location.reload();
+        });
+    }
+
     function fermerSondage(id) {
         if (!confirm('Fermer ce sondage ? Les résultats seront figés.')) return;
         fetch(`/votes/admin/${id}/close`, {
@@ -199,11 +241,11 @@
             .then(data => {
                 let html = `<h4 style="color:#fff;">Résultats</h4>`;
                 data.options.forEach(o => {
-                    html += `<div class="result-bar"><div class="result-bar-fill" style="width:${o.pct}%"></div><div class="result-bar-content"><span>${o.label}</span><span>${o.pct}% (${o.count})</span></div></div>`;
+                    html += `<div class="result-bar"><div class="result-bar-fill" style="width:${o.pct}%"></div><div class="result-bar-content"><span>${escapeHtml(o.label)}</span><span>${o.pct}% (${o.count})</span></div></div>`;
                 });
                 html += `<h5 style="color:#fff;margin-top:1rem;">Votants</h5>`;
                 data.votants.forEach(v => {
-                    html += `<div class="voter-row"><span class="voter-name">${v.nom}</span><span class="voter-choix">${v.choix}</span></div>`;
+                    html += `<div class="voter-row"><span class="voter-name">${escapeHtml(v.nom)}</span><span class="voter-choix">${escapeHtml(v.choix)}</span></div>`;
                 });
                 const w = window.open('', '_blank', 'width=500,height=600');
                 w.document.write(`<body style="background:#0a0a10;font-family:sans-serif;padding:1.5rem;">${html}</body>`);
@@ -221,7 +263,7 @@
                 .then(data => {
                     let bars = '';
                     data.options.forEach(o => {
-                        bars += `<div class="result-bar"><div class="result-bar-fill" style="width:${o.pct}%"></div><div class="result-bar-content"><span>${o.label}</span><span>${o.pct}% (${o.count})</span></div></div>`;
+                        bars += `<div class="result-bar"><div class="result-bar-fill" style="width:${o.pct}%"></div><div class="result-bar-content"><span>${escapeHtml(o.label)}</span><span>${o.pct}% (${o.count})</span></div></div>`;
                     });
                     document.getElementById('resultats-bars').innerHTML = bars;
 
@@ -230,7 +272,7 @@
                         voters = '<p style="color:rgba(255,255,255,.35);font-size:.85rem;">Aucun vote pour l\'instant.</p>';
                     } else {
                         data.votants.forEach(v => {
-                            voters += `<div class="voter-row">${v.avatar ? `<img src="${v.avatar}">` : ''}<span class="voter-name">${v.nom}</span><span class="voter-choix">${v.choix}</span></div>`;
+                            voters += `<div class="voter-row">${v.avatar ? `<img src="${escapeHtml(v.avatar)}">` : ''}<span class="voter-name">${escapeHtml(v.nom)}</span><span class="voter-choix">${escapeHtml(v.choix)}</span></div>`;
                         });
                     }
                     document.getElementById('voters-list').innerHTML = voters;

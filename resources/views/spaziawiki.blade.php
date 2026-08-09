@@ -1,55 +1,120 @@
 @extends('layouts.app')
-@section('title', 'Spazia - Accueil')
+@section('title', 'Spazia - Wiki')
 @section('content')
 
     <style>
+        /* ─── Fond général (même dégradé que le hero de la home) ────── */
+        .wk-shell {
+            position: relative;
+            background: #0a0a10;
+            padding: 100px 5% 6rem;
+        }
+        .wk-shell-gradient {
+            position: absolute; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 12% 8%, rgba(249,115,22,.16) 0%, transparent 55%),
+                radial-gradient(ellipse 55% 45% at 88% 25%, rgba(34,197,94,.12) 0%, transparent 55%),
+                radial-gradient(ellipse 90% 70% at 50% 100%, rgba(16,185,129,.08) 0%, transparent 50%),
+                #0a0a10;
+        }
+        .wk-shell-grid {
+            position: absolute; inset: 0; z-index: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 100%);
+        }
+        .wk-shell > .row { position: relative; z-index: 1; }
+
+        /* ─── Carte sidebar ─────────────────────────────────────── */
+        .wk-sidebar-card {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 18px;
+            padding: 1.25rem 1rem;
+            position: sticky;
+            top: 125px;
+        }
+
         .sidebar h6 {
-            font-size: 0.9rem;
+            font-size: .78rem;
             text-transform: uppercase;
-            margin-top: 15px;
-            margin-bottom: 10px;
+            letter-spacing: .12em;
+            font-weight: 700;
+            color: #fb923c;
+            margin-top: 18px;
+            margin-bottom: 8px;
             padding-left: 10px;
         }
 
         .sidebar .nav-link {
-            color: white;
-            padding: 6px 6px 6px 6px;
+            color: rgba(255,255,255,.75);
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: background .2s, color .2s;
         }
 
+        .sidebar .nav-link:hover {
+            background: rgba(249,115,22,.08);
+            color: #fb923c;
+        }
+
+        .sidebar .nav-link.active {
+            background: rgba(249,115,22,.12);
+            color: #fb923c;
+            font-weight: 600;
+        }
 
         .accordion-button {
             background-color: transparent;
-            /* plus de fond blanc */
-            color: inherit;
-            /* garde ta couleur de texte */
+            color: rgba(255,255,255,.85);
             box-shadow: none !important;
-            /* enlève l’ombre */
-            padding: 6px 6px 6px 6px;
+            padding: 8px 10px;
             font-size: 0.95rem;
+            border-radius: 8px;
+        }
+
+        .accordion-button:hover {
+            background-color: rgba(249,115,22,.08);
+            color: #fb923c;
         }
 
         .accordion-button:not(.collapsed) {
-            background-color: rgb(148, 148, 148, 0.3);
-            border-radius: 10px 10px 0px 0px;
-            color: orangered;
+            background-color: rgba(249,115,22,.12);
+            border-radius: 8px 8px 0 0;
+            color: #fb923c;
             box-shadow: none !important;
         }
 
-
         .accordion-body {
-            background-color: #101015;
+            background-color: rgba(255,255,255,.02);
+            border-radius: 0 0 8px 8px;
         }
 
         .accordion-body a {
             display: block;
-            padding: 6px 6px 6px 6px;
+            padding: 6px 10px;
             font-size: 0.9rem;
             text-decoration: none;
-            color: white;
+            color: rgba(255,255,255,.7);
+            border-radius: 6px;
+            transition: background .2s, color .2s;
+        }
+
+        .accordion-body a:hover {
+            background-color: rgba(249,115,22,.08);
+            color: #fb923c;
+        }
+
+        .accordion-body a.active {
+            background-color: rgba(249,115,22,.14);
+            color: #fb923c;
+            font-weight: 600;
         }
 
         .accordion-button::after {
             transition: transform 0.2s ease-in-out;
+            filter: invert(63%) sepia(53%) saturate(1274%) hue-rotate(337deg) brightness(101%) contrast(96%);
         }
 
         .accordion-button:not(.collapsed)::after {
@@ -57,106 +122,93 @@
         }
 
         .article_top {
-            padding-top: 70px;
+            padding-top: 0;
         }
 
         /* Appliquer sur les sous-accordéons */
         .accordion .accordion .accordion-button {
-            font-size: 0.95rem;
-            /* même taille que ton premier niveau */
-            padding: 8px 15px;
-            /* même padding */
+            font-size: 0.9rem;
+            padding: 6px 12px;
         }
 
         .accordion .accordion .accordion-body a {
-            font-size: 0.9rem;
-            padding: 4px 10px;
+            font-size: 0.85rem;
+            padding: 4px 14px;
         }
 
         .accordion-body-custom {
             padding: 0px
         }
 
-
         /* Enlève la bordure de l’item */
         .accordion-item {
             border: none;
             background-color: transparent;
-            /* si tu veux tout transparent */
         }
 
-        /* Effet hover même quand il est ouvert */
-
-
+        /* Icônes toujours alignées */
+        .accordion-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
         /* Pour Chrome, Edge, Safari (scrollbar navigateur ou menu) */
         html::-webkit-scrollbar {
             width: 12px;
-            /* largeur du scroll */
         }
 
         html::-webkit-scrollbar-track {
             background: #101015;
-            /* fond */
         }
 
         html::-webkit-scrollbar-thumb {
-            background-color: orange;
-            /* curseur */
+            background-color: #f97316;
             border-radius: 10px;
             border: 2px solid #101015;
-            /* bordure autour du curseur */
         }
 
         html::-webkit-scrollbar-thumb:hover {
-            background-color: darkorange;
-            /* hover */
+            background-color: #ea580c;
         }
 
         /* Pour Firefox */
         html {
             scrollbar-width: thin;
-            /* taille fine */
-            scrollbar-color: orange #101015;
-            /* curseur / track */
+            scrollbar-color: #f97316 #101015;
         }
 
+        /* ─── Carte contenu article ─────────────────────────────── */
+        .wk-content-card {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 18px;
+            padding: 2rem;
+            min-height: 300px;
+            color: rgba(255,255,255,.8);
+        }
 
-        
+        .wk-content-card img.img-fluid { border-radius: 12px; }
 
-/* Rendre les sous-catégories plus nettes */
-.accordion .accordion .accordion-button {
-    font-size: 0.9rem;
-    padding: 6px 12px;
-}
+        .wk-content-card p, .wk-content-card li { color: rgba(255,255,255,.75); line-height: 1.8; }
 
-/* Lien des sous-éléments */
-.accordion .accordion .accordion-body a {
-    font-size: 0.85rem;
-    padding: 4px 14px;
-}
+        .wk-content-card a { color: #fb923c; }
 
-/* Icônes toujours alignées */
-.accordion-button {
-    display: flex;
-    align-items: center;
-    gap: 6px; /* espace entre icône et texte */
-}
+        .wk-content-card h1, .wk-content-card h2, .wk-content-card h3,
+        .wk-content-card h4, .wk-content-card h5, .wk-content-card h6 { color: #fff; font-weight: 800; }
 
-.sidebar .sidebar-fixed {
-  position: fixed;
-  top: 70px;        /* adapte à la hauteur du header */
-  bottom: 0;         /* ou calceur pour aligner avec ton layout — tu peux utiliser left: auto et right: auto si besoin */
-  width: 250px;     /* adapte la largeur ou calcule-la (ex: width: 16.6667%) */
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-top: 70px;
-}
+        @media (max-width: 767px) {
+            .wk-sidebar-card { position: static; margin-bottom: 2rem; }
+        }
     </style>
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-    <div class="row article_top caracterefont containerahover" style="max-width: 100%; padding-left: 5%;">
+
+    <div class="wk-shell">
+    <div class="wk-shell-gradient"></div>
+    <div class="wk-shell-grid"></div>
+    <div class="row article_top caracterefont containerahover" style="max-width: 100%;">
         <nav class="col-md-3 col-lg-2 d-md-block sidebar caracterefont p-0">
-            <div class="sidebar-fixed">
+            <div class="wk-sidebar-card">
                 <div class="accordion" id="accordionMainWiki">
                     <h6>Règlements</h6>
                     <ul class="nav flex-column mb-2">
@@ -378,14 +430,10 @@
                                                         <div id="collapseBasique" class="accordion-collapse collapse" data-bs-parent="#accordionNVVILLE">
                                                             <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="2-a-4-niveaux-1" href="{{ route('wiki.show', '2-a-4-niveaux-1') }}">🏚️ Niveaux 1</a>
-                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-2" href="{{ route('wiki.show', '2-a-4-niveaux-2') }}">🏠 Niveaux 2</a>
-                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-3" href="{{ route('wiki.show', '2-a-4-niveaux-3') }}">🏘️ Niveaux 3</a>
-                                                                @if (Auth::check())
-                                                                     @if (Auth()->user()->hasRole([7, 8]))
-                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-4" href="{{ route('wiki.show', '2-a-4-niveaux-4') }}">🏙️ Niveaux 4</a>
-                                                                        <a class="ajax-link" data-slug="2-a-4-niveaux-5" href="{{ route('wiki.show', '2-a-4-niveaux-5') }}">🌆 Niveaux 5</a>
-                                                                    @endif
-                                                                @endif
+                                                                    <a class="ajax-link" data-slug="2-a-4-niveaux-2" href="{{ route('wiki.show', '2-a-4-niveaux-2') }}">🏠 Niveaux 2</a>
+                                                                    <a class="ajax-link" data-slug="2-a-4-niveaux-3" href="{{ route('wiki.show', '2-a-4-niveaux-3') }}">🏘️ Niveaux 3</a>
+                                                                    <a class="ajax-link" data-slug="2-a-4-niveaux-4" href="{{ route('wiki.show', '2-a-4-niveaux-4') }}">🏙️ Niveaux 4</a>
+                                                                    <a class="ajax-link" data-slug="2-a-4-niveaux-5" href="{{ route('wiki.show', '2-a-4-niveaux-5') }}">🌆 Niveaux 5</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -403,13 +451,9 @@
                                                             <div class="accordion-body">
                                                                 <a class="ajax-link" data-slug="5-a-8-niveaux-1" href="{{ route('wiki.show', '5-a-8-niveaux-1') }}">🏚️ Niveaux 1</a>
                                                                 <a class="ajax-link" data-slug="5-a-8-niveaux-2" href="{{ route('wiki.show', '5-a-8-niveaux-2') }}">🏠 Niveaux 2</a>
-                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-3" href="{{ route('wiki.show', '5-a-8-niveaux-3') }}">🏘️ Niveaux 3</a>
-                                                                @if (Auth::check())
-                                                                     @if (Auth()->user()->hasRole([7, 8]))
-                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-4" href="{{ route('wiki.show', '5-a-8-niveaux-4') }}">🏙️ Niveaux 4</a>
-                                                                        <a class="ajax-link" data-slug="5-a-8-niveaux-5" href="{{ route('wiki.show', '5-a-8-niveaux-5') }}">🌆 Niveaux 5</a>
-                                                                    @endif
-                                                                @endif
+                                                                <a class="ajax-link" data-slug="5-a-8-niveaux-3" href="{{ route('wiki.show', '5-a-8-niveaux-3') }}">🏘️ Niveaux 3</a>
+                                                                <a class="ajax-link" data-slug="5-a-8-niveaux-4" href="{{ route('wiki.show', '5-a-8-niveaux-4') }}">🏙️ Niveaux 4</a>
+                                                                <a class="ajax-link" data-slug="5-a-8-niveaux-5" href="{{ route('wiki.show', '5-a-8-niveaux-5') }}">🌆 Niveaux 5</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -427,12 +471,8 @@
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-1" href="{{ route('wiki.show', '9-a-16-niveaux-1') }}">🏚️ Niveaux 1</a>
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-2" href="{{ route('wiki.show', '9-a-16-niveaux-2') }}">🏠 Niveaux 2</a>
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-3" href="{{ route('wiki.show', '9-a-16-niveaux-3') }}">🏘️ Niveaux 3</a>
-                                                                @if (Auth::check())
-                                                                     @if (Auth()->user()->hasRole([7, 8]))
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-4" href="{{ route('wiki.show', '9-a-16-niveaux-4') }}">🏙️ Niveaux 4</a>
                                                                         <a class="ajax-link" data-slug="9-a-16-niveaux-5" href="{{ route('wiki.show', '9-a-16-niveaux-5') }}">🌆 Niveaux 5</a>
-                                                                    @endif
-                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -467,19 +507,12 @@
                 </div>
             </div>
         </nav>
-        <div class="col-md-6" style="padding-left: 5%;" id="wiki-content">
-            @if (isset($article) || isset($articles))
-                @include('wiki._content', ['article' => $article ?? null, 'articles' => $articles ?? null])
-            @else
-                {{-- Au cas où on arrive direct sur un slug via URL --}}
-                @php
-                    $slug = request()->route('slug');
-                    $article = $slug ? \App\Models\WikiArticle::where('slug', $slug)->first() : null;
-                    $articles = !$article ? \App\Models\WikiArticle::orderBy('id', 'desc')->paginate(10) : null;
-                @endphp
-            @endif
+        <div class="col-md-9 col-lg-8" style="padding-left: 5%;">
+            <div class="wk-content-card" id="wiki-content">
+                @include('wiki._content', ['article' => $article ?? null, 'message' => $message ?? null])
+            </div>
         </div>
-        <div class="col-md-3"></div>
+    </div>
     </div>
 
     <script>

@@ -85,11 +85,15 @@ class SondageController extends Controller
             ? Sondage::where('statut', 'ouvert')->latest()->first()
             : null;
 
+        $brouillons = Schema::hasTable('sondages')
+            ? Sondage::where('statut', 'brouillon')->oldest()->get()
+            : collect();
+
         $historique = Schema::hasTable('sondages')
             ? Sondage::where('statut', 'ferme')->latest()->get()
             : collect();
 
-        return view('votes.admin', compact('sondageOuvert', 'historique'));
+        return view('votes.admin', compact('sondageOuvert', 'brouillons', 'historique'));
     }
 
     public function resultatsDetail(Sondage $sondage)
@@ -126,10 +130,6 @@ class SondageController extends Controller
             return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
         }
 
-        if (Sondage::where('statut', 'ouvert')->exists()) {
-            return response()->json(['error' => 'Un sondage est déjà ouvert. Ferme-le avant d\'en créer un nouveau.'], 422);
-        }
-
         $request->validate([
             'titre' => 'required|string|max:255',
             'description' => 'nullable|string|max:2000',
@@ -140,7 +140,7 @@ class SondageController extends Controller
         $sondage = Sondage::create([
             'titre' => $request->titre,
             'description' => $request->description,
-            'statut' => 'ouvert',
+            'statut' => 'brouillon',
             'created_by' => Auth::id(),
         ]);
 
@@ -149,6 +149,25 @@ class SondageController extends Controller
         }
 
         return response()->json(['success' => true, 'id' => $sondage->id]);
+    }
+
+    public function activer(Sondage $sondage)
+    {
+        if (!$this->canManage()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        if ($sondage->statut !== 'brouillon') {
+            return response()->json(['error' => 'Ce sondage n\'est pas un brouillon.'], 422);
+        }
+
+        if (Sondage::where('statut', 'ouvert')->exists()) {
+            return response()->json(['error' => 'Un sondage est déjà ouvert. Ferme-le avant d\'en activer un autre.'], 422);
+        }
+
+        $sondage->update(['statut' => 'ouvert']);
+
+        return response()->json(['success' => true]);
     }
 
     public function close(Sondage $sondage)

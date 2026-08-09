@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\WikiArticle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Contracts\View\View;
 
 class WikiController extends Controller
 {
@@ -53,13 +52,7 @@ class WikiController extends Controller
 
             return view('spaziawiki', compact('article', 'slug'));
         } else {
-            $articles = WikiArticle::orderBy('id', 'desc')->paginate(10);
-
-            if (request()->ajax()) {
-                return view('wiki._content', compact('articles'));
-            }
-
-            return view('spaziawiki', compact('articles'));
+            return redirect()->route('wiki.show', 'reglement-en-jeu');
         }
     }
 

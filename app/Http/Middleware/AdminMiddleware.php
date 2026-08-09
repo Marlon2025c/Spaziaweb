@@ -22,6 +22,14 @@ class AdminMiddleware
             abort(403, 'Accès interdit : Vous devez être connecté.');
         }
 
+        // 'staff' = n'importe quel rôle autre que "user", sans lister chaque id manuellement
+        if (in_array('staff', $roles, true)) {
+            if (!Auth::user()->isStaff()) {
+                abort(403, 'Accès interdit : Vous n\'avez pas les permissions nécessaires.');
+            }
+            return $next($request);
+        }
+
         // Convertir les rôles en int (si tu passes des IDs)
         $roles = array_map(fn($r) => (int) $r, $roles);
 
