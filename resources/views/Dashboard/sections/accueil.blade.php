@@ -78,6 +78,7 @@
         transition: transform .2s, box-shadow .2s, opacity .2s;
     }
     .server-btn:active { transform: scale(.97); }
+    .server-btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
     .btn-start {
         background: linear-gradient(135deg, #22c55e, #16a34a);
         color: #fff;
@@ -153,28 +154,28 @@
         <p style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0;">Staff</p>
         <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin:0;">Console & Serveur</h2>
     </div>
-    <span class="server-status-badge">
-        <span class="status-pulse"></span>
-        Serveur en ligne
+    <span class="server-status-badge" id="server-status-badge">
+        <span class="status-pulse" id="server-status-dot"></span>
+        <span id="server-status-text">Connexion...</span>
     </span>
 </div>
 
 {{-- Boutons serveur --}}
 <div class="d-flex flex-wrap gap-2 mb-4">
-    <button class="server-btn btn-start" onclick="serverAction('start')">
+    <button class="server-btn btn-start" id="btn-server-start" onclick="serverAction('start')">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M11.596 8.697 6.5 11.197V4.803l5.096 2.5a.25.25 0 0 1 0 .394z"/>
             <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-4.95 11.95l9.9-9.9A6.985 6.985 0 0 0 8 1zm-4.242 12.657 9.9-9.9a7 7 0 0 1-9.9 9.9z"/>
         </svg>
         Démarrer
     </button>
-    <button class="server-btn btn-stop" onclick="serverAction('stop')">
+    <button class="server-btn btn-stop" id="btn-server-stop" onclick="serverAction('stop')">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>
         </svg>
         Arrêter
     </button>
-    <button class="server-btn btn-restart" onclick="serverAction('restart')">
+    <button class="server-btn btn-restart" id="btn-server-restart" onclick="serverAction('restart')">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
         </svg>
@@ -241,10 +242,49 @@
 @endif
 
 <script>
-function serverAction(action) {
-    const labels = { start:'Démarrage...', stop:'Arrêt...', restart:'Redémarrage...' };
+const ecoCsrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+async function ecoFetch(url, options = {}) {
+    const res = await fetch(url, {
+        headers: {
+            'X-CSRF-TOKEN': ecoCsrfToken,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Erreur ${res.status}`);
+    return data;
+}
+
+async function serverAction(action) {
+    const labels = { start: 'Démarrage...', stop: 'Arrêt...', restart: 'Redémarrage...' };
+    const confirmLabels = {
+        start: 'Démarrer le serveur ?',
+        stop: "Arrêter le serveur ? Une annonce sera envoyée dans le chat 10 secondes avant l'arrêt.",
+        restart: "Redémarrer le serveur ? Une annonce sera envoyée dans le chat 10 secondes avant le redémarrage.",
+    };
+    if (!confirm(confirmLabels[action] || 'Confirmer ?')) return;
+
+    ['btn-server-start', 'btn-server-stop', 'btn-server-restart'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.disabled = true;
+    });
     appendLog(`[Action] ${labels[action] || action}`, '#fb923c');
-    // TODO: appeler l'API serveur ici
+
+    try {
+        await ecoFetch(@json(route('eco.action')), {
+            method: 'POST',
+            body: JSON.stringify({ action, delay_seconds: 10 }),
+        });
+        appendLog(`[OK] Commande "${action}" envoyée à l'agent.`, '#4ade80');
+    } catch (err) {
+        appendLog(`[Erreur] ${err.message}`, '#f87171');
+    } finally {
+        refreshStatus();
+    }
 }
 
 function appendLog(text, color) {
@@ -257,24 +297,106 @@ function appendLog(text, color) {
     out.scrollTop = out.scrollHeight;
 }
 
-function refreshLogs() {
-    appendLog('Rafraîchissement des logs...', 'rgba(74,222,128,.5)');
-    // TODO: fetch logs depuis l'API
+function appendRawLog(text, color) {
+    const out = document.getElementById('terminal-output');
+    if (!out) return;
+    const line = document.createElement('div');
+    line.style.color = color || '#4ade80';
+    line.textContent = text;
+    out.appendChild(line);
+    out.scrollTop = out.scrollHeight;
 }
 
-function sendCommand(e) {
+async function refreshLogs() {
+    try {
+        const data = await ecoFetch(@json(route('eco.logs')) + '?tail=150', { method: 'GET' });
+        const out = document.getElementById('terminal-output');
+        if (out && Array.isArray(data.lines)) {
+            out.innerHTML = '';
+            if (data.lines.length === 0) {
+                appendLog('Aucun log pour le moment.', 'rgba(74,222,128,.4)');
+            } else {
+                data.lines.forEach(line => appendRawLog(line, '#4ade80'));
+            }
+        }
+    } catch (err) {
+        appendLog(`[Erreur logs] ${err.message}`, '#f87171');
+    }
+}
+
+async function sendCommand(e) {
     e.preventDefault();
     const input = document.getElementById('terminal-input');
     const cmd = input.value.trim();
     if (!cmd) return;
     appendLog(`> ${cmd}`, '#fff');
     input.value = '';
-    // TODO: envoyer la commande à l'API serveur
+    try {
+        await ecoFetch(@json(route('eco.command')), {
+            method: 'POST',
+            body: JSON.stringify({ cmd }),
+        });
+        setTimeout(refreshLogs, 1000);
+    } catch (err) {
+        appendLog(`[Erreur] ${err.message}`, '#f87171');
+    }
+}
+
+function formatUptime(seconds) {
+    if (seconds === null || seconds === undefined) return '—';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    return h > 0 ? `${h}h ${m}min` : `${m}min`;
+}
+
+async function refreshStatus() {
+    try {
+        const data = await ecoFetch(@json(route('eco.status')), { method: 'GET' });
+        const text = document.getElementById('server-status-text');
+        const dot = document.getElementById('server-status-dot');
+        const badge = document.getElementById('server-status-badge');
+
+        if (text) {
+            text.textContent = data.pending_action
+                ? data.pending_action
+                : (data.running ? 'Serveur en ligne' : 'Serveur arrêté');
+        }
+        if (dot) dot.style.background = data.running ? '#4ade80' : '#ef4444';
+        if (badge) {
+            badge.style.color = data.running ? '#4ade80' : '#f87171';
+            badge.style.borderColor = data.running ? 'rgba(34,197,94,.25)' : 'rgba(239,68,68,.25)';
+        }
+
+        const ram = document.getElementById('stat-ram');
+        const uptime = document.getElementById('stat-uptime');
+        if (ram) ram.textContent = data.ram_mb ? `${data.ram_mb} Mo` : '—';
+        if (uptime) uptime.textContent = formatUptime(data.uptime_seconds);
+
+        // Etat des boutons calé sur le statut réel du process, pas sur une supposition côté navigateur
+        const busy = !!data.pending_action;
+        const btnStart = document.getElementById('btn-server-start');
+        const btnStop = document.getElementById('btn-server-stop');
+        const btnRestart = document.getElementById('btn-server-restart');
+        if (btnStart) btnStart.disabled = busy || data.running;
+        if (btnStop) btnStop.disabled = busy || !data.running;
+        if (btnRestart) btnRestart.disabled = busy || !data.running;
+    } catch (err) {
+        // Agent injoignable : on ne connait pas l'état réel, on désactive tout par sécurité
+        ['btn-server-start', 'btn-server-stop', 'btn-server-restart'].forEach(id => {
+            const b = document.getElementById(id);
+            if (b) b.disabled = true;
+        });
+    }
 }
 
 document.getElementById('terminal-input')?.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') sendCommand(e);
 });
+
+refreshStatus();
+refreshLogs();
+setInterval(refreshStatus, 5000);
+setInterval(refreshLogs, 5000);
 </script>
 
 </div>

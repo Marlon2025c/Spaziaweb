@@ -9,6 +9,7 @@ use App\Http\Controllers\WikiController;
 use App\Http\Controllers\Dashboard\ArticleController;
 
 use App\Http\Controllers\Dashboard\AdminController;
+use App\Http\Controllers\Dashboard\EcoServerController;
 
 use App\Http\Controllers\RadioController;
 use App\Http\Controllers\SaisonCalendrierController;
@@ -50,13 +51,23 @@ Route::get('/dashboardv2', [AdminController::class, 'dashboardv2'])->name('dashb
 Route::get('/dashboardv2/load/{section}', [AdminController::class, 'loadSection'])->name('dashboardv2.load');
 Route::post('/dashboardv2/report/store', [AdminController::class, 'storeReport'])->name('report.store');
 Route::post('/dashboardv2/formation/store', [AdminController::class, 'storeFormation'])->name('formation.store');
+Route::get('/dashboardv2/formation/{id}/edit-data', [AdminController::class, 'editFormationData'])->name('formation.edit.data');
+Route::post('/dashboardv2/formation/{id}/update', [AdminController::class, 'updateFormation'])->name('formation.update');
 Route::post('/dashboardv2/formation/{id}/validate', [AdminController::class, 'validateCompletion'])->name('formation.validate');
+Route::post('/dashboardv2/formation/{id}/quiz/submit', [AdminController::class, 'submitQuiz'])->name('formation.quiz.submit');
+Route::get('/dashboardv2/formation/{id}/parcours', [AdminController::class, 'formationTrainer'])->name('formation.trainer');
 Route::delete('/dashboardv2/formation/{id}', [AdminController::class, 'deleteFormation'])->name('formation.delete');
 Route::delete('/dashboardv2/formation/completion/{id}', [AdminController::class, 'deleteCompletion'])->name('formation.completion.delete');
 Route::post('/dashboardv2/charte/store', [AdminController::class, 'storeCharte'])->name('charte.store');
 Route::delete('/dashboardv2/charte/{id}', [AdminController::class, 'deleteCharte'])->name('charte.delete');
 Route::post('/dashboardv2/roles/{id}/update', [AdminController::class, 'updateUserRoles'])->name('roles.update');
 Route::get('/notationform', [AdminController::class, 'notationform'])->name('notationform');
+
+/* Spazia Dashboard - Serveur Eco */
+Route::post('/dashboardv2/eco/action', [EcoServerController::class, 'action'])->name('eco.action');
+Route::get('/dashboardv2/eco/status', [EcoServerController::class, 'status'])->name('eco.status');
+Route::get('/dashboardv2/eco/logs', [EcoServerController::class, 'logs'])->name('eco.logs');
+Route::post('/dashboardv2/eco/command', [EcoServerController::class, 'command'])->name('eco.command');
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 
 /* SpaziaRadio */

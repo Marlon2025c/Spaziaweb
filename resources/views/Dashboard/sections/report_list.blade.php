@@ -125,11 +125,11 @@
 {{-- Header --}}
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
     <div>
-        <p style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0 0 .15rem;">Staff · Report</p>
-        <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin:0;">Liste des reports</h2>
+        <p style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0 0 .15rem;">Staff · Rapports</p>
+        <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin:0;">Liste des rapports</h2>
     </div>
     <button style="background:linear-gradient(135deg,#f97316,#ea580c);border:none;color:#fff;font-weight:700;font-size:.85rem;padding:.6rem 1.25rem;border-radius:10px;cursor:pointer;" onclick="loadSection('report_form')">
-        + Nouveau report
+        + Nouveau rapport
     </button>
 </div>
 
@@ -143,7 +143,7 @@
     <div class="rl-stat">
         <p class="rl-stat-label">Total</p>
         <p class="rl-stat-value">{{ $total }}</p>
-        <p class="rl-stat-sub">Reports enregistrés</p>
+        <p class="rl-stat-sub">Rapports enregistrés</p>
     </div>
     <div class="rl-stat">
         <p class="rl-stat-label" style="color:rgba(249,115,22,.6);">Quotidiens</p>
@@ -153,7 +153,7 @@
     <div class="rl-stat">
         <p class="rl-stat-label" style="color:rgba(99,102,241,.6);">Joueurs</p>
         <p class="rl-stat-value" style="color:#818cf8;">{{ $joueurs }}</p>
-        <p class="rl-stat-sub">Reports de joueur</p>
+        <p class="rl-stat-sub">Rapports de joueur</p>
     </div>
 </div>
 
@@ -170,7 +170,7 @@
     @if($reports->isEmpty())
         <div class="rl-empty">
             <div class="rl-empty-icon">📋</div>
-            <p class="rl-empty-text">Aucun report pour le moment.</p>
+            <p class="rl-empty-text">Aucun rapport pour le moment.</p>
         </div>
     @else
         <table class="rl-table" id="rlTable">
@@ -235,7 +235,7 @@
             </tbody>
         </table>
         <div class="rl-footer">
-            <span id="rlCount">{{ $total }} report(s)</span>
+            <span id="rlCount">{{ $total }} rapport(s)</span>
         </div>
     @endif
 </div>
@@ -252,7 +252,7 @@
         </button>
 
         <span class="rl-mode-badge {{ $isJoueur ? 'rl-mode-joueur' : 'rl-mode-quot' }}" style="display:inline-flex;margin-bottom:.75rem;">
-            {{ $isJoueur ? '👤 Report joueur' : '📅 Report quotidien' }}
+            {{ $isJoueur ? '👤 Rapport joueur' : '📅 Rapport quotidien' }}
         </span>
 
         @if($isJoueur)
@@ -325,7 +325,7 @@ function filterTable() {
         if (show) visible++;
     });
     const el = document.getElementById('rlCount');
-    if (el) el.textContent = visible + ' report(s)';
+    if (el) el.textContent = visible + ' rapport(s)';
 }
 
 function openModal(id)  { document.getElementById('modal-' + id)?.classList.add('open'); }

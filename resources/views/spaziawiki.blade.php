@@ -34,6 +34,21 @@
             padding: 1.25rem 1rem;
             position: sticky;
             top: 125px;
+            max-height: calc(100vh - 145px);
+            overflow-y: auto;
+        }
+
+        .wk-sidebar-card::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .wk-sidebar-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .wk-sidebar-card::-webkit-scrollbar-thumb {
+            background-color: #f97316;
+            border-radius: 10px;
         }
 
         .sidebar h6 {
@@ -340,6 +355,7 @@
                                                                 <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '7-ingénieur-basique') }}">🪛 7. Ingénieur basique</a>
                                                                 <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '8-constructeur-navale') }}">⚓ 8. Constructeur navale</a>
                                                                 <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', '9-fondeur') }}">🔥 9. Fondeur</a>
+                                                                <a class="ajax-link" data-slug="ecognome-basique" href="{{ route('wiki.show', 'brasseur') }}">🍺 10. Brasseur</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -355,18 +371,19 @@
                                                         </h2>
                                                         <div id="collapseAvancee" class="accordion-collapse collapse"data-bs-parent="#accordionBatimentsMetiers" >
                                                             <div class="accordion-body">
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '10-engrais') }}">🧪 10. Engrais</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '12-mouture') }}">🥣 11. Mouture</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '13-forgeron') }}">🔨 12. Forgeron</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '15-travail-du-verre') }}">🪟 13. Travail du verre</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '16-cuisine') }}">🍽 14. Cuisine</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '17-boulangerie') }}">🍞15.Boulangerie</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '14-poterie') }}">🏺 16. Poterie</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '11-agent-de-Tri') }}">🗑 17. Ingénieur avancée</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '10-engrais') }}">🧪 11. Engrais</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '12-mouture') }}">🥣 12. Mouture</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '13-forgeron') }}">🔨 13. Forgeron</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '15-travail-du-verre') }}">🪟 14. Travail du verre</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '16-cuisine') }}">🍽 15. Cuisine</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '17-boulangerie') }}">🍞16.Boulangerie</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '14-poterie') }}">🏺 17. Poterie</a>
+                                                                <!-- <a class="ajax-link" href="{{ route('wiki.show', '11-agent-de-Tri') }}">🗑 Ingénieur avancée</a> -->
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '19-mécanicien') }}">⚙18.Mécanicien</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '18-peinture') }}">🖼 19. Peinture</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '20-production-de-papier') }}">🧻 20. Production de Papier</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '21-barman') }}">🍹 21. Barman</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', 'recycleur') }}">🧬 19. Recycleur</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '18-peinture') }}">🖼 20. Peinture</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '20-production-de-papier') }}">🧻 21. Production de Papier</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '21-barman') }}">🍹 22. Barman</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -381,13 +398,12 @@
                                                         </h2>
                                                         <div id="collapseModerne" class="accordion-collapse collapse" data-bs-parent="#accordionBatimentsMetiers">
                                                             <div class="accordion-body ">
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '27-composite') }}">🌳 22. Composite</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '28-maconnerie-avancée') }}">🔨 23. Maconnerie avancée</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '23-fonte-avancée') }}">🔥 24. Fonte avancée</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '22-forage-pétrolier') }}">🛢 25. Forage pétrolier</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '25-cuisine-avancée') }}">🥘 26. Cuisine avancée</a>
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '26-boulangerie-avancée') }}">🥐27. Boulangerie avancée</a> 
-                                                                <a class="ajax-link" href="{{ route('wiki.show', '24-bio-chimiste') }}">🧬 28. Bio chimiste</a>                             
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '27-composite') }}">🌳 23. Composite</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '28-maconnerie-avancée') }}">🔨 24. Maconnerie avancée</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '23-fonte-avancée') }}">🔥 25. Fonte avancée</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '22-forage-pétrolier') }}">🛢 26. Forage pétrolier</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '25-cuisine-avancée') }}">🥘 27. Cuisine avancée</a>
+                                                                <a class="ajax-link" href="{{ route('wiki.show', '26-boulangerie-avancée') }}">🥐28. Boulangerie avancée</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '29-industriel') }}">🏭 29. Industriel</a>
                                                                 <a class="ajax-link" href="{{ route('wiki.show', '30-électronique') }}">⚡30. Électronique</a>
                                                             </div>
@@ -484,21 +500,36 @@
 
                                         
                             </div>    
-                        <h6>ITEMS ET MACHINES</h6>
+                        <h6>MODS CUSTOM</h6>
                         <div class="accordion" id="accordionPanelsItemsduSpaziamod">
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingGestion">
+                                <h2 class="accordion-header" id="headingItemsMachinesCustom">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#notationSidebarItemsduSpaziamod" aria-expanded="false"
-                                        aria-controls="notationSidebarItemsduSpaziamod">
-                                        📖 Items du Spaziamod
+                                        data-bs-target="#notationSidebarItemsMachinesCustom" aria-expanded="false"
+                                        aria-controls="notationSidebarItemsMachinesCustom">
+                                        📖 Items & Machines Custom
                                     </button>
-
                                 </h2>
-                                <div id="notationSidebarItemsduSpaziamod" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
+                                <div id="notationSidebarItemsMachinesCustom" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
                                     <div class="accordion-body">
                                         <a class="ajax-link" href="{{ route('wiki.show', 'recette-modifier') }}">Recette Modifier</a>
                                         <a class="ajax-link" href="{{ route('wiki.show', 'nouveautés') }}">Nouveautés</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingMetiersCustom">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#notationSidebarMetiersCustom" aria-expanded="false"
+                                        aria-controls="notationSidebarMetiersCustom">
+                                        🛠️ Métiers Custom
+                                    </button>
+                                </h2>
+                                <div id="notationSidebarMetiersCustom" class="accordion-collapse collapse" data-bs-parent="#accordionMainWiki">
+                                    <div class="accordion-body">
+                                        <a class="ajax-link" href="{{ route('wiki.show', 'chercheur-spaziamod') }}">🔬 Chercheur</a>
+                                        <a class="ajax-link" href="{{ route('wiki.show', 'brasseur-spaziamod') }}">🍺 Brasseur</a>
                                     </div>
                                 </div>
                             </div>

@@ -289,8 +289,8 @@
 
 {{-- Titre --}}
 <div class="mb-4">
-    <p style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0 0 .2rem;">Staff · Report</p>
-    <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin:0 0 1.25rem;">Faire un report</h2>
+    <p style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0 0 .2rem;">Staff · Rapports</p>
+    <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin:0 0 1.25rem;">Faire un rapport</h2>
 
     {{-- Sélecteur de mode --}}
     <div class="rmode-toggle">
@@ -298,13 +298,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
             </svg>
-            Report quotidien
+            Rapport quotidien
         </button>
         <button type="button" class="rmode-btn" id="modeJoueurBtn" onclick="setMode('joueur')">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
             </svg>
-            Report joueur
+            Rapport joueur
         </button>
     </div>
 </div>
@@ -533,14 +533,14 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
             </svg>
-            Report joueur envoyé avec succès !
+            Rapport joueur envoyé avec succès !
         </div>
 
         <button type="submit" class="btn-send btn-send-indigo">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
             </svg>
-            Envoyer le report
+            Envoyer le rapport
         </button>
     </form>
 </div>

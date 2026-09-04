@@ -281,16 +281,16 @@
                         <button class="accordion-button collapsed" type="button"
                             data-bs-toggle="collapse" data-bs-target="#sidebarReport"
                             aria-expanded="false" aria-controls="sidebarReport">
-                            <span class="sidebar-emoji">🚨</span> Report
+                            <span class="sidebar-emoji">🚨</span> Rapports
                         </button>
                     </h2>
                     <div id="sidebarReport" class="accordion-collapse collapse">
                         <div class="accordion-body">
                             <a class="ajax-link" href="#" onclick="loadSection('report_form'); return false;">
-                                ✏️ Faire un report
+                                ✏️ Faire un rapport
                             </a>
                             <a class="ajax-link" href="#" onclick="loadSection('report_list'); return false;">
-                                📋 Liste des reports
+                                📋 Liste des rapports
                             </a>
                         </div>
                     </div>

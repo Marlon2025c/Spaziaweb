@@ -6,6 +6,7 @@ use App\Models\CommandAdminWiki;
 use App\Models\Report;
 use App\Models\Formation;
 use App\Models\FormationCompletion;
+use App\Models\FormationQuestion;
 use App\Models\Charte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -72,13 +73,17 @@ class AdminController extends Controller
         return \Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->isStaff();
     }
 
-    public function dashboardv2()
+    public function dashboardv2(Request $request)
     {
         if (!$this->isStaffUser()) {
             abort(403, 'Accès réservé au staff.');
         }
-        $canManageServer = $this->canManageFormations();
-        $content = view('Dashboard/sections/accueil', compact('canManageServer'))->render();
+
+        $initialSection = $request->query('section');
+        $content = $initialSection
+            ? $this->buildSectionView($initialSection)->render()
+            : $this->buildSectionView('accueil')->render();
+
         return view('Dashboard/dashboardv2', compact('content'));
     }
 
@@ -88,6 +93,11 @@ class AdminController extends Controller
             abort(403, 'Accès réservé au staff.');
         }
 
+        return $this->buildSectionView($section)->render();
+    }
+
+    private function buildSectionView(string $section)
+    {
         $allowed = [
             'accueil'     => 'Dashboard/sections/accueil',
             'report_form' => 'Dashboard/sections/report_form',
@@ -107,31 +117,31 @@ class AdminController extends Controller
 
         if ($section === 'accueil' || $section === 'home') {
             $canManageServer = $this->canManageFormations();
-            return view($allowed[$section], compact('canManageServer'))->render();
+            return view($allowed[$section], compact('canManageServer'));
         }
 
         if ($section === 'report_list') {
             $reports = Schema::hasTable('reports') ? Report::latest()->get() : collect();
-            return view($allowed[$section], compact('reports'))->render();
+            return view($allowed[$section], compact('reports'));
         }
 
         if ($section === 'formation') {
             $formations = Schema::hasTable('formations')
-                ? Formation::with('completions')->orderBy('ordre')->orderBy('id')->get()
+                ? Formation::with(['completions', 'questions'])->orderBy('ordre')->orderBy('id')->get()
                 : collect();
             $members = \App\Models\User::with('roles')
                 ->whereHas('roles', fn ($q) => $q->whereNotIn('roles.id_role', [1, 7, 8]))
                 ->orderBy('name')
                 ->get()
                 ->map(fn ($u) => ['name' => $u->name, 'role' => $u->roleName() ?? 'Staff']);
-            return view($allowed[$section], compact('formations', 'members'))->render();
+            return view($allowed[$section], compact('formations', 'members'));
         }
 
         if ($section === 'charte') {
             $chartes = Schema::hasTable('chartes')
                 ? Charte::orderBy('id')->get()->keyBy('nom_role')
                 : collect();
-            return view($allowed[$section], compact('chartes'))->render();
+            return view($allowed[$section], compact('chartes'));
         }
 
         if ($section === 'roles') {
@@ -140,10 +150,10 @@ class AdminController extends Controller
             }
             $users    = \App\Models\User::with('roles')->orderBy('name')->get();
             $allRoles = \App\Models\Role::orderBy('ordre')->get();
-            return view($allowed[$section], compact('users', 'allRoles'))->render();
+            return view($allowed[$section], compact('users', 'allRoles'));
         }
 
-        return view($allowed[$section])->render();
+        return view($allowed[$section]);
     }
     public function storeReport(Request $request)
     {
@@ -203,13 +213,17 @@ class AdminController extends Controller
         }
 
         $request->validate([
-            'titre'       => 'required|string|max:255',
-            'description' => 'nullable|string|max:2000',
-            'categorie'   => 'required|string|max:100',
-            'emoji'       => 'nullable|string|max:10',
-            'couleur'     => 'nullable|string|max:20',
-            'pdf_url'     => 'nullable|url|max:500',
-            'pdf_file'    => 'nullable|file|mimes:pdf|max:20480',
+            'titre'        => 'required|string|max:255',
+            'description'  => 'nullable|string|max:2000',
+            'categorie'    => 'required|string|max:100',
+            'emoji'        => 'nullable|string|max:10',
+            'couleur'      => 'nullable|string|max:20',
+            'pdf_url'      => 'nullable|url|max:500',
+            'pdf_file'     => 'nullable|file|mimes:pdf|max:20480',
+            'points_cles'  => 'nullable|string',
+            'fin_pdf_url'  => 'nullable|url|max:500',
+            'fin_pdf_file' => 'nullable|file|mimes:pdf|max:20480',
+            'questions'    => 'nullable|string',
         ]);
 
         $pdfPath = null;
@@ -217,16 +231,177 @@ class AdminController extends Controller
             $pdfPath = $request->file('pdf_file')->store('formations', 'public');
         }
 
-        Formation::create([
-            'titre'       => $request->titre,
-            'description' => $request->description,
-            'categorie'   => $request->categorie,
-            'emoji'       => $request->emoji ?: '📚',
-            'couleur'     => $request->couleur ?: '#f97316',
-            'pdf_path'    => $pdfPath,
-            'pdf_url'     => $request->pdf_url,
-            'ordre'       => Formation::max('ordre') + 1,
+        $finPdfPath = null;
+        if ($request->hasFile('fin_pdf_file')) {
+            $finPdfPath = $request->file('fin_pdf_file')->store('formations', 'public');
+        }
+
+        $pointsCles = null;
+        if ($request->filled('points_cles')) {
+            $decoded = json_decode($request->points_cles, true);
+            if (is_array($decoded)) {
+                $points = array_values(array_filter(array_map('trim', $decoded)));
+                if (!empty($points)) {
+                    $pointsCles = json_encode($points);
+                }
+            }
+        }
+
+        $formation = Formation::create([
+            'titre'        => $request->titre,
+            'description'  => $request->description,
+            'categorie'    => $request->categorie,
+            'emoji'        => $request->emoji ?: '📚',
+            'couleur'      => $request->couleur ?: '#f97316',
+            'pdf_path'     => $pdfPath,
+            'pdf_url'      => $request->pdf_url,
+            'ordre'        => Formation::max('ordre') + 1,
+            'points_cles'  => $pointsCles,
+            'fin_pdf_path' => $finPdfPath,
+            'fin_pdf_url'  => $request->fin_pdf_url,
         ]);
+
+        if ($request->categorie === 'autodidacte' && $request->filled('questions')) {
+            $questions = json_decode($request->questions, true);
+            if (is_array($questions)) {
+                foreach (array_values($questions) as $i => $q) {
+                    $options = array_values(array_filter(array_map('trim', (array) ($q['options'] ?? []))));
+                    if (empty($q['question']) || count($options) < 2) continue;
+                    FormationQuestion::create([
+                        'formation_id'  => $formation->id,
+                        'question'      => $q['question'],
+                        'options'       => $options,
+                        'correct_index' => min((int) ($q['correct_index'] ?? 0), count($options) - 1),
+                        'explanation'   => trim((string) ($q['explanation'] ?? '')) ?: null,
+                        'ordre'         => $i,
+                    ]);
+                }
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function editFormationData(int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        $formation = Formation::with('questions')->findOrFail($id);
+
+        return response()->json([
+            'formation' => [
+                'id'           => $formation->id,
+                'titre'        => $formation->titre,
+                'description'  => $formation->description,
+                'categorie'    => $formation->categorie,
+                'emoji'        => $formation->emoji,
+                'couleur'      => $formation->couleur,
+                'pdf_path'     => $formation->pdf_path ? asset('storage/' . $formation->pdf_path) : null,
+                'pdf_url'      => $formation->pdf_url,
+                'fin_pdf_path' => $formation->fin_pdf_path ? asset('storage/' . $formation->fin_pdf_path) : null,
+                'fin_pdf_url'  => $formation->fin_pdf_url,
+                'points_cles'  => $formation->points_cles ? (json_decode($formation->points_cles, true) ?: []) : [],
+                'questions'    => $formation->questions->map(fn ($q) => [
+                    'question'      => $q->question,
+                    'options'       => $q->options,
+                    'correct_index' => $q->correct_index,
+                    'explanation'   => $q->explanation,
+                ])->values(),
+            ],
+        ]);
+    }
+
+    public function updateFormation(Request $request, int $id)
+    {
+        if (!$this->canManageFormations()) {
+            return response()->json(['error' => 'Accès réservé aux Fondateurs et Responsables.'], 403);
+        }
+
+        $formation = Formation::findOrFail($id);
+
+        $request->validate([
+            'titre'        => 'required|string|max:255',
+            'description'  => 'nullable|string|max:2000',
+            'categorie'    => 'required|string|max:100',
+            'emoji'        => 'nullable|string|max:10',
+            'couleur'      => 'nullable|string|max:20',
+            'pdf_url'      => 'nullable|url|max:500',
+            'pdf_file'     => 'nullable|file|mimes:pdf|max:20480',
+            'points_cles'  => 'nullable|string',
+            'fin_pdf_url'  => 'nullable|url|max:500',
+            'fin_pdf_file' => 'nullable|file|mimes:pdf|max:20480',
+            'questions'    => 'nullable|string',
+        ]);
+
+        $pdfPath = $formation->pdf_path;
+        $pdfUrl = $request->pdf_url;
+        if ($request->hasFile('pdf_file')) {
+            if ($pdfPath) Storage::disk('public')->delete($pdfPath);
+            $pdfPath = $request->file('pdf_file')->store('formations', 'public');
+            $pdfUrl = null;
+        } elseif ($request->filled('pdf_url')) {
+            if ($pdfPath) Storage::disk('public')->delete($pdfPath);
+            $pdfPath = null;
+        }
+
+        $finPdfPath = $formation->fin_pdf_path;
+        $finPdfUrl = $request->fin_pdf_url;
+        if ($request->hasFile('fin_pdf_file')) {
+            if ($finPdfPath) Storage::disk('public')->delete($finPdfPath);
+            $finPdfPath = $request->file('fin_pdf_file')->store('formations', 'public');
+            $finPdfUrl = null;
+        } elseif ($request->filled('fin_pdf_url')) {
+            if ($finPdfPath) Storage::disk('public')->delete($finPdfPath);
+            $finPdfPath = null;
+        }
+
+        $pointsCles = $formation->points_cles;
+        if ($request->has('points_cles')) {
+            $pointsCles = null;
+            if ($request->filled('points_cles')) {
+                $decoded = json_decode($request->points_cles, true);
+                if (is_array($decoded)) {
+                    $points = array_values(array_filter(array_map('trim', $decoded)));
+                    if (!empty($points)) {
+                        $pointsCles = json_encode($points);
+                    }
+                }
+            }
+        }
+
+        $formation->update([
+            'titre'        => $request->titre,
+            'description'  => $request->description,
+            'categorie'    => $request->categorie,
+            'emoji'        => $request->emoji ?: '📚',
+            'couleur'      => $request->couleur ?: '#f97316',
+            'pdf_path'     => $pdfPath,
+            'pdf_url'      => $pdfUrl,
+            'points_cles'  => $pointsCles,
+            'fin_pdf_path' => $finPdfPath,
+            'fin_pdf_url'  => $finPdfUrl,
+        ]);
+
+        if ($request->categorie === 'autodidacte' && $request->has('questions')) {
+            $formation->questions()->delete();
+            $questions = json_decode($request->questions, true);
+            if (is_array($questions)) {
+                foreach (array_values($questions) as $i => $q) {
+                    $options = array_values(array_filter(array_map('trim', (array) ($q['options'] ?? []))));
+                    if (empty($q['question']) || count($options) < 2) continue;
+                    FormationQuestion::create([
+                        'formation_id'  => $formation->id,
+                        'question'      => $q['question'],
+                        'options'       => $options,
+                        'correct_index' => min((int) ($q['correct_index'] ?? 0), count($options) - 1),
+                        'explanation'   => trim((string) ($q['explanation'] ?? '')) ?: null,
+                        'ordre'         => $i,
+                    ]);
+                }
+            }
+        }
 
         return response()->json(['success' => true]);
     }
@@ -266,6 +441,83 @@ class AdminController extends Controller
         ]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function submitQuiz(Request $request, int $id)
+    {
+        if (!$this->isStaffUser()) {
+            return response()->json(['error' => 'Non authentifié.'], 403);
+        }
+
+        if (!Schema::hasTable('formation_questions')) {
+            return response()->json(['error' => 'Migration non effectuée'], 503);
+        }
+
+        $formation = Formation::with('questions')->findOrFail($id);
+
+        if ($formation->categorie !== 'autodidacte' || $formation->questions->isEmpty()) {
+            return response()->json(['error' => 'Aucun quiz pour cette formation.'], 422);
+        }
+
+        $request->validate([
+            'staff_name' => 'required|string|max:255',
+            'answers'    => 'required|array',
+        ]);
+
+        $total = $formation->questions->count();
+        $score = 0;
+        $details = [];
+        foreach ($formation->questions as $question) {
+            $given = $request->answers[$question->id] ?? null;
+            $isCorrect = $given !== null && (int) $given === (int) $question->correct_index;
+            if ($isCorrect) {
+                $score++;
+            }
+            $details[] = [
+                'question_id'   => $question->id,
+                'given_index'   => $given !== null ? (int) $given : null,
+                'correct_index' => (int) $question->correct_index,
+                'is_correct'    => $isCorrect,
+                'explanation'   => $question->explanation,
+            ];
+        }
+
+        $percentage = $total > 0 ? (int) round(($score / $total) * 100) : 0;
+        $passed = $percentage >= 50;
+
+        if ($passed) {
+            FormationCompletion::firstOrCreate(
+                ['formation_id' => $id, 'staff_name' => $request->staff_name],
+                ['validated_by' => 'Quiz automatique', 'notes' => "Score quiz : {$score}/{$total} ({$percentage}%)"]
+            );
+        }
+
+        return response()->json([
+            'success'    => true,
+            'score'      => $score,
+            'total'      => $total,
+            'percentage' => $percentage,
+            'passed'     => $passed,
+            'details'    => $details,
+        ]);
+    }
+
+    public function formationTrainer(int $id)
+    {
+        if (!$this->isStaffUser()) {
+            abort(403, 'Accès réservé au staff.');
+        }
+
+        $formation = Formation::with(['completions', 'questions'])->findOrFail($id);
+
+        if ($formation->categorie !== 'autodidacte') {
+            return redirect()->route('dashboardv2', ['section' => 'formation']);
+        }
+
+        $canManage = $this->canManageFormations();
+        $isValidated = $canManage || $formation->completions->contains('staff_name', auth()->user()?->name);
+
+        return view('Dashboard/formation_trainer', compact('formation', 'isValidated'));
     }
 
     public function deleteCompletion(int $id)

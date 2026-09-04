@@ -14,7 +14,20 @@
       "Bash(php -l app/Http/Controllers/SondageController.php)",
       "Bash(php -l routes/web.php)",
       "Bash(command -v docker)",
-      "Bash(command -v sail)"
+      "Bash(command -v sail)",
+      "WebSearch",
+      "WebFetch(domain:forum.play.eco)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.g-portal.com)",
+      "WebFetch(domain:server.nitrado.net)",
+      "Bash(powershell -Command \"[System.Convert]::ToBase64String\\(\\(1..32|%{Get-Random -Max 256}\\)\\)\")",
+      "Bash(openssl rand *)",
+      "Bash(php -l app/Http/Controllers/Dashboard/EcoServerController.php)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('eco-agent/agent.py', encoding='utf-8'\\).read\\(\\)\\)\")",
+      "Read(//c/Users/basti/Downloads/nidecoserverrestarter_v13-kkpy/**)",
+      "Bash(cp \"C:/Users/basti/Downloads/nidecoserverrestarter_v13-kkpy/NidEcoServerRestarter/wk.exe\" \"d:/Spazia/PROJET DEV/WEB/Spaziaweb/eco-agent/wk.exe\")",
+      "Bash(cp \"C:/Users/basti/Downloads/nidecoserverrestarter_v13-kkpy/LICENSE.txt\" \"d:/Spazia/PROJET DEV/WEB/Spaziaweb/eco-agent/LICENSE-wk-exe.txt\")",
+      "Bash(git -c safe.directory='*' check-ignore -v eco-agent/.env eco-agent/wk.exe)"
     ]
   }
 }

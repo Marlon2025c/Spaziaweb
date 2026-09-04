@@ -74,6 +74,28 @@ $(document).ready(function() {
     tabsize: 2,
     height: 500, // hauteur de l’éditeur
     fontSizes: ['8', '9', '10', '11', '12','13', '14','15','16','17', '18', '24','32', '36', '48' , '64', '82', '150'],
+    colors: [
+      ['#f97316', '#fb923c', '#22c55e', '#ffffff', '#0a0a10', '#f97316', '#fb923c', '#22c55e'], // Couleurs Spazia
+      ['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
+      ['#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9C00FF', '#FF00FF'],
+      ['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
+      ['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD'],
+      ['#E76363', '#F7AD6B', '#FFD663', '#94BD7B', '#73A5AD', '#6BADDE', '#8C7BC6', '#C67BA5'],
+      ['#CE0000', '#E79439', '#EFC631', '#6BA54A', '#4A7B8C', '#3984C6', '#634AA5', '#A54A7B'],
+      ['#9C0000', '#B56308', '#BD9400', '#397B21', '#104A5A', '#085294', '#311873', '#731842'],
+      ['#630000', '#7B3900', '#846300', '#295218', '#083139', '#003163', '#21104A', '#4A1031']
+    ],
+    colorsName: [
+      ['Orange Spazia', 'Orange clair', 'Vert Spazia', 'Blanc', 'Fond sombre', 'Orange Spazia', 'Orange clair', 'Vert Spazia'],
+      ['BLACK', 'TUNDORA', 'DOVE GRAY', 'STAR DUST', 'PALE SLATE', 'GALLERY', 'ALABASTER', 'WHITE'],
+      ['RED', 'ORANGE PEEL', 'YELLOW', 'GREEN', 'CYAN', 'BLUE', 'PURPLE HEART', 'MAGENTA'],
+      ['PIG PINK', 'CREAM', 'LEMON CHIFFON', 'TEA GREEN', 'LIGHT CYAN', 'LIGHT SKY BLUE', 'LAVENDER', 'PINK LACE'],
+      ['TONYS PINK', 'PEACH ORANGE', 'CREAM CAN', 'FEIJOA', 'AQUA ISLAND', 'PERFUME', 'COTTON CANDY', 'SHILO'],
+      ['MANDY', 'RAJAH', 'DANDELION', 'OLIVE GREEN', 'CADET BLUE', 'VIKING', 'BLUE VIOLET', 'PUCE'],
+      ['GUARDSMAN RED', 'FIRE BUSH', 'GOLDEN DREAM', 'CHATEAU GREEN', 'BLUE STONE', 'DENIM', 'FRENCH VIOLET', 'CADILLAC'],
+      ['MAROON', 'MAI TAI', 'GOLDEN GRASS', 'FOREST GREEN', 'CELESTIAL BLUE', 'SAPPHIRE', 'JAGGER', 'CARDINAL PINK'],
+      ['DARK RED', 'BURNT UMBER', 'DARK OLIVE', 'DARK GREEN', 'DARK CYAN', 'DARK BLUE', 'DARK PURPLE', 'DARK PINK']
+    ],
     toolbar: [
       ['style', ['style']],
       ['font', ['bold', 'underline', 'clear']],
@@ -84,7 +106,15 @@ $(document).ready(function() {
       ['table', ['table']],
       ['insert', ['link', 'picture', 'video']],
       ['view', ['codeview', 'help']]
-    ]
+    ],
+    callbacks: {
+      onPaste: function (e) {
+        e.preventDefault();
+        var clipboardData = (e.originalEvent || e).clipboardData;
+        var text = clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+      }
+    }
   });
 });
 </script>

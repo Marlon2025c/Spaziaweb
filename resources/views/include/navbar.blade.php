@@ -50,71 +50,7 @@
     <section class="navbar-header p-0">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%;">
             <div class="d-flex justify-content-between align-items-center">
-                <div style="display: flex; align-items: center; ">
-                    {{-- <div id="now-playing" style="display: flex; align-items: center; gap: 10px;">
-                        <p>Chargement...</p>
-                    </div>
-                    <audio id="radioPlayer" controls style="height: 30px; width: auto; flex-grow: 1; ">
-                        <source src="https://spazia.fr/radio-proxy" type="audio/mpeg">
-                        Votre navigateur ne supporte pas l'audio HTML5.
-                    </audio>
-                    <script>
-                        let lastTitle = "";
-                        let lastArtist = "";
-                        async function fetchNowPlaying() {
-                            try {
-                                const response = await fetch('{{ route('nowplaying.local') }}');
-                                const data = await response.json();
-                                const song = data.now_playing?.song;
 
-                                const artist = song?.artist || "Artiste inconnu";
-                                const title = song?.title || "Titre inconnu";
-                                const art = song?.art || "https://via.placeholder.com/300x300?text=Pas+d'image";
-                                const duration = data.now_playing?.duration || 180; // durée en secondes (par défaut 3 min)
-                                if (artist !== lastArtist || title !== lastTitle) {
-                                    const html = `
-                                        <div style="position: relative; display: inline-block; width: 50px; height: 50px;">
-                                            <img id="playImage" src="${art}" alt="Pochette">
-                                            <button id="togglePlay">▶️</button>
-                                        </div>
-                                        <h6>${artist} - ${title}</h6>
-                                        `;
-                                    document.getElementById("now-playing").innerHTML = html;
-
-                                    document.getElementById("togglePlay").addEventListener("click", () => {
-                                        const audio = document.getElementById("radioPlayer");
-                                        const btn = document.getElementById("togglePlay");
-                                        if (audio.paused) {
-                                            audio.src = "https://spazia.fr/radio-proxy";
-                                            audio.load();
-                                            audio.play();
-                                            btn.textContent = "⏸️";
-                                        } else {
-                                            audio.pause();
-                                            btn.textContent = "▶️";
-                                        }
-                                    });
-
-                                    lastArtist = artist;
-                                    lastTitle = title;
-                                }
-                                console.log('Données reçues:', data);
-                                console.log('Image:', art);
-                                // Refaire la requête après durée estimée de la chanson
-                                setTimeout(fetchNowPlaying, duration * 1000);
-
-                            } catch (error) {
-                                console.error(error);
-                                document.getElementById("now-playing").innerHTML = `<p>Impossible de récupérer les données</p>`;
-                                setTimeout(fetchNowPlaying, 30000); // Réessaie dans 30s en cas d'erreur
-                            }
-                        }
-
-                        fetchNowPlaying();
-                        const audio = document.getElementById("radioPlayer");
-                        audio.volume = 0.2;
-                    </script> --}}
-                </div>
                 <!-- Section pour le lecteur de radio (à gauche) -->
                 <div class="me-auto">
                 </div>
@@ -235,8 +171,8 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item nav-li-textsp">
                         <a class="navbar-brand nav-ul-a p-1" href="#">
-                            <img src="{{ asset('img/Spaziaeco logo halloween.png') }}" alt="Logo" height="50"
-                                width="auto" class="rounded-circle">
+                            <img src="{{ asset('img/Logo spazia officiel.png') }}" alt="Logo" height="50"
+                                width="auto" style="border-radius: 25%">
                             <b>SpaziaEco</b>
                         </a>
                     </li>

@@ -203,6 +203,53 @@
     .btn-delete-formation:hover { color: #f87171; background: rgba(239,68,68,.08); }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Points clés (fiche) ──────────────────────── */
+    .fkeypoints { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-direction: column; gap: .4rem; }
+    .fkeypoints li {
+        font-size: .84rem; color: rgba(255,255,255,.65);
+        padding-left: 1.3rem; position: relative; line-height: 1.5;
+    }
+    .fkeypoints li::before { content: "✓"; position: absolute; left: 0; color: #4ade80; font-weight: 700; }
+
+    /* ─── Bouton "Commencer la formation" ───────────── */
+    .btn-start-formation {
+        display: flex; align-items: center; justify-content: center; gap: .6rem;
+        width: 100%;
+        padding: .85rem 1.2rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        font-size: .95rem; font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 0 18px rgba(249,115,22,.25);
+        transition: transform .2s, box-shadow .2s;
+    }
+    .btn-start-formation:hover { transform: translateY(-2px); box-shadow: 0 0 26px rgba(249,115,22,.4); color: #fff; }
+
+    /* ─── Builder points clés (admin) ──────────────── */
+    .fpoints-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .4rem; }
+    .fpoint-item {
+        display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+        background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+        border-radius: 8px; padding: .4rem .7rem; font-size: .83rem; color: rgba(255,255,255,.7);
+    }
+    .fpoint-item button { background:none; border:none; color: rgba(239,68,68,.5); cursor:pointer; font-size:.85rem; }
+    .fpoint-item button:hover { color: #f87171; }
+
+    /* ─── Builder questions (admin) ────────────────── */
+    .fquestion-block {
+        background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+        border-radius: 12px; padding: 1rem; margin-bottom: .8rem;
+    }
+    .fquestion-block-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; }
+    .fquestion-block-head span { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color: rgba(255,255,255,.35); }
+    .fquestion-remove { background:none; border:none; color: rgba(239,68,68,.5); cursor:pointer; font-size:.8rem; }
+    .fquestion-remove:hover { color: #f87171; }
+    .foption-row { display:flex; align-items:center; gap: .6rem; margin-top: .45rem; }
+    .foption-row input[type=radio] { accent-color: #22c55e; cursor: pointer; }
+    .foption-row input[type=text] { flex: 1; }
+
 </style>
 
 {{-- ── Header ───────────────────────────────────────── --}}
@@ -226,7 +273,7 @@
 @if($canManage)
 <div class="fadd-panel">
     <button class="fadd-toggle" onclick="toggleAddPanel(this)">
-        <span style="display:flex;align-items:center;gap:.6rem;">
+        <span style="display:flex;align-items:center;gap:.6rem;" id="faddToggleLabel">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
             </svg>
@@ -244,12 +291,13 @@
                 </div>
                 <div class="col-12 col-md-3">
                     <label class="fadd-label">Catégorie *</label>
-                    <select class="fadd-select" name="categorie" required>
+                    <select class="fadd-select" name="categorie" required onchange="onCategorieChange(this)">
                         <option value="obligatoire">Obligatoire</option>
                         <option value="optionnelle">Optionnelle</option>
                         <option value="avancé">Avancé</option>
                         <option value="animation">Animation</option>
                         <option value="journalisme">Journalisme</option>
+                        <option value="autodidacte">Autodidacte</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-3">
@@ -280,7 +328,8 @@
                         <div class="fcolor-dot {{ $hex === '#f97316' ? 'selected' : '' }}"
                              style="background:{{ $hex }};"
                              title="{{ $name }}"
-                             onclick="selectColor(this, '{{ $hex }}')"></div>
+                             data-hex="{{ $hex }}"
+                        onclick="selectColor(this, '{{ $hex }}')"></div>
                     @endforeach
                 </div>
             </div>
@@ -296,18 +345,58 @@
                     <input class="fadd-input" type="file" name="pdf_file" accept=".pdf" style="padding:.45rem;">
                 </div>
                 <div id="fpdfUrl" style="display:none;">
-                    <input class="fadd-input" type="url" name="pdf_url" placeholder="https://drive.google.com/...">
+                    <input class="fadd-input" type="url" name="pdf_url" placeholder="https://drive.google.com/file/d/XXX/preview">
+                    <p style="font-size:.72rem;color:rgba(255,255,255,.3);margin:.4rem 0 0;">Pour une formation Autodidacte, ce lien est affiché intégré sur le site : utilise un lien "aperçu" intégrable (ex: Google Drive → .../preview), pas un lien de partage classique.</p>
                 </div>
             </div>
 
+            <div id="fautodidacteBlock" style="display:none;">
+                <div class="mb-3">
+                    <label class="fadd-label">Points clés (affichés sur la fiche)</label>
+                    <div style="display:flex;gap:.5rem;margin-bottom:.6rem;">
+                        <input class="fadd-input" type="text" id="fpointInput" placeholder="Ex : Toujours rester poli avec les joueurs" style="flex:1;">
+                        <button type="button" class="btn-pdf btn-pdf-ghost" onclick="addPointCle()" style="white-space:nowrap;">+ Ajouter</button>
+                    </div>
+                    <ul class="fpoints-list" id="fpointsList"></ul>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fadd-label">Fichier de fin de formation (optionnel)</label>
+                    <div class="fpdf-tabs">
+                        <button type="button" class="fpdf-tab active" onclick="setFinPdfTab('upload', this)">⬆ Upload PDF</button>
+                        <button type="button" class="fpdf-tab" onclick="setFinPdfTab('url', this)">🔗 Lien externe</button>
+                        <button type="button" class="fpdf-tab" onclick="setFinPdfTab('none', this)">— Aucun</button>
+                    </div>
+                    <div id="finPdfUpload">
+                        <input class="fadd-input" type="file" name="fin_pdf_file" accept=".pdf" style="padding:.45rem;">
+                    </div>
+                    <div id="finPdfUrl" style="display:none;">
+                        <input class="fadd-input" type="url" name="fin_pdf_url" placeholder="https://drive.google.com/file/d/XXX/preview">
+                        <p style="font-size:.72rem;color:rgba(255,255,255,.3);margin:.4rem 0 0;">Là aussi, utilise un lien intégrable (ex: .../preview), il sera affiché dans un cadre sur le site.</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fadd-label">Questions du quiz (minimum 50% de bonnes réponses pour valider)</label>
+                    <div id="fquestionsList"></div>
+                    <button type="button" class="btn-pdf btn-pdf-ghost" onclick="addQuestion()" style="margin-top:.4rem;">+ Ajouter une question</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="points_cles" id="fPointsClesInput">
+            <input type="hidden" name="questions" id="fQuestionsInput">
+
             <div id="faddMsg" class="fvalidate-msg" style="margin-bottom:.7rem;font-size:.85rem;"></div>
 
-            <button type="button" class="btn-fadd-submit" onclick="submitFormation()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-                Créer la formation
-            </button>
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn-fadd-submit" id="fSubmitBtn" onclick="submitFormation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    Créer la formation
+                </button>
+                <button type="button" class="btn-pdf btn-pdf-ghost" id="fCancelEditBtn" onclick="cancelEditFormation()" style="display:none;">Annuler la modification</button>
+            </div>
         </form>
     </div>
 </div>
@@ -334,8 +423,11 @@
             'avancé'      => 'Avancé',
             'animation'   => 'Animation',
             'journalisme' => 'Journalisme',
+            'autodidacte' => 'Autodidacte',
         ];
         $isValidated = $canManage || $formation->completions->contains('staff_name', auth()->user()?->name);
+        $isAutodidacte = $formation->categorie === 'autodidacte';
+        $pointsCles = $isAutodidacte && $formation->points_cles ? (json_decode($formation->points_cles, true) ?: []) : [];
     @endphp
     <div class="col-12 col-lg-6">
         <div class="fcard h-100" style="border-color:rgba({{ $r }},{{ $g }},{{ $b }},.15);">
@@ -352,11 +444,18 @@
                     </div>
                 </div>
                 @if($canManage)
-                <button class="btn-delete-formation" onclick="deleteFormation({{ $formation->id }}, this)" title="Supprimer cette formation">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-                    </svg>
-                </button>
+                <div class="d-flex gap-1">
+                    <button class="btn-delete-formation" onclick="editFormation({{ $formation->id }})" title="Modifier cette formation" style="color:rgba(255,255,255,.4);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+                        </svg>
+                    </button>
+                    <button class="btn-delete-formation" onclick="deleteFormation({{ $formation->id }}, this)" title="Supprimer cette formation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                        </svg>
+                    </button>
+                </div>
                 @endif
             </div>
 
@@ -365,38 +464,72 @@
                     <p class="fcard-desc">{{ $formation->description }}</p>
                 @endif
 
-                {{-- PDF links --}}
-                @if($formation->pdf_path || $formation->pdf_url)
+                @if($isAutodidacte && !empty($pointsCles))
+                    <ul class="fkeypoints">
+                        @foreach($pointsCles as $point)
+                            <li>{{ $point }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                @if($isAutodidacte)
                     @if($isValidated)
+                        {{-- Déjà validé : simples liens de consultation --}}
                         <div class="d-flex gap-2 flex-wrap mb-3">
                             @if($formation->pdf_path)
-                                <a href="{{ asset('storage/' . $formation->pdf_path) }}"
-                                   target="_blank" class="btn-pdf btn-pdf-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                                    </svg>
-                                    Fiche PDF
-                                </a>
+                                <a href="{{ asset('storage/' . $formation->pdf_path) }}" target="_blank" class="btn-pdf btn-pdf-primary">📄 Support</a>
                             @endif
                             @if($formation->pdf_url)
-                                <a href="{{ $formation->pdf_url }}" target="_blank" class="btn-pdf btn-pdf-ghost">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/>
-                                    </svg>
-                                    Lien externe
-                                </a>
+                                <a href="{{ $formation->pdf_url }}" target="_blank" class="btn-pdf btn-pdf-ghost">🔗 Support (lien)</a>
+                            @endif
+                            @if($formation->fin_pdf_path)
+                                <a href="{{ asset('storage/' . $formation->fin_pdf_path) }}" target="_blank" class="btn-pdf btn-pdf-ghost">📄 Fin de formation</a>
+                            @endif
+                            @if($formation->fin_pdf_url)
+                                <a href="{{ $formation->fin_pdf_url }}" target="_blank" class="btn-pdf btn-pdf-ghost">🔗 Fin de formation</a>
                             @endif
                         </div>
                     @else
-                        <p style="font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                            </svg>
-                            Formation disponible — le document sera accessible une fois ta validation faite par un Responsable/Fondateur.
-                        </p>
+                        {{-- Lien vers la page dédiée du parcours guidé --}}
+                        <a href="{{ route('formation.trainer', $formation->id) }}" class="btn-start-formation">
+                            <span style="font-size:1.15rem;line-height:1;">🎓</span>
+                            <span>Commencer la formation</span>
+                        </a>
                     @endif
                 @else
-                    <p style="font-size:.78rem;color:rgba(255,255,255,.25);margin-bottom:1rem;font-style:italic;">Aucun document attaché</p>
+                    {{-- PDF links --}}
+                    @if($formation->pdf_path || $formation->pdf_url)
+                        @if($isValidated)
+                            <div class="d-flex gap-2 flex-wrap mb-3">
+                                @if($formation->pdf_path)
+                                    <a href="{{ asset('storage/' . $formation->pdf_path) }}"
+                                       target="_blank" class="btn-pdf btn-pdf-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                                        </svg>
+                                        Fiche PDF
+                                    </a>
+                                @endif
+                                @if($formation->pdf_url)
+                                    <a href="{{ $formation->pdf_url }}" target="_blank" class="btn-pdf btn-pdf-ghost">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/>
+                                        </svg>
+                                        Lien externe
+                                    </a>
+                                @endif
+                            </div>
+                        @else
+                            <p style="font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                                </svg>
+                                Formation disponible — le document sera accessible une fois ta validation faite par un Responsable/Fondateur.
+                            </p>
+                        @endif
+                    @else
+                        <p style="font-size:.78rem;color:rgba(255,255,255,.25);margin-bottom:1rem;font-style:italic;">Aucun document attaché</p>
+                    @endif
                 @endif
 
                 <div class="fcompletion-sep"></div>
@@ -487,18 +620,202 @@ function setPdfTab(mode, btn) {
     if (mode !== 'url')    document.querySelector('[name=pdf_url]').value  = '';
 }
 
-// ── Soumettre nouvelle formation ─────────────
+// ── Catégorie Autodidacte ──────────────────────
+function onCategorieChange(select) {
+    document.getElementById('fautodidacteBlock').style.display = select.value === 'autodidacte' ? 'block' : 'none';
+}
+
+// ── Points clés (builder) ──────────────────────
+let fPointsCles = [];
+function addPointCle() {
+    const input = document.getElementById('fpointInput');
+    const val = input.value.trim();
+    if (!val) return;
+    fPointsCles.push(val);
+    input.value = '';
+    renderPointsCles();
+}
+function removePointCle(i) {
+    fPointsCles.splice(i, 1);
+    renderPointsCles();
+}
+function renderPointsCles() {
+    const list = document.getElementById('fpointsList');
+    list.innerHTML = fPointsCles.map((p, i) => `
+        <li class="fpoint-item">
+            <span>${p.replace(/</g, '&lt;')}</span>
+            <button type="button" onclick="removePointCle(${i})">✕</button>
+        </li>`).join('');
+}
+
+// ── Fichier fin de formation tab ───────────────
+function setFinPdfTab(mode, btn) {
+    btn.parentElement.querySelectorAll('.fpdf-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('finPdfUpload').style.display = mode === 'upload' ? '' : 'none';
+    document.getElementById('finPdfUrl').style.display    = mode === 'url'    ? '' : 'none';
+    if (mode !== 'upload') document.querySelector('[name=fin_pdf_file]').value = '';
+    if (mode !== 'url')    document.querySelector('[name=fin_pdf_url]').value  = '';
+}
+
+// ── Questions du quiz (builder) ────────────────
+let fQuestions = [];
+function addQuestion() {
+    fQuestions.push({ question: '', options: ['', '', '', ''], correct_index: 0, explanation: '' });
+    renderQuestions();
+}
+function removeQuestion(i) {
+    fQuestions.splice(i, 1);
+    renderQuestions();
+}
+function updateQuestionText(i, val) { fQuestions[i].question = val; }
+function updateOptionText(qi, oi, val) { fQuestions[qi].options[oi] = val; }
+function updateCorrectIndex(qi, oi) { fQuestions[qi].correct_index = oi; }
+function updateExplanationText(qi, val) { fQuestions[qi].explanation = val; }
+function renderQuestions() {
+    const list = document.getElementById('fquestionsList');
+    list.innerHTML = fQuestions.map((q, qi) => `
+        <div class="fquestion-block">
+            <div class="fquestion-block-head">
+                <span>Question ${qi + 1}</span>
+                <button type="button" class="fquestion-remove" onclick="removeQuestion(${qi})">Supprimer ✕</button>
+            </div>
+            <input class="fadd-input" type="text" placeholder="Intitulé de la question" value="${q.question.replace(/"/g, '&quot;')}"
+                   oninput="updateQuestionText(${qi}, this.value)">
+            ${q.options.map((opt, oi) => `
+                <div class="foption-row">
+                    <input type="radio" name="correct_${qi}" ${q.correct_index === oi ? 'checked' : ''} onchange="updateCorrectIndex(${qi}, ${oi})">
+                    <input class="fadd-input" type="text" placeholder="Option ${oi + 1}" value="${opt.replace(/"/g, '&quot;')}"
+                           oninput="updateOptionText(${qi}, ${oi}, this.value)">
+                </div>
+            `).join('')}
+            <p style="font-size:.7rem;color:rgba(255,255,255,.3);margin:.6rem 0 .2rem;">Le rond coché à gauche marque la bonne réponse.</p>
+            <textarea class="fadd-textarea" placeholder="Explication affichée après le quiz (optionnel)" style="min-height:50px;margin-top:.3rem;"
+                      oninput="updateExplanationText(${qi}, this.value)">${(q.explanation || '').replace(/</g, '&lt;')}</textarea>
+        </div>`).join('');
+}
+
+// ── Modifier une formation existante ──────────
+let fEditingId = null;
+
+function editFormation(formationId) {
+    fetch(`{{ url('/dashboardv2/formation') }}/${formationId}/edit-data`)
+        .then(async r => {
+            if (!r.ok) throw new Error('load failed');
+            return r.json();
+        })
+        .then(({ formation }) => {
+            fEditingId = formationId;
+
+            const body = document.getElementById('faddBody');
+            const chevron = document.querySelector('.fadd-toggle-chevron');
+            body.classList.add('open');
+            chevron.classList.add('open');
+            document.getElementById('faddToggleLabel').lastChild.textContent = ' Modifier la formation';
+
+            const form = document.getElementById('faddForm');
+            form.querySelector('[name=titre]').value = formation.titre || '';
+            form.querySelector('[name=description]').value = formation.description || '';
+            form.querySelector('[name=emoji]').value = formation.emoji || '';
+            const catSelect = form.querySelector('[name=categorie]');
+            catSelect.value = formation.categorie;
+            onCategorieChange(catSelect);
+
+            const hex = formation.couleur || '#f97316';
+            document.getElementById('fSelectedColor').value = hex;
+            document.querySelectorAll('.fcolor-dot').forEach(d => d.classList.toggle('selected', d.dataset.hex === hex));
+
+            const pdfNote = [];
+            if (formation.pdf_path) pdfNote.push(`<a href="${formation.pdf_path}" target="_blank">document actuel</a>`);
+            if (formation.pdf_url) pdfNote.push(`<a href="${formation.pdf_url}" target="_blank">lien actuel</a>`);
+            let pdfNoteEl = document.getElementById('fCurrentPdfNote');
+            if (!pdfNoteEl) {
+                pdfNoteEl = document.createElement('p');
+                pdfNoteEl.id = 'fCurrentPdfNote';
+                pdfNoteEl.style.cssText = 'font-size:.72rem;color:rgba(255,255,255,.4);margin:.4rem 0 0;';
+                document.getElementById('fpdfUpload').insertAdjacentElement('afterend', pdfNoteEl);
+            }
+            pdfNoteEl.innerHTML = pdfNote.length ? `Support actuel : ${pdfNote.join(' / ')} — laisse vide pour le conserver.` : '';
+
+            const finPdfNote = [];
+            if (formation.fin_pdf_path) finPdfNote.push(`<a href="${formation.fin_pdf_path}" target="_blank">document actuel</a>`);
+            if (formation.fin_pdf_url) finPdfNote.push(`<a href="${formation.fin_pdf_url}" target="_blank">lien actuel</a>`);
+            let finPdfNoteEl = document.getElementById('fCurrentFinPdfNote');
+            if (!finPdfNoteEl) {
+                finPdfNoteEl = document.createElement('p');
+                finPdfNoteEl.id = 'fCurrentFinPdfNote';
+                finPdfNoteEl.style.cssText = 'font-size:.72rem;color:rgba(255,255,255,.4);margin:.4rem 0 0;';
+                document.getElementById('finPdfUpload').insertAdjacentElement('afterend', finPdfNoteEl);
+            }
+            finPdfNoteEl.innerHTML = finPdfNote.length ? `Fichier actuel : ${finPdfNote.join(' / ')} — laisse vide pour le conserver.` : '';
+
+            fPointsCles = Array.isArray(formation.points_cles) ? [...formation.points_cles] : [];
+            fQuestions = (formation.questions || []).map(q => ({
+                question: q.question,
+                options: q.options,
+                correct_index: q.correct_index,
+                explanation: q.explanation || ''
+            }));
+            renderPointsCles();
+            renderQuestions();
+
+            const submitBtn = document.getElementById('fSubmitBtn');
+            submitBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                </svg>
+                Enregistrer les modifications`;
+            document.getElementById('fCancelEditBtn').style.display = '';
+
+            body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        })
+        .catch(() => alert('Impossible de charger cette formation.'));
+}
+
+function cancelEditFormation() {
+    fEditingId = null;
+    const form = document.getElementById('faddForm');
+    form.reset();
+    document.querySelectorAll('.fcolor-dot').forEach((d, i) => d.classList.toggle('selected', i === 0));
+    document.getElementById('fSelectedColor').value = '#f97316';
+    document.getElementById('fautodidacteBlock').style.display = 'none';
+    document.getElementById('fCurrentPdfNote')?.remove();
+    document.getElementById('fCurrentFinPdfNote')?.remove();
+    fPointsCles = []; fQuestions = [];
+    renderPointsCles(); renderQuestions();
+    document.getElementById('faddToggleLabel').lastChild.textContent = ' Ajouter une formation';
+    document.getElementById('fSubmitBtn').innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+        </svg>
+        Créer la formation`;
+    document.getElementById('fCancelEditBtn').style.display = 'none';
+}
+
+// ── Soumettre nouvelle formation / modification ─────────────
 function submitFormation() {
     const form = document.getElementById('faddForm');
     const msg  = document.getElementById('faddMsg');
-    const btn  = form.querySelector('.btn-fadd-submit');
+    const btn  = document.getElementById('fSubmitBtn');
     msg.style.display = 'none';
+
+    if (form.querySelector('[name=categorie]').value === 'autodidacte') {
+        document.getElementById('fPointsClesInput').value = JSON.stringify(fPointsCles);
+        document.getElementById('fQuestionsInput').value = JSON.stringify(
+            fQuestions.filter(q => q.question.trim() && q.options.filter(o => o.trim()).length >= 2)
+        );
+    }
 
     btn.disabled = true;
     const orig = btn.innerHTML;
     btn.innerHTML = '⏳ Envoi...';
 
-    fetch("{{ url('/dashboardv2/formation/store') }}", {
+    const isEditing = fEditingId !== null;
+    const url = isEditing
+        ? `{{ url('/dashboardv2/formation') }}/${fEditingId}/update`
+        : "{{ url('/dashboardv2/formation/store') }}";
+
+    fetch(url, {
         method: 'POST',
         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.content || '' },
         body: new FormData(form)
@@ -510,11 +827,9 @@ function submitFormation() {
             msg.textContent = data.errors ? Object.values(data.errors).flat().join(' — ') : (data.error || 'Erreur');
             msg.style.display = 'block';
         } else {
-            form.reset();
-            document.querySelectorAll('.fcolor-dot').forEach((d,i) => d.classList.toggle('selected', i===0));
-            document.getElementById('fSelectedColor').value = '#f97316';
+            cancelEditFormation();
             msg.className = 'fvalidate-msg ok';
-            msg.textContent = '✓ Formation créée ! Rechargement...';
+            msg.textContent = isEditing ? '✓ Formation modifiée ! Rechargement...' : '✓ Formation créée ! Rechargement...';
             msg.style.display = 'block';
             setTimeout(() => loadSection('formation'), 900);
         }
